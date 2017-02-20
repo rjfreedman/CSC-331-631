@@ -126,3 +126,94 @@ Put cluster health table here
 
 </body>
 </html>
+
+<!-- start Riana's code -->
+
+<script>
+
+  // Read in the file...
+  // Resource used to assist:
+  // http://stackoverflow.com/questions/27522979/read-a-local-text-file-using-javascript?noredirect=1&lq=1
+
+  // Note: This works for a static filename/local location...
+
+  // Declare a variable to hold the contents of the CSV file in...
+  var csvFile;
+
+  //For now, store the static path to the CSV file in a variable...
+  //This may be adjusted to support the location of the file on the server...
+  var filePath = ""; // NOTE: Will need to add the file path here once it is set...this has been tested with a local file path...
+
+  // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
+  var contents = new XMLHttpRequest();
+  contents.open("GET", filePath, false);
+  contents.onreadystatechange = function ()
+  {
+     if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
+     {
+             csvFile = contents.responseText;
+     }
+  }
+  contents.send(null);
+
+  // Parse the data file by rows (newline character-delimited)...
+  // Store each row in an element of rows.
+  var rows = csvFile.split("\n");
+
+  // Access the HTML table to be updated with this data.
+  var overallStatusTable = document.getElementById("overall_status_table");
+
+  // Iterate through each column in the table and insert the values of the row in
+  // that element...
+
+  // Skip the first row as it is the column headers.
+  // ***Note that it will be important to populate the headers of the table from the file
+  // as well in order to allow for the data file/data population to be dynamic.***
+  for(var r = 1; r < rows.length-1; r++)
+  {
+    // Add a row to the table.
+    var newRow = overallStatusTable.insertRow(r);
+
+    // Parse this comma-delimited row...
+    var thisRow = rows[r].split(",");
+
+    // Populate the newly created row...
+    // ***Note that (in a later iteration), the size of the table will need
+    // to potentially dynamically change to accommodate the longest data entry.***
+    for(var c = 0; c < thisRow.length; c++)
+    {
+      // Add element e to the current row in column c.
+      var cell = newRow.insertCell(c);
+      //cell.style.border = "initial"; //trying to add column delimiters in table
+      cell.innerHTML = thisRow[c];
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // NOTES for future iterations/once I have access to the data file...
+  // ***Note: We somehow need to show the lines between the columns...***
+  // ***It may also be useful to erase the table and redraw it with each
+  // reload of the table to avoid accidentally appending to it, etc.***
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Questions that will be answered by sample data to be provided by the HPC Team:
+
+  // Do we need to redraw the table each time read file?
+  // Will we have one file or a file per table?
+
+  // For overallStatusTable, okay to take the data straight from the file
+  // each time it is needed...
+  // Need to do this for other tables, as well, in case the data changes.
+  // ---OR---
+  // Could have a flag to check to tell whether or not the data file was altered.
+  // In this case, could store to a file and have an event triggered when the file
+  // is refreshed (for example), saying the file has been altered...
+  // Would also need a flag to tell if the file fails to exist.
+
+  // In either case, would store the current data in a data structure in case some updated
+  // error occurs (?), but likely best to read straight from file every time
+  // to ensure the most up-to-date info...
+
+</script>
+
+<!-- end Riana's code -->
