@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <title> DEAC Monitor </title>
+  <!-- charset allows bootstrap characters -->
+  <meta charset = "utf-8">
+  <!-- viewport should allow bootstrap to resize for viewing device -->
+  <meta name = "viewport" content = "width = device-width, initial-scale =1">
+  <!-- Getting the bootstrap libraries for CSS from a CDN-->
+  <!-- Kathryn added this bootstrap to get containers for page set up-->
+  <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Kanika needs these bootstrap and style for drop down menu check box functionality -->
+  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+    <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" />
+
+    <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <!-- Ignite UI Required Combined JavaScript Files -->
+    <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
+    <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
+
+    <style>
+            .combo-label {margin-bottom:.5em; align-items:right; }
+    </style>
+    <!-- Lee's table style currently styling ALL tables on page -->
+    <style>
+            table, tr, th{
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            table#overall_status_table{
+                margin-left: auto;
+                margin-right: auto;
+            }
+            tr, th{
+                padding: 5px
+            }
+        </style>
+
+
+</head>
+<body>
+  <!-- adding containers to ensure the page resizes well on different devices -->
+<div class="container-fluid">
+<div class = "row">
+  <!-- This is the top of the page, small container at each side for logo/update info, large box in middle for title -->
+  <div class="col-sm-2"><p>logo?</p> </div>
+  <div class="col-sm-8"><h1>DEAC Monitor</h1></div>
+  <div class="col-sm-2">last update time / date</div>
+</div>
+
+<div class="container-fluid">
+<div class="row">
+  <!-- All columns equal, change col-sm-* to change this, all must add to 12 -->
+  <!-- Can put a collapsible button under the infographic in each of the first 2 to control expansion of overall info -->
+  <div class="col-sm-4">
+    <p> put overall cluster status infographic here! </p>
+    <p> put expansion button here </p>
+  </div>
+  <div class="col-sm-4">
+    <p> put cluster health infographic here! </p>
+    <p> put expansion button here </p>
+  </div>
+  <div class="col-sm-4">
+    <p> put per chassis information acces here! </p>
+  </div>
+</div>
+
+<!-- Status Table by Lee -->
+<div id="statusTable">
+<table id="overall_status_table">
+                <tr>
+                    <th>Running Jobs</th>
+                    <th>Queued Jobs</th>
+                    <th>Number of CPUs</th>
+                </tr>
+            </table>
+</div>
+<!-- Health Table, Alexis will repplace text with table! -->
+<div id="healthTable">
+Put cluster health table here
+</div>
+<!-- Kanika's Chassis Information table and drop down -->
+<div id="ChassisInfo">
+  <br></br>
+        <br></br>
+    <h4 class="combo-label">Single/Multiple Selection of chasis with Checkboxes</h4>
+    <div id="checkboxSelectCombo" ></div>
+    <script type="text/javascript">
+        var chasiss = [
+            { Name: "Chasis 1" },
+            { Name: "Chasis 2" },
+            { Name: "Chasis 3" },
+            { Name: "Chasis 4" }
+        ];
+        $(function () {
+            $("#checkboxSelectCombo").igCombo({
+                width: "270px",
+                dataSource: chasiss,
+                textKey: "Name",
+                valueKey: "Name",
+                multiSelection: {
+                    enabled: true,
+                    showCheckboxes: true
+                }
+            });
+        });
+    </script>
+
+  <table id="per_chasis_detailed_information_table">
+                <tr>
+                    <th>Chassis</th>
+                    <th>Utilization</th>
+                    <th>Number of CPUs Available</th>
+                    <th>Total Number of CPUs</th>
+                    <th>Memory Utilization</th>
+                </tr>
+            </table>
+</div> <!-- end chassisInfo div -->
+
+
+
+
+</body>
+</html>
