@@ -7,18 +7,24 @@
   <meta charset = "utf-8">
   <!-- viewport should allow bootstrap to resize for viewing device -->
   <meta name = "viewport" content = "width = device-width, initial-scale =1">
-  <!-- Getting the bootstrap libraries for CSS from a CDN-->
-  <!-- Kathryn added this bootstrap to get containers for page set up-->
+  <!-- KR: Getting the bootstrap libraries for CSS from a CDN-->
+  <!-- KR: add bootstrap for CSS, jquery and JavaScript -->
+  <!-- 1) bootstrap for CSS: necessary for containers to provide responsive design -->
+  <!-- 2,3) jquery and bootstrap for js, necessary for expansion buttons -->
   <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <!-- Kanika needs these bootstrap and style for drop down menu check box functionality -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- KG: needs these bootstrap and style for drop down menu check box functionality -->
   <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
     <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" />
-
+    <!-- KR: modernizr allows it to run on old systems like IE7 -->
     <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- KR: removing this jquery because I needed 3.1.1 earlier
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
-    <!-- Ignite UI Required Combined JavaScript Files -->
+    <!-- KG: Ignite UI Required Combined JavaScript Files -->
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
 
@@ -31,10 +37,6 @@
                 border: 1px solid black;
                 border-collapse: collapse;
             }
-            table#overall_status_table{
-                margin-left: auto;
-                margin-right: auto;
-            }
             tr, th{
                 padding: 5px
             }
@@ -45,44 +47,68 @@
 <body>
   <!-- adding containers to ensure the page resizes well on different devices -->
 <div class="container-fluid">
-<div class = "row">
-  <!-- This is the top of the page, small container at each side for logo/update info, large box in middle for title -->
-  <div class="col-sm-2"><p>logo?</p> </div>
-  <div class="col-sm-8"><h1>DEAC Monitor</h1></div>
-  <div class="col-sm-2">last update time / date</div>
+  <div class = "row">
+    <!-- KR: This is the top of the page, small container at each side for logo/update info, large box in middle for title -->
+    <div class="col-sm-2"><p id="logo">logo?</p> </div>
+    <div class="col-sm-8"><h1 id="pageTitle" align="center">DEAC Monitor</h1></div>
+    <div class="col-sm-2">
+      <!-- KR: divs for current time and last update time JS fills current, need to add last update time functionality-->
+      <p id="currentDateTime"></p>
+      <script>
+	document.getElementById("currentDateTime").innerHTML=Date()
+      </script>
+      <p id="lastUpdateDateTime">Site last updated: </p>
+    </div>
+  </div>
+
+  <div class="row" id="initialView">
+    <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
+    <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
+    <div class="col-sm-4" id="clusterStatusFirstView" align="center">
+      <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
+      <figure id="clusterStatusInfographic"></figure>
+      <!-- KR: collapsible button to expand statusTable div -->
+      <button class="btn btn-primary" data-toggle="collapse" data-target="#statusTable">
+	More Cluster Status Information
+      </button>
+    </div>
+  <div class="col-sm-4" id="clusterHealthFirstView" align="center">
+    <!-- KR: put clusterHealthInfographic in the following <figure></figure> -->
+    <figure id="clusterHealthInfographic"></figure>
+    <!-- KR: collapsible button to expand healthTable div -->
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#healthTable" aria-expanded="false" aria-controls="healthTable">
+      More Cluster Health Information
+    </button>
+  </div>
+
+  <div class="col-sm-4" id="perChassisAccessPoint" align="center">
+    <!-- KR: collapsible button to expand healthTable div -->
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#chassisInfo" aria-expanded="false" aria-controls="chassisInfo">
+      Detailed Information for Each Chassis
+    </button>
+  </div>
+</div> <!-- end 3 column responsive row -->
+
+<!-- KR: following divs must have class="Collapse" so that collapse buttons work -->
+<div class="collapse" id="statusTable">
+  <!-- Status Table by Lee -->
+  <!-- KR: br adds vertical space before the table, play with these to achieve optimal spacing -->
+  <br></br>
+  <br></br>
+  <table id="overall_status_table">
+    <tr>
+      <th>Running Jobs</th>
+      <th>Queued Jobs</th>
+      <th>Number of CPUs</th>
+    </tr>
+  </table>
 </div>
 
-<div class="container-fluid">
-<div class="row">
-  <!-- All columns equal, change col-sm-* to change this, all must add to 12 -->
-  <!-- Can put a collapsible button under the infographic in each of the first 2 to control expansion of overall info -->
-  <div class="col-sm-4">
-    <p> put overall cluster status infographic here! </p>
-    <p> put expansion button here </p>
-  </div>
-  <div class="col-sm-4">
-    <p> put cluster health infographic here! </p>
-    <p> put expansion button here </p>
-  </div>
-  <div class="col-sm-4">
-    <p> put per chassis information acces here! </p>
-  </div>
-</div>
-
-<!-- Status Table by Lee -->
-<div id="statusTable">
-<table id="overall_status_table">
-                <tr>
-                    <th>Running Jobs</th>
-                    <th>Queued Jobs</th>
-                    <th>Number of CPUs</th>
-                </tr>
-            </table>
-</div>
-<!-- Health Table, Alexis will repplace text with table! -->
-<div id="healthTable">
-<!-- Health Status Information -->
-	<table id="health_table>
+<div class="collapse" id="healthTable">
+  <br></br>
+  <br></br>
+<!-- Health Status Table by AA -->
+	<table id="health_table">
 		<tr>
 			<th>Number of Nodes UP</th>
 			<th>Number of Nodes DOWN</th>
@@ -92,8 +118,8 @@
 	</table>
 
 </div>
-<!-- Kanika's Chassis Information table and drop down -->
-<div id="ChassisInfo">
+<!-- KG: Chassis Information table and drop down -->
+<div class="collapse" id="chassisInfo">
   <br></br>
         <br></br>
     <h4 class="combo-label">Single/Multiple Selection of chasis with Checkboxes</h4>
@@ -137,7 +163,7 @@
 </html>
 
 <!-- start Riana's code -->
-
+<!-- KR: commenting out Riana's code so that it runs on my machine 
 <script>
 
   // Read in the file...
@@ -224,5 +250,6 @@
   // to ensure the most up-to-date info...
 
 </script>
+KR: end commenting out Riana's code -->
 
 <!-- end Riana's code -->
