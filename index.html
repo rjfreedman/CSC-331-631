@@ -373,7 +373,7 @@ if(INIT === 0)
   //For now, store the static path to the CSV file in a variable...
   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
   var contentsOverallClusterStatus = new XMLHttpRequest();
-  contentsOverallClusterStatus.open("GET", "/repos/:owner/:repo/"+"overallClusterInfo.csv", false);
+  contentsOverallClusterStatus.open("GET", "overallClusterInfo.csv", true);
   contentsOverallClusterStatus.onreadystatechange = function ()
   {
      if(contentsOverallClusterStatus.readyState === 4 && (contentsOverallClusterStatus.status === 200 || contentsOverallClusterStatus.status == 0))
