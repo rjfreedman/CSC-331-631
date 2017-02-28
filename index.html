@@ -273,23 +273,25 @@ if(INIT === 0)
 
 
           //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
+          //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
-            if(headerRow[c] === "Number of Nodes UP")
+            if(headerRow[c].includes("Number of Nodes UP"))
             {
               //add this header to a JSON object (which can later be output to a CSV file)...
               indexNodesUP = c;
             }
-            else if(headerRow[c] === "Number of Nodes DOWN")
+            else if(headerRow[c].includes( "Number of Nodes DOWN"))
             {
               //add this header to a JSON object (which can later be output to a CSV file)...
 
               indexNodesDOWN = c;
             }
-            else if(headerRow[c] === "Number of Nodes UNDER MAINTENANCE")
+            else if(headerRow[c].includes("Number of Nodes UNDER MAINTENANCE"))
             {
               //add this header to a JSON object (which can later be output to a CSV file)...
               indexNodesUNDERMAINTENANCE = c;
+              //console.log("UM:" + indexNodesUNDERMAINTENANCE); //error check...
             }
           }
         }
@@ -324,10 +326,12 @@ if(INIT === 0)
             }
             if(c === indexNodesDOWN)
             {
+              //console.log("DOWN"); //error check
               numberOfNodesDOWN += parseInt(thisRow[c]);
             }
             if(c === indexNodesUNDERMAINTENANCE)
             {
+              //console.log("UM"); //error check
               numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
             }
           }
