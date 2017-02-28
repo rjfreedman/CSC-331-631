@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -42,9 +44,9 @@
             }
         </style>
 
-
 </head>
-<body>
+<!-- HHL: I have added this onload to the body tag -->
+<body onload="move()">
   <!-- adding containers to ensure the page resizes well on different devices -->
 <div class="container-fluid">
   <div class = "row">
@@ -66,7 +68,30 @@
     <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
     <div class="col-sm-4" id="clusterStatusFirstView" align="center">
       <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
-      <figure id="clusterStatusInfographic"></figure>
+      <h3>Percent Running jobs out of Nodes up</h3>
+      <div id="myProgress" style="width:100%; margin-bottom:2px;">
+          <div id="myBar" style="width:10%; height:30px;
+            background-color:#c19e00; text-align:center; color:white; border:1px solid black;">
+          </div>
+      </div>
+      <script>
+      function move() {
+        var elem = document.getElementById("myBar");
+        var width = 0;
+        var id = setInterval(frame, 10);
+        var percent = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        var index = Math.floor((Math.random() * 10));
+        function frame() {
+          if (width >= percent[index]) {
+            clearInterval(id);
+          } else {
+            width++;
+            elem.style.width = width + '%';
+            elem.innerHTML = width * 1  + '%';
+          }
+        }
+      }
+      </script>
       <!-- KR: collapsible button to expand statusTable div -->
       <button class="btn btn-primary" data-toggle="collapse" data-target="#statusTable">
 	More Cluster Status Information
@@ -112,9 +137,9 @@
 		<tr>
 			<th>Number of Nodes UP</th>
 			<th>Number of Nodes DOWN</th>
-			<th>Number of Nodes Under Maintenance</th>	
+			<th>Number of Nodes Under Maintenance</th>
 		</tr>
-	
+
 	</table>
 
 </div>
@@ -163,7 +188,7 @@
 </html>
 
 <!-- start Riana's code -->
-<!-- KR: commenting out Riana's code so that it runs on my machine 
+<!-- KR: commenting out Riana's code so that it runs on my machine
 <script>
 
   // Read in the file...
