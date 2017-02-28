@@ -138,9 +138,8 @@
 </html>
 
 <!-- start Riana's code -->
-<!-- comment out this code until have file path set up - works locally with specified file path and sample file -->
 
-<!-- <script>
+<script>
 
   // Read in the file...
   // Resource used to assist:
@@ -153,7 +152,7 @@
 
   //For now, store the static path to the CSV file in a variable...
   //This may be adjusted to support the location of the file on the server...
-  var filePath = ""; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
+  var filePath = __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
 
   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
   var contents = new XMLHttpRequest();
@@ -225,6 +224,6 @@
   // error occurs (?), but likely best to read straight from file every time
   // to ensure the most up-to-date info...
 
-</script> -->
+</script>
 
 <!-- end Riana's code -->
