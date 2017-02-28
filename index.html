@@ -113,10 +113,10 @@
 <!-- Health Status Table by AA -->
 	<table id="health_table">
 	  <h4 class="combo-label">Cluster Health Status</h4>
-		<tr>
-			<th>Number of Nodes Up</th>
+		<tr id= "health_table_HEADERS">
+			<!-- <th>Number of Nodes Up</th>
 			<th>Number of Nodes Down</th>
-			<th>Number of Nodes Under Maintenance</th>
+			<th>Number of Nodes Under Maintenance</th> -->
 		</tr>
 
 	</table>
@@ -245,6 +245,14 @@ if(INIT === 0)
       // ***Note that it will be important to populate the headers of the table from the file
     // as well in order to allow for the data file/data population to be dynamic.***
 
+    //Initialize to invalid values...
+    var indexNodesUP = -1;
+    var indexNodesDOWN = -1;
+    var indexNodesUNDERMAINTENANCE = -1;
+    var numberOfNodesUP = 0;
+    var numberOfNodesDOWN = 0;
+    var numberOfNodesUNDERMAINTENANCE = 0;
+
     //Populate the table.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
@@ -262,6 +270,28 @@ if(INIT === 0)
           var newHeaderContent = document.createTextNode(headerRow[c]);
           newHeader.appendChild(newHeaderContent);
           document.getElementById(headerID).appendChild(newHeader);
+
+
+          //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
+          if(headerID === "per_chassis_detailed_information_table_HEADERS")
+          {
+            if(headerRow[c] === "Number of Nodes UP")
+            {
+              //add this header to a JSON object (which can later be output to a CSV file)...
+              indexNodesUP = c;
+            }
+            else if(headerRow[c] === "Number of Nodes DOWN")
+            {
+              //add this header to a JSON object (which can later be output to a CSV file)...
+
+              indexNodesDOWN = c;
+            }
+            else if(headerRow[c] === "Number of Nodes UNDER MAINTENANCE")
+            {
+              //add this header to a JSON object (which can later be output to a CSV file)...
+              indexNodesUNDERMAINTENANCE = c;
+            }
+          }
         }
       }
       //Populate the non-header rows of the table...
@@ -285,8 +315,51 @@ if(INIT === 0)
           var cell = newRow.insertCell(c);
           //cell.style.border = "initial"; //trying to add column delimiters in table
           cell.innerHTML = thisRow[c];
+
+          if(headerID === "per_chassis_detailed_information_table_HEADERS")
+          {
+            if(c === indexNodesUP)
+            {
+              numberOfNodesUP += parseInt(thisRow[c]);
+            }
+            if(c === indexNodesDOWN)
+            {
+              numberOfNodesDOWN += parseInt(thisRow[c]);
+            }
+            if(c === indexNodesUNDERMAINTENANCE)
+            {
+              numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
+            }
+          }
+
         }
       }
+    }
+
+    //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
+    if(headerID === "per_chassis_detailed_information_table_HEADERS")
+    {
+      //Create an empty JSON object...
+      if(indexNodesUP === -1) {
+        numberOfNodesUP = "ERROR";
+      }
+      if(indexNodesDOWN === -1) {
+        numberOfNodesDOWN = "ERROR";
+      }
+      if(indexNodesUNDERMAINTENANCE === -1) {
+        numberOfNodesUNDERMAINTENANCE = "ERROR";
+      }
+
+      var jsonDerivedClusterHealth = {
+        "Number of Nodes UP": numberOfNodesUP,
+        "Number of Nodes DOWN": numberOfNodesDOWN,
+        "Number of Nodes UNDER MAINTENANCE": numberOfNodesUNDERMAINTENANCE
+      };
+
+      return jsonDerivedClusterHealth;
+    }
+    else {
+      return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
     }
   }
 
@@ -382,7 +455,51 @@ if(INIT === 0)
   //Populate the Per Chassis Info table...
   // Access the HTML table to be updated with this data.
   var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
-  populateTableFromCSVFile(rowsPerChassis, "per_chassis_detailed_information_table_HEADERS", perChassisTable);
+  var derivedClusterHealthStatus = populateTableFromCSVFile(rowsPerChassis, "per_chassis_detailed_information_table_HEADERS", perChassisTable);
+  //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
+
+////////////////////////////////////////////////////////////////////////////////
+
+  //Populate the Cluster Health Status table...
+  // Access the HTML table to be updated with this data.
+  var healthTable = document.getElementById("health_table");
+
+//  var healthData = JSON.parse(derivedClusterHealthStatus);
+//  console.log("HEALTH DATA: " + healthData);
+
+//IF THERE ARE MULTIPLE ROWS POSSIBLE IN THE CLUSTER HEALTH TABLE, THEN ADD IN THIS COMMENTED OUT LOOP AND CORRECT THE ENDING CONDITION...
+//  for(var r = 1; r < rowsRead.length-1; r++)
+//  {
+    //Populate the headers...
+//    if(r === 1)
+//    {
+    //Populate the headers.
+    for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
+    {
+      // Add element e to the current row in column c.
+      var newHeader = document.createElement("TH");
+      var newHeaderContent = document.createTextNode(Object.keys(derivedClusterHealthStatus)[c]);
+      newHeader.appendChild(newHeaderContent);
+      document.getElementById("health_table_HEADERS").appendChild(newHeader);
+    }
+
+    //Populate the rows.
+    console.log("WORKING ON HEALTH TABLE...");
+    // Add a row to the table.
+    //Reminder to self:If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
+    var newRow = healthTable.insertRow(1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
+
+    // Populate the newly created row...
+    // ***Note that (in a later iteration), the size of the table will need
+    // to potentially dynamically change to accommodate the longest data entry.***
+    for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
+    {
+      // Add element e to the current row in column c.
+      var cell = newRow.insertCell(c);
+      //cell.style.border = "initial"; //trying to add column delimiters in table
+      cell.innerHTML = derivedClusterHealthStatus[Object.keys(derivedClusterHealthStatus)[c]];
+    }
+//  } //for loop if can have multiple rows in Cluster Health Status table
 
   // THE FOLLOWING COMMENTED OUT CODE (VIA ATOM'S TOGGLE COMMENT) WORKS - IT WAS SIMPLY MOVED TO
   // A FUNCTION TO AVOID DUPLICATION OF CODE...
