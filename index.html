@@ -32,10 +32,12 @@
             .combo-label {margin-bottom:.5em; align-items:right; }
     </style>
     <!-- Lee's table style currently styling ALL tables on page -->
+    <!-- Riana added the text-align: center specification when populating the data for readability -->
     <style>
             table, tr, th{
                 border: 1px solid black;
                 border-collapse: collapse;
+                text-align: center;
             }
             tr, th{
                 padding: 5px
@@ -97,10 +99,10 @@
   <br></br>
   <table id="overall_status_table">
     <h4 class="combo-label">Overall Cluster Status</h4>
-    <tr>
-      <th>Running Jobs</th>
+    <tr id="overall_status_table_HEADERS">
+      <!-- <th>Running Jobs</th>
       <th>Queued Jobs</th>
-      <th>Number of CPUs</th>
+      <th>Number of CPUs</th> -->
     </tr>
   </table>
 </div>
@@ -177,11 +179,13 @@
 
   //For now, store the static path to the CSV file in a variable...
   //This may be adjusted to support the location of the file on the server...
-  var filePath = "file:///" + __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
-
+  //__dirname = path.resolve();
+  //var filePath = "file://" + __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
+//console.log(filePath);
   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
   var contents = new XMLHttpRequest();
-  contents.open("GET", filePath, false);
+  //contents.open("GET", filePath, false);
+  contents.open("GET", "overallClusterInfo.csv", false);
   contents.onreadystatechange = function ()
   {
      if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
@@ -198,29 +202,74 @@
   // Access the HTML table to be updated with this data.
   var overallStatusTable = document.getElementById("overall_status_table");
 
+  //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
+  //Note that this line is a time stamp that is unique...
+  //initiliaze the prevFileID to that of the first file upload...
+  var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
+
+  var currentFileID = rows[0];
+
+  //ERROR CHECK...
+  console.log(currentFileID);
+
+  if(currentFileID === prevFileID)
+  {
+    console.log("the data file has NOT been refreshed")
+  }
+  else {
+    console.log("the data file HAS been refreshed")
+    //update the data stamp at the top right of the page
+    //in later iterations, store the new file to the database (for backlog story on storing historical data)
+  }
+
   // Iterate through each column in the table and insert the values of the row in
   // that element...
-
-  // Skip the first row as it is the column headers.
-  // ***Note that it will be important to populate the headers of the table from the file
+  // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
+    // ***Note that it will be important to populate the headers of the table from the file
   // as well in order to allow for the data file/data population to be dynamic.***
+
+//ERROR CHECK...
+console.log(rows[2]);
+console.log(rows.length);
+
+  //Populate the table.
   for(var r = 1; r < rows.length-1; r++)
   {
-    // Add a row to the table.
-    var newRow = overallStatusTable.insertRow(r);
-
-    // Parse this comma-delimited row...
-    var thisRow = rows[r].split(",");
-
-    // Populate the newly created row...
-    // ***Note that (in a later iteration), the size of the table will need
-    // to potentially dynamically change to accommodate the longest data entry.***
-    for(var c = 0; c < thisRow.length; c++)
+    //Populate the headers...
+    if(r === 1)
     {
-      // Add element e to the current row in column c.
-      var cell = newRow.insertCell(c);
-      //cell.style.border = "initial"; //trying to add column delimiters in table
-      cell.innerHTML = thisRow[c];
+      //Dynamically insert the headers for the table according to the data file...
+      // Parse this comma-delimited row...
+      var headerRow = rows[r].split(",");
+      console.log(headerRow);
+      for(var c = 0; c < headerRow.length; c++)
+      {
+        // Add element e to the current row in column c.
+        var newHeader = document.createElement("TH");
+        var newHeaderContent = document.createTextNode(headerRow[c]);
+        newHeader.appendChild(newHeaderContent);
+        document.getElementById("overall_status_table_HEADERS").appendChild(newHeader);
+      }
+    }
+    //Populate the non-header rows of the table...
+    else {
+      console.log("HERE");
+      // Add a row to the table.
+      var newRow = overallStatusTable.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
+
+      // Parse this comma-delimited row...
+      var thisRow = rows[r].split(",");
+console.log(thisRow);
+      // Populate the newly created row...
+      // ***Note that (in a later iteration), the size of the table will need
+      // to potentially dynamically change to accommodate the longest data entry.***
+      for(var c = 0; c < thisRow.length; c++)
+      {
+        // Add element e to the current row in column c.
+        var cell = newRow.insertCell(c);
+        //cell.style.border = "initial"; //trying to add column delimiters in table
+        cell.innerHTML = thisRow[c];
+      }
     }
   }
 
