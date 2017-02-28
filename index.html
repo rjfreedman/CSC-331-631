@@ -94,8 +94,8 @@
   <!-- Status Table by Lee -->
   <!-- KR: br adds vertical space before the table, play with these to achieve optimal spacing -->
   <br></br>
-  <br></br>
   <table id="overall_status_table">
+    <h4 class="combo-label">Overall Cluster Status</h4>
     <tr>
       <th>Running Jobs</th>
       <th>Queued Jobs</th>
@@ -106,12 +106,12 @@
 
 <div class="collapse" id="healthTable">
   <br></br>
-  <br></br>
 <!-- Health Status Table by AA -->
 	<table id="health_table">
+	  <h4 class="combo-label">Cluster Health Status</h4>
 		<tr>
-			<th>Number of Nodes UP</th>
-			<th>Number of Nodes DOWN</th>
+			<th>Number of Nodes Up</th>
+			<th>Number of Nodes Down</th>
 			<th>Number of Nodes Under Maintenance</th>	
 		</tr>
 	
@@ -122,14 +122,14 @@
 <div class="collapse" id="chassisInfo">
   <br></br>
         <br></br>
-    <h4 class="combo-label">Single/Multiple Selection of chasis with Checkboxes</h4>
+    <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4>
     <div id="checkboxSelectCombo" ></div>
     <script type="text/javascript">
         var chasiss = [
-            { Name: "Chasis 1" },
-            { Name: "Chasis 2" },
-            { Name: "Chasis 3" },
-            { Name: "Chasis 4" }
+            { Name: "Chassis 1" },
+            { Name: "Chassis 2" },
+            { Name: "Chassis 3" },
+            { Name: "Chassis 4" }
         ];
         $(function () {
             $("#checkboxSelectCombo").igCombo({
