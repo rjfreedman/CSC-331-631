@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <title> DEAC Cluster System Monitor </title>
+  <!-- charset allows bootstrap characters -->
+  <meta charset = "utf-8">
+  <!-- viewport should allow bootstrap to resize for viewing device -->
+  <meta name = "viewport" content = "width = device-width, initial-scale =1">
+  <!-- Getting the bootstrap libraries for CSS from a CDN-->
+  <!-- KR: Getting the bootstrap libraries for CSS from a CDN-->
+  <!-- KR: add bootstrap for CSS, jquery and JavaScript -->
+  <!-- 1) bootstrap for CSS: necessary for containers to provide responsive design -->
+  <!-- 2,3) jquery and bootstrap for js, necessary for expansion buttons -->
+  <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- KG: needs these bootstrap and style for drop down menu check box functionality -->
+  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+    <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" />
+    <!-- KR: modernizr allows it to run on old systems like IE7 -->
+    <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <!-- KR: removing this jquery because I needed 3.1.1 earlier
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <!-- KG: Ignite UI Required Combined JavaScript Files -->
+    <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
+    <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
+
+    <style>
+            .combo-label {margin-bottom:.5em; align-items:right; }
+    </style>
+    <!-- Lee's table style currently styling ALL tables on page -->
+    <style>
+            table, tr, th{
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            tr, th{
+                padding: 5px
+            }
+        </style>
+
+
+</head>
+<body>
+  <!-- adding containers to ensure the page resizes well on different devices -->
+<div class="container-fluid">
+  <div class = "row">
+    <!-- KR: This is the top of the page, small container at each side for logo/update info, large box in middle for title -->
+    <div class="col-sm-2"><p id="logo">logo?</p> </div>
+    <div class="col-sm-8"><h1 id="pageTitle" align="center">DEAC Cluster System Monitor</h1></div>
+    <div class="col-sm-2">
+      <!-- KR: divs for current time and last update time JS fills current, need to add last update time functionality-->
+      <p id="currentDateTime"></p>
+      <script>
+	document.getElementById("currentDateTime").innerHTML=Date()
+      </script>
+      <p id="lastUpdateDateTime">Site last updated: </p>
+    </div>
+  </div>
+
+  <div class="row" id="initialView">
+    <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
+    <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
+    <div class="col-sm-4" id="clusterStatusFirstView" align="center">
+      <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
+      <figure id="clusterStatusInfographic"></figure>
+      <!-- KR: collapsible button to expand statusTable div -->
+      <button class="btn btn-primary" data-toggle="collapse" data-target="#statusTable">
+	More Cluster Status Information
+      </button>
+    </div>
+  <div class="col-sm-4" id="clusterHealthFirstView" align="center">
+    <!-- KR: put clusterHealthInfographic in the following <figure></figure> -->
+    <figure id="clusterHealthInfographic"></figure>
+    <!-- KR: collapsible button to expand healthTable div -->
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#healthTable" aria-expanded="false" aria-controls="healthTable">
+      More Cluster Health Information
+    </button>
+  </div>
+
+  <div class="col-sm-4" id="perChassisAccessPoint" align="center">
+    <!-- KR: collapsible button to expand healthTable div -->
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#chassisInfo" aria-expanded="false" aria-controls="chassisInfo">
+      Detailed Information for Each Chassis
+    </button>
+  </div>
+</div> <!-- end 3 column responsive row -->
+
+<!-- KR: following divs must have class="Collapse" so that collapse buttons work -->
+<div class="collapse" id="statusTable">
+  <!-- Status Table by Lee -->
+  <!-- KR: br adds vertical space before the table, play with these to achieve optimal spacing -->
+  <br></br>
+  <br></br>
+  <table id="overall_status_table">
+    <h4 class="combo-label">Overall Cluster Status</h4>
+    <tr id="overall_status_table_HEADERS">
+      <!-- <th>Running Jobs</th>
+      <th>Queued Jobs</th>
+      <th>Number of CPUs</th> -->
+    </tr>
+  </table>
+</div>
+
+<div class="collapse" id="healthTable">
+  <br></br>
+  <br></br>
+<!-- Health Status Table by AA -->
+	<table id="health_table">
+	  <h4 class="combo-label">Cluster Health Status</h4>
+		<tr>
+			<th>Number of Nodes Up</th>
+			<th>Number of Nodes Down</th>
+			<th>Number of Nodes Under Maintenance</th>
+		</tr>
+
+	</table>
+
+</div>
+<!-- KG: Chassis Information table and drop down -->
+<div class="collapse" id="chassisInfo">
+  <br></br>
+        <br></br>
+    <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4>
+    <div id="checkboxSelectCombo" ></div>
+    <script type="text/javascript">
+        var chasiss = [
+            { Name: "Chassis 1" },
+            { Name: "Chassis 2" },
+            { Name: "Chassis 3" },
+            { Name: "Chassis 4" }
+        ];
+        $(function () {
+            $("#checkboxSelectCombo").igCombo({
+                width: "270px",
+                dataSource: chasiss,
+                textKey: "Name",
+                valueKey: "Name",
+                multiSelection: {
+                    enabled: true,
+                    showCheckboxes: true
+                }
+            });
+        });
+    </script>
+
+  <table id="per_chasis_detailed_information_table">
+                <tr>
+                    <th>Chassis</th>
+                    <th>Utilization</th>
+                    <th>Number of CPUs Available</th>
+                    <th>Total Number of CPUs</th>
+                    <th>Memory Utilization</th>
+                </tr>
+            </table>
+</div> <!-- end chassisInfo div -->
+
+
+</body>
+</html>
+
+<!-- start Riana's code -->
+
+<script>
+
+  // Read in the file...
+  // Resource used to assist:
+  // http://stackoverflow.com/questions/27522979/read-a-local-text-file-using-javascript?noredirect=1&lq=1
+
+  // Note: This works for a static filename/local location...
+
+  // Declare a variable to hold the contents of the CSV file in...
+  var csvFile;
+
+  //For now, store the static path to the CSV file in a variable...
+  //This may be adjusted to support the location of the file on the server...
+  var filePath = "file:///" + __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
+//  var filePath = "file:///C:/Users/Riana/SCHOOL_COMPUTER/WFU/Spring_2017/CSC_631/Atom/deacClusterApp/overallClusterInfo.csv";
+
+  // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
+  var contents = new XMLHttpRequest();
+  contents.open("GET", filePath, false);
+  contents.onreadystatechange = function ()
+  {
+     if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
+     {
+             csvFile = contents.responseText;
+     }
+  }
+  contents.send(null);
+
+  // Parse the data file by rows (newline character-delimited)...
+  // Store each row in an element of rows.
+  var rows = csvFile.split("\n");
+
+  // Access the HTML table to be updated with this data.
+  var overallStatusTable = document.getElementById("overall_status_table");
+
+  // Iterate through each column in the table and insert the values of the row in
+  // that element...
+
+  // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
+  // ***Note that it will be important to populate the headers of the table from the file
+  // as well in order to allow for the data file/data population to be dynamic.***
+
+  //Populate the table.
+  for(var r = 1; r < rows.length-1; r++)
+  {
+    //Populate the headers...
+    if(r === 1)
+    {
+      //Dynamically insert the headers for the table according to the data file...
+      // Parse this comma-delimited row...
+      var headerRow = rows[r].split(",");
+      for(var c = 0; c < headerRow.length; c++)
+      {
+        // Add element e to the current row in column c.
+        var newHeader = document.createElement("TH");
+        var newHeaderContent = document.createTextNode(headerRow[c]);
+        newHeader.appendChild(newHeaderContent);
+        document.getElementById("overall_status_table_HEADERS").appendChild(newHeader);
+      }
+    }
+    //Populate the non-header rows of the table...
+    else {
+      // Add a row to the table.
+      var newRow = overallStatusTable.insertRow(r);
+
+      // Parse this comma-delimited row...
+      var thisRow = rows[r].split(",");
+
+      // Populate the newly created row...
+      // ***Note that (in a later iteration), the size of the table will need
+      // to potentially dynamically change to accommodate the longest data entry.***
+      for(var c = 0; c < thisRow.length; c++)
+      {
+        // Add element e to the current row in column c.
+        var cell = newRow.insertCell(c);
+        //cell.style.border = "initial"; //trying to add column delimiters in table
+        cell.innerHTML = thisRow[c];
+      }
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // NOTES for future iterations/once I have access to the data file...
+  // ***Note: We somehow need to show the lines between the columns...***
+  // ***It may also be useful to erase the table and redraw it with each
+  // reload of the table to avoid accidentally appending to it, etc.***
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Questions that will be answered by sample data to be provided by the HPC Team:
+
+  // Do we need to redraw the table each time read file?
+  // Will we have one file or a file per table?
+
+  // For overallStatusTable, okay to take the data straight from the file
+  // each time it is needed...
+  // Need to do this for other tables, as well, in case the data changes.
+  // -OR-
+  // Could have a flag to check to tell whether or not the data file was altered.
+  // In this case, could store to a file and have an event triggered when the file
+  // is refreshed (for example), saying the file has been altered...
+  // Would also need a flag to tell if the file fails to exist.
+
+  // In either case, would store the current data in a data structure in case some updated
+  // error occurs (?), but likely best to read straight from file every time
+  // to ensure the most up-to-date info...
+
+</script>
+
+<!-- end Riana's code -->
