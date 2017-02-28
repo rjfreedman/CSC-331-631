@@ -1,0 +1,5 @@
+Mon, Feb 27, 2017 02:20:15 PM,,
+Chassis Name,Utilization,Number of CPUs Available,Total Number of CPUs,Memory Utilization
+bc01,25%,8,112,5%
+bc02,15%,15,112,4%
+bc04,30%,100,112,8%
