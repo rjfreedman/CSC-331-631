@@ -183,7 +183,7 @@
   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
   var contents = new XMLHttpRequest();
   //contents.open("GET", filePath, false);
-  contents.open("GET", "overallClusterInfo.csv", false);
+  contents.open("GET", "https://github.com/rjfreedman/CSC-331-631/overallClusterInfo.csv", false);
   contents.onreadystatechange = function ()
   {
      if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
