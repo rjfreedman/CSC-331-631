@@ -36,6 +36,44 @@
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+       google.charts.load('current', {'packages':['gauge']});
+       google.charts.setOnLoadCallback(drawChart);
+
+       function drawChart() {
+
+         var data = google.visualization.arrayToDataTable([
+           ['Label', 'Value'],
+           ['Overall Status', 80],
+         ]);
+
+         var options = {
+           width: 420, height: 140,
+           redFrom: 90, redTo: 100,
+           yellowFrom:75, yellowTo: 90,
+           minorTicks: 5
+         };
+
+         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+         chart.draw(data, options);
+
+         setInterval(function() {
+           data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+           chart.draw(data, options);
+         }, 13000);
+         /*setInterval(function() {
+           data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+           chart.draw(data, options);
+         }, 5000);
+         setInterval(function() {
+           data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+           chart.draw(data, options);
+       }, 26000);*/
+       }
+   </script>
+
     <style>
             .combo-label {margin-bottom:.5em; align-items:right; }
     </style>
@@ -52,7 +90,7 @@
 
 </head>
 <!-- HHL: I have added this onload to the body tag -->
-<body onload="move()">
+<body onload="load()">
   <!-- adding containers to ensure the page resizes well on different devices -->
 <div class="container-fluid">
   <div class = "row">
@@ -74,14 +112,16 @@
     <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
     <div class="col-sm-4" id="clusterStatusFirstView" align="center">
       <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
-      <h3>Percent Running jobs out of Nodes up</h3>
-      <div id="myProgress" style="width:100%; margin-bottom:2px;">
+      <div id="chart_div" style="width: 400px; height: 120px;"></div>
+      <br>
+     <h3>Percent Running jobs out of Nodes up</h3>
+      <div id="myProgress" style="width:100%; margin-bottom:2px; border:1px solid black; background-color: #C0C0C0">
           <div id="myBar" style="width:10%; height:30px;
-            background-color:#c19e00; text-align:center; color:white; border:1px solid black;">
+            background-color:#c19e00; text-align:center; color:white;">
           </div>
       </div>
       <script>
-      function move() {
+      function load() {
         var elem = document.getElementById("myBar");
         var width = 0;
         var id = setInterval(frame, 10);
@@ -97,7 +137,7 @@
           }
         }
       }
-      </script>
+  </script>
       <!-- KR: collapsible button to expand statusTable div -->
       <button class="btn btn-primary" data-toggle="collapse" data-target="#statusTable">
 	More Cluster Status Information

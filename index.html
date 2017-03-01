@@ -28,6 +28,37 @@
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
 
+    <!-- HHL: Using google drive library for gauge graphics-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+       google.charts.load('current', {'packages':['gauge']});
+       google.charts.setOnLoadCallback(drawChart);
+
+       function drawChart() {
+
+         var data = google.visualization.arrayToDataTable([
+           ['Label', 'Value'],
+           ['Overall Status', 80],
+         ]);
+
+         var options = {
+           width: 420, height: 200,
+           redFrom: 90, redTo: 100,
+           yellowFrom:75, yellowTo: 90,
+           minorTicks: 5
+         };
+
+         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+         chart.draw(data, options);
+
+         setInterval(function() {
+           data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+           chart.draw(data, options);
+         }, 13000);
+       }
+    </script>
+
     <style>
             .combo-label {margin-bottom:.5em; align-items:right; }
     </style>
@@ -75,7 +106,7 @@
     <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
     <div class="col-sm-4" id="clusterStatusFirstView" align="center">
       <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
-      <figure id="clusterStatusInfographic"></figure>
+      <div id="chart_div" style="font-size: 15px"></div>
       <!-- KR: collapsible button to expand statusTable div -->
       <button class="btn btn-primary" data-toggle="collapse" data-target="#statusTable">
 	More Cluster Status Information
