@@ -33,19 +33,37 @@
     <script type="text/javascript">
        google.charts.load('current', {'packages':['gauge']});
        google.charts.setOnLoadCallback(drawChart);
+<<<<<<< HEAD
        function drawChart() {
+=======
+
+       function drawChart() {
+
+>>>>>>> b1519144b4f82e0629b901f7bddeb20df6535e69
          var data = google.visualization.arrayToDataTable([
            ['Label', 'Value'],
            ['Overall Status', 80],
          ]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> b1519144b4f82e0629b901f7bddeb20df6535e69
          var options = {
            width: 420, height: 200,
            redFrom: 90, redTo: 100,
            yellowFrom:75, yellowTo: 90,
            minorTicks: 5
          };
+<<<<<<< HEAD
          var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
          chart.draw(data, options);
+=======
+
+         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+         chart.draw(data, options);
+
+>>>>>>> b1519144b4f82e0629b901f7bddeb20df6535e69
          setInterval(function() {
            data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
            chart.draw(data, options);
