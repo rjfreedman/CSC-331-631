@@ -21,12 +21,6 @@ function responder(req, res) {
 // Get request to / is given to responder function
 app.get('/', responder);
 
-
-//RIANA ADDED THIS TO ATTEMPT FILE OPENINGS IN WEB APP WHEN PUSHED TO github
-//BEGIN
-//END
-
-
 function portListener() {
     console.log('Listening on localhost ' + port);
 };
