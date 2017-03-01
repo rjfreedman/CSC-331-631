@@ -24,7 +24,6 @@ app.get('/', responder);
 
 //RIANA ADDED THIS TO ATTEMPT FILE OPENINGS IN WEB APP WHEN PUSHED TO github
 //BEGIN
-
 //END
 
 
