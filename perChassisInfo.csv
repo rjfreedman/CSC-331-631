@@ -1,5 +1,5 @@
 Mon, Feb 27, 2017 02:20:15 PM,,,,,
 Chassis Name,Utilization,Number of CPUs Available,Total Number of CPUs,Memory Utilization,Number of Nodes UP,Number of Nodes DOWN,Number of Nodes UNDER MAINTENANCE
 bc01,30%,8,112,5%,11,8,0
-bc02,15%,15,112,4%,15,0,1
+bc02,15%,15,112,4%,18,0,2
 bc06,50%,30,220,10%,11,2,2
