@@ -32,7 +32,7 @@
             .combo-label {margin-bottom:.5em; align-items:right; }
     </style>
     <!-- Lee's table style currently styling ALL tables on page -->
-    <!-- Riana added the text-align: center specification when populating the data for readability -->
+    <!-- Riana: added the text-align: center specification when populating the data for readability -->
     <style>
             table, tr, th{
                 border: 1px solid black;
@@ -59,8 +59,13 @@
       <script>
 	document.getElementById("currentDateTime").innerHTML=Date()
       </script>
-      <p id="lastUpdateDateTime">Site last updated: </p>
-      <button class="btn" onclick="refresh()">Refresh</button><br><br> <!-- Added by Riana for refreshing purposes (per discussion with Dr. Pauca). -->
+      <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
+      <p id="lastUpdateDateTimeStatic">Site last updated:</p>
+      <p id="lastUpdateDateTime"></p>
+
+      <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
+      <button class="btn" onclick="refresh()">Refresh</button><br><br>
+
     </div>
   </div>
 
@@ -100,7 +105,9 @@
   <br></br>
   <table id="overall_status_table">
     <h4 class="combo-label">Overall Cluster Status</h4>
+    <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
     <tr id="overall_status_table_HEADERS">
+      <!-- Riana: commented out all table headers in order to auto-populate them -->
       <!-- <th>Running Jobs</th>
       <th>Queued Jobs</th>
       <th>Number of CPUs</th> -->
@@ -114,7 +121,9 @@
 <!-- Health Status Table by AA -->
 	<table id="health_table">
 	  <h4 class="combo-label">Cluster Health Status</h4>
+    <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
 		<tr id= "health_table_HEADERS">
+      <!-- Riana: commented out all table headers in order to auto-populate them. -->
 			<!-- <th>Number of Nodes Up</th>
 			<th>Number of Nodes Down</th>
 			<th>Number of Nodes Under Maintenance</th> -->
@@ -150,9 +159,10 @@
         });
     </script>
 
-  <!--Riana: I fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
+  <!--Riana: fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
   <table id="per_chassis_detailed_information_table">
                 <tr id="per_chassis_detailed_information_table_HEADERS">
+                  <!-- Riana: commented out all table headers in order to auto-populate them -->
                     <!-- <th>Chassis</th>
                     <th>Utilization</th>
                     <th>Number of CPUs Available</th>
@@ -166,86 +176,30 @@
 </body>
 </html>
 
+
+
 <!-- start Riana's code -->
 
 <script>
 
-//initiliaze
-// var INIT = 0;
-// if(INIT === 0)
-// {
-//   INIT = 1;
-//   //read in initial data file and set var prevFileIDs...
-// }
+  //Declare variables needed throughout this script...
+  var prevFileID;
+  var currentFileID;
 
-  // Read in the file...
-  // Resource used to assist:
-  // http://stackoverflow.com/questions/27522979/read-a-local-text-file-using-javascript?noredirect=1&lq=1
-
-  // Note: This works for a static filename/local location...
-
-// THE FOLLOWING TOGGLE-COMMENTED OUT CODE WAS SIMPLY MOVED LOWER DOWN IN THE CODE...
-
-//   // Declare a variable to hold the contents of the CSV file in...
-//   var csvFile;
-//
-//   //For now, store the static path to the CSV file in a variable...
-//   //This may be adjusted to support the location of the file on the server...
-//   //__dirname = path.resolve();
-//   //var filePath = "file://" + __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
-// //console.log(filePath);
-//   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
-//   var contents = new XMLHttpRequest();
-//   //contents.open("GET", filePath, false);
-//   contents.open("GET", "overallClusterInfo.csv", false);
-//   contents.onreadystatechange = function ()
-//   {
-//      if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
-//      {
-//              csvFile = contents.responseText;
-//      }
-//   }
-//   contents.send(null);
-//
-//   // Parse the data file by rows (newline character-delimited)...
-//   // Store each row in an element of rows.
-//   var rows = csvFile.split("\n");
-//
-//   //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
-//   //Note that this line is a time stamp that is unique...
-//   //initiliaze the prevFileID to that of the first file upload...
-//   var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
-//
-//   var currentFileID = rows[0];
-//
-//   //ERROR CHECK...
-//   console.log(currentFileID);
-//
-//   if(currentFileID === prevFileID)
-//   {
-//     console.log("the data file has NOT been refreshed")
-//   }
-//   else {
-//     console.log("the data file HAS been refreshed")
-//     //update the data stamp at the top right of the page
-//     //in later iterations, store the new file to the database (for backlog story on storing historical data)
-//   }
-//
-//
-//   //ERROR CHECK...
-//   console.log(rows[2]);
-//   console.log(rows.length);
+  //Define a variable to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
+  var init;
 
   //Place all code for populating a data file from a header in a function
-  //to avoid duplication of code...
+  //  to avoid duplication of code...
   function populateTableFromCSVFile(rowsRead, headerID, rowID)
   {
     // Iterate through each column in the table and insert the values of the row in
     // that element...
     // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
-      // ***Note that it will be important to populate the headers of the table from the file
+    // ***Note that it will be important to populate the headers of the table from the file
     // as well in order to allow for the data file/data population to be dynamic.***
 
+    //The following variables will assist in deriving the Cluster health data from the per chassis info.
     //Initialize to invalid values...
     var indexNodesUP = -1;
     var indexNodesDOWN = -1;
@@ -254,73 +208,73 @@
     var numberOfNodesDOWN = 0;
     var numberOfNodesUNDERMAINTENANCE = 0;
 
-    //Populate the table.
+    //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
       //Populate the headers...
       if(r === 1)
       {
         //Dynamically insert the headers for the table according to the data file...
-        // Parse this comma-delimited row...
+        //Parse this comma-delimited row...
         var headerRow = rowsRead[r].split(",");
         console.log(headerRow);
         for(var c = 0; c < headerRow.length; c++)
         {
-          // Add element e to the current row in column c.
+          // Add an element to the current row in column c.
           var newHeader = document.createElement("TH");
           var newHeaderContent = document.createTextNode(headerRow[c]);
           newHeader.appendChild(newHeaderContent);
           document.getElementById(headerID).appendChild(newHeader);
 
-
           //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
           //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
+            //If the current header is any of the categories indicated in Cluster Health Status,
+            //  then mark this column accordingly for data collection when populating the rows of the table...
+
             if(headerRow[c].includes("Number of Nodes UP"))
             {
-              //add this header to a JSON object (which can later be output to a CSV file)...
               indexNodesUP = c;
             }
             else if(headerRow[c].includes("Number of Nodes DOWN"))
             {
-              //add this header to a JSON object (which can later be output to a CSV file)...
-
               indexNodesDOWN = c;
             }
             else if(headerRow[c].includes("Number of Nodes UNDER MAINTENANCE"))
             {
-              //add this header to a JSON object (which can later be output to a CSV file)...
               indexNodesUNDERMAINTENANCE = c;
-              //console.log("UM:" + indexNodesUNDERMAINTENANCE); //error check...
             }
+
           }
         }
       }
-      //Populate the non-header rows of the table...
-      else {
-        console.log("HERE");
+      else { //Populate the non-header rows of the table...
+
         // Add a row to the table.
         var newRow = rowID.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
 
         // Parse this comma-delimited row...
         var thisRow = rowsRead[r].split(",");
 
-        //ERROR CHECK...
-        console.log(thisRow);
-
         // Populate the newly created row...
         // ***Note that (in a later iteration), the size of the table will need
         // to potentially dynamically change to accommodate the longest data entry.***
         for(var c = 0; c < thisRow.length; c++)
         {
-          // Add element e to the current row in column c.
+          // Add a cell to the current row in column c.
           var cell = newRow.insertCell(c);
-          //cell.style.border = "initial"; //trying to add column delimiters in table
+
+          //Store the data in the new cell.
           cell.innerHTML = thisRow[c];
 
+          //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
+
+            //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
+            //  if the current column represents one of these categories.
+
             if(c === indexNodesUP)
             {
               numberOfNodesUP += parseInt(thisRow[c]);
@@ -335,8 +289,8 @@
               //console.log("UM"); //error check
               numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
             }
-          }
 
+          }
         }
       }
     }
@@ -344,7 +298,9 @@
     //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
     if(headerID === "per_chassis_detailed_information_table_HEADERS")
     {
-      //Create an empty JSON object...
+      //Data collection complete...
+
+      //Check for ERRORs in data collection.
       if(indexNodesUP === -1) {
         numberOfNodesUP = "ERROR";
       }
@@ -355,29 +311,31 @@
         numberOfNodesUNDERMAINTENANCE = "ERROR";
       }
 
+      //Create a JSON object containing the data.
       var jsonDerivedClusterHealth = {
         "Number of Nodes UP": numberOfNodesUP,
         "Number of Nodes DOWN": numberOfNodesDOWN,
         "Number of Nodes UNDER MAINTENANCE": numberOfNodesUNDERMAINTENANCE
       };
 
-      //return jsonDerivedClusterHealth;
-      //Call the function to populate the Cluster Health Status table:
+      //Call the function to populate the Cluster Health Status table.
+      //Call this function here to avoid a race condition since javascript functions are non-blocking...
       populateHealthStatusTable(jsonDerivedClusterHealth);
     }
     //else { //do nothing...
-      //return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
+    //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
     //}
   }
 
-
+  //Define a function to access, open, and read a CSV data file.
+  //Store the contents extracted from the file in a variable.
+  //Place all of this code in a function to avoid duplication of code.
   function readAndStoreData(fileName, idTableHeaders, idTableRows)
   {
     // Declare a variable to hold the contents of the CSV file in...
     var csvFile = "";
 
-    //For now, store the static path to the CSV file in a variable...
-    // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
+    //Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
     var contents = new XMLHttpRequest();
     contents.open("GET", fileName, false);
     contents.onreadystatechange = function ()
@@ -389,70 +347,83 @@
     }
     contents.send(null);
 
-    // Parse the data file by rows (newline character-delimited)...
-    // Store each row in an element of rows.
+    //Parse the data file by rows (newline character-delimited)...
+    //Store each row in an element of rows.
     var rows = csvFile.split("\n");
 
     //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
     //Note that this line is a time stamp that is unique...
-    //initiliaze the prevFileID to that of the first file upload...
+    //Initiliaze the prevFileID to that of the first file upload when the page is loaded...
     if(init === 0)
     {
-      var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
-      init = 1;
-      document.getElementById("lastUpdateDateTime").innerHTML = "Site last updated: " + prevFileID;
+      prevFileID = rows[0];
+      init = 1; //indicate that initialization is now complete
+      document.getElementById("lastUpdateDateTime").innerHTML = prevFileID;
     }
 
-    var currentFileID = rows[0];
+    //Store the current unique ID in the appropriate variable for comparison.
+    currentFileID = rows[0];
 
     //ERROR CHECK...
     console.log(currentFileID);
 
     if(currentFileID === prevFileID)
     {
-      console.log("the data file has NOT been refreshed")
+      //Error check...
+      console.log("The data file has NOT been refreshed.")
     }
-    else {
-      console.log("the data file HAS been refreshed")
-      document.getElementById("lastUpdateDateTime").innerHTML = "Site last updated: " + currentFileID;
-      //update the data stamp at the top right of the page
-      //in later iterations, store the new file to the database (for backlog story on storing historical data)
+    else
+    {
+      //ERROR CHECK...
+      console.log("The data file HAS been refreshed.")
+
+      //Update the data stamp at the top right of the page.
+      document.getElementById("lastUpdateDateTime").innerHTML = currentFileID;
+
+      //Update the previous file refresh unique ID for comparison when the next refresh is requested/occurs.
+      prevFileID = currentFileID;
+
+      //In a later iterations, store the new file to the database here (for backlog story on storing historical data).
     }
 
-    //Call a callback function (of sorts)...
+    //Call the appropriate function to populate the data table associated with this data file.
+    //Call this function here to avoid a race condition since javascript functions are non-blocking...
     populateTableFromCSVFile(rows, idTableHeaders, idTableRows);
   }
 
+  //Define a function to populate the Cluster Health Status table with the data derived from the per chassis info.
+  //The data needed to populate this table is stored in a JSON object, passed into this function as an input parameter.
   function populateHealthStatusTable(derivedClusterHealthStatus)
   {
-    //Populate the Cluster Health Status table...
-    // Access the HTML table to be updated with this data.
+    //Access the HTML table to be updated with this data.
     var healthTable = document.getElementById("health_table");
 
     //Populate the headers.
     for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
     {
-      // Add element e to the current row in column c.
+      // Add an element to the current row in column c.
       var newHeader = document.createElement("TH");
       var newHeaderContent = document.createTextNode(Object.keys(derivedClusterHealthStatus)[c]);
       newHeader.appendChild(newHeaderContent);
       document.getElementById("health_table_HEADERS").appendChild(newHeader);
     }
 
-    //Populate the rows.
+    //ERROR CHECK...
     console.log("WORKING ON HEALTH TABLE...");
-    // Add a row to the table.
-    //Reminder to self:If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
-    var newRow = healthTable.insertRow(1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
+
+    //Populate the rows...
+
+    //Add a row to the table.
+    //Reminder to self: If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
+    var newRow = healthTable.insertRow(1);
 
     // Populate the newly created row...
     // ***Note that (in a later iteration), the size of the table will need
     // to potentially dynamically change to accommodate the longest data entry.***
     for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
     {
-      // Add element e to the current row in column c.
+      // Add a cell to the current row in column c.
       var cell = newRow.insertCell(c);
-      //cell.style.border = "initial"; //trying to add column delimiters in table
       cell.innerHTML = derivedClusterHealthStatus[Object.keys(derivedClusterHealthStatus)[c]];
     }
   }
@@ -460,48 +431,28 @@
   ////////////////////////////////////////
   ////////////////////////////////////////
 
+  //Declare a function that will clear a table's rows and headers.
+  //This is needed to prevent the refresh of data from appending to the current tables.
   function clearTable(table, tableHeaders) {
 
-  //  table.innerHTML = "";
-
-    // //Delete headers...
-    // deleteTHead();
-
+    //Delete each row from the bottom up until the top, except for row 0 (the header row).
     var numRows = table.getElementsByTagName("tr").length;
-
-    //deletes each row from the bottom up until the top, leaves row 0, our header row
     for(i = numRows - 1; i > 0; i--){
       table.deleteRow(i);
     }
 
+    //Delete the header row.
     var numHeaders = tableHeaders.getElementsByTagName("TH").length;
-
-    //deletes each row from the bottom up until the top, leaves row 0, our header row
     for(i = numHeaders - 1; i >= 0; i--){
       tableHeaders.deleteCell(i);
     }
-
-
-    //Call these here to avoid a race condition...
-  //
-  //   //Populate the Overall Cluster Status table...
-  //   // Access the HTML table to be updated with this data.
-  //   readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable);
-  //
-  // ////////////////////////////////////////
-  // ////////////////////////////////////////
-  //
-  //   //Populate the Per Chassis Info table...
-  //   // Access the HTML table to be updated with this data.
-  //   readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable);
-  //   //var derivedClusterHealthStatus = populateTableFromCSVFile("per_chassis_detailed_information_table_HEADERS", perChassisTable);
-  //   //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
-    //AND the health status table is populated when the chassis detailed information is complete...
   }
 
-
+  //Define a function that will be called to refresh the data.
+  //A refresh can occur on page load OR on pressing the refresh button.
   function refresh()
   {
+    //Access the tables directly associated with data reported in the CSV files.
     var overallStatusTable = document.getElementById("overall_status_table");
     var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
 
@@ -510,253 +461,27 @@
     clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
     clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
 
-
     //Populate the Overall Cluster Status table...
-    // Access the HTML table to be updated with this data.
     readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable);
 
-  ////////////////////////////////////////
-  ////////////////////////////////////////
-
     //Populate the Per Chassis Info table...
-    // Access the HTML table to be updated with this data.
     readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable);
-    //var derivedClusterHealthStatus = populateTableFromCSVFile("per_chassis_detailed_information_table_HEADERS", perChassisTable);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
   }
 
-////////////////////////////////////////
-////////////////////////////////////////
-
-
-//   // Declare a variable to hold the contents of the CSV file in...
-//   var csvFileOverallClusterStatus;
-//
-//   //For now, store the static path to the CSV file in a variable...
-//   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
-//   var contentsOverallClusterStatus = new XMLHttpRequest();
-//   contentsOverallClusterStatus.open("GET", "overallClusterInfo.csv", false);
-//   contentsOverallClusterStatus.onreadystatechange = function ()
-//   {
-//      if(contentsOverallClusterStatus.readyState === 4 && (contentsOverallClusterStatus.status === 200 || contentsOverallClusterStatus.status == 0))
-//      {
-//              csvFileOverallClusterStatus = contentsOverallClusterStatus.responseText;
-//      }
-//   }
-//   contentsOverallClusterStatus.send(null);
-//
-//   // Parse the data file by rows (newline character-delimited)...
-//   // Store each row in an element of rows.
-//   var rowsOverallClusterStatus = csvFileOverallClusterStatus.split("\n");
-//
-//   //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
-//   //Note that this line is a time stamp that is unique...
-//   //initiliaze the prevFileID to that of the first file upload...
-//   var prevFileID_OCS = rowsOverallClusterStatus[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
-//
-//   var currentFileID_OCS = rowsOverallClusterStatus[0];
-//
-//   //ERROR CHECK...
-//   console.log(currentFileID_OCS);
-//
-//   if(currentFileID_OCS === prevFileID_OCS)
-//   {
-//     console.log("the data file has NOT been refreshed")
-//   }
-//   else {
-//     console.log("the data file HAS been refreshed")
-//     //update the data stamp at the top right of the page
-//     //in later iterations, store the new file to the database (for backlog story on storing historical data)
-//   }
-//
-//   //Populate the Overall Cluster Status table...
-//   // Access the HTML table to be updated with this data.
-//   var overallStatusTable = document.getElementById("overall_status_table");
-//   populateTableFromCSVFile(rowsOverallClusterStatus, "overall_status_table_HEADERS", overallStatusTable);
-//
-//
-// /////////////////////////////////////////////////////////////////////////////////
-//   // Declare a variable to hold the contents of the CSV file in...
-//   var csvFilePerChassis;
-//
-//   //For now, store the static path to the CSV file in a variable...
-//   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
-//   var contentsPerChassis = new XMLHttpRequest();
-//   contentsPerChassis.open("GET", "perChassisInfo.csv", false);
-//   contentsPerChassis.onreadystatechange = function ()
-//   {
-//      if(contentsPerChassis.readyState === 4 && (contentsPerChassis.status === 200 || contentsPerChassis.status == 0))
-//      {
-//              csvFilePerChassis = contentsPerChassis.responseText;
-//      }
-//   }
-//   contentsPerChassis.send(null);
-//
-//   // Parse the data file by rows (newline character-delimited)...
-//   // Store each row in an element of rows.
-//   var rowsPerChassis = csvFilePerChassis.split("\n");
-//
-//   //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
-//   //Note that this line is a time stamp that is unique...
-//   //initiliaze the prevFileID to that of the first file upload...
-//   var prevFileID_PC = rowsPerChassis[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
-//
-//   var currentFileID_PC = rowsPerChassis[0];
-//
-//   //ERROR CHECK...
-//   console.log(currentFileID_PC);
-//
-//   if(currentFileID_PC === prevFileID_PC)
-//   {
-//     console.log("the per chassis data file has NOT been refreshed")
-//   }
-//   else {
-//     console.log("the per chassis data file HAS been refreshed")
-//     //update the data stamp at the top right of the page
-//     //in later iterations, store the new file to the database (for backlog story on storing historical data)
-//     //replace the contents of the data file here...
-//   }
-
-
-  // //Populate the Per Chassis Info table...
-  // // Access the HTML table to be updated with this data.
-  // var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
-  // var derivedClusterHealthStatus = populateTableFromCSVFile(rowsPerChassis, "per_chassis_detailed_information_table_HEADERS", perChassisTable);
-  // //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
-
-////////////////////////////////////////////////////////////////////////////////
-
-//   //Populate the Cluster Health Status table...
-//   // Access the HTML table to be updated with this data.
-//   var healthTable = document.getElementById("health_table");
-//
-// //  var healthData = JSON.parse(derivedClusterHealthStatus);
-// //  console.log("HEALTH DATA: " + healthData);
-//
-// //IF THERE ARE MULTIPLE ROWS POSSIBLE IN THE CLUSTER HEALTH TABLE, THEN ADD IN THIS COMMENTED OUT LOOP AND CORRECT THE ENDING CONDITION...
-// //  for(var r = 1; r < rowsRead.length-1; r++)
-// //  {
-//     //Populate the headers...
-// //    if(r === 1)
-// //    {
-//     //Populate the headers.
-//     for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
-//     {
-//       // Add element e to the current row in column c.
-//       var newHeader = document.createElement("TH");
-//       var newHeaderContent = document.createTextNode(Object.keys(derivedClusterHealthStatus)[c]);
-//       newHeader.appendChild(newHeaderContent);
-//       document.getElementById("health_table_HEADERS").appendChild(newHeader);
-//     }
-//
-//     //Populate the rows.
-//     console.log("WORKING ON HEALTH TABLE...");
-//     // Add a row to the table.
-//     //Reminder to self:If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
-//     var newRow = healthTable.insertRow(1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
-//
-//     // Populate the newly created row...
-//     // ***Note that (in a later iteration), the size of the table will need
-//     // to potentially dynamically change to accommodate the longest data entry.***
-//     for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
-//     {
-//       // Add element e to the current row in column c.
-//       var cell = newRow.insertCell(c);
-//       //cell.style.border = "initial"; //trying to add column delimiters in table
-//       cell.innerHTML = derivedClusterHealthStatus[Object.keys(derivedClusterHealthStatus)[c]];
-//     }
-//  } //for loop if can have multiple rows in Cluster Health Status table
-
-  // THE FOLLOWING COMMENTED OUT CODE (VIA ATOM'S TOGGLE COMMENT) WORKS - IT WAS SIMPLY MOVED TO
-  // A FUNCTION TO AVOID DUPLICATION OF CODE...
-
-  // Iterate through each column in the table and insert the values of the row in
-  // that element...
-  // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
-  //   ***Note that it will be important to populate the headers of the table from the file
-  // as well in order to allow for the data file/data population to be dynamic.***
-  // //Populate the table.
-  // for(var r = 1; r < rows.length-1; r++)
-  // {
-  //   //Populate the headers...
-  //   if(r === 1)
-  //   {
-  //     //Dynamically insert the headers for the table according to the data file...
-  //     // Parse this comma-delimited row...
-  //     var headerRow = rows[r].split(",");
-  //     console.log(headerRow);
-  //     for(var c = 0; c < headerRow.length; c++)
-  //     {
-  //       // Add element e to the current row in column c.
-  //       var newHeader = document.createElement("TH");
-  //       var newHeaderContent = document.createTextNode(headerRow[c]);
-  //       newHeader.appendChild(newHeaderContent);
-  //       document.getElementById("overall_status_table_HEADERS").appendChild(newHeader);
-  //     }
-  //   }
-  //   //Populate the non-header rows of the table...
-  //   else {
-  //     console.log("HERE");
-  //     // Add a row to the table.
-  //     var newRow = overallStatusTable.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
-  //
-  //     // Parse this comma-delimited row...
-  //     var thisRow = rows[r].split(",");
-  //
-  //     //ERROR CHECK...
-  //     console.log(thisRow);
-  //
-  //     // Populate the newly created row...
-  //     // ***Note that (in a later iteration), the size of the table will need
-  //     // to potentially dynamically change to accommodate the longest data entry.***
-  //     for(var c = 0; c < thisRow.length; c++)
-  //     {
-  //       // Add element e to the current row in column c.
-  //       var cell = newRow.insertCell(c);
-  //       //cell.style.border = "initial"; //trying to add column delimiters in table
-  //       cell.innerHTML = thisRow[c];
-  //     }
-  //   }
-  // }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // NOTES for future iterations/once I have access to the data file...
-  // ***Note: We somehow need to show the lines between the columns...***
-  // ***It may also be useful to erase the table and redraw it with each
-  // reload of the table to avoid accidentally appending to it, etc.***
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Questions that will be answered by sample data to be provided by the HPC Team:
-
-  // Do we need to redraw the table each time read file?
-  // Will we have one file or a file per table?
-
-  // For overallStatusTable, okay to take the data straight from the file
-  // each time it is needed...
-  // Need to do this for other tables, as well, in case the data changes.
-  // -OR-
-  // Could have a flag to check to tell whether or not the data file was altered.
-  // In this case, could store to a file and have an event triggered when the file
-  // is refreshed (for example), saying the file has been altered...
-  // Would also need a flag to tell if the file fails to exist.
-
-  // In either case, would store the current data in a data structure in case some updated
-  // error occurs (?), but likely best to read straight from file every time
-  // to ensure the most up-to-date info...
-
-var init;
-
-  //The function that is called when the window is loaded...
+  //Define the function that is called when the window is loaded...
   function start()
   {
+    //Indicate that the initial data read has not been completed yet.
+    init = 0;
+
     //Call the refresh function...
     refresh();
-    init = 0;
   }
 
+  //On page load, call the start() function...
   window.onload = start;
-
 
 </script>
 
