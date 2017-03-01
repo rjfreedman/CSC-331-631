@@ -164,6 +164,32 @@
 
 <!-- start Riana's code -->
 
+<textarea rows="5" cols="25" id="csvResponse"></textarea>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+  <script type="text/javascript">
+  // This block adapted from http://stackoverflow.com/questions/3567369/reading-server-side-file-with-javascript
+      //This event is called when the DOM is fully loaded
+  //    window.addEvent("domready",function(){
+          //Creating a new AJAX request that will request 'test.csv' from the current directory
+          var csvRequest = new Request({
+              url:"overallClusterInfo.csv",
+              onSuccess:function(response){
+                  //The response text is available in the 'response' variable
+                  //Set the value of the textarea with the id 'csvResponse' to the response
+                  document.getElementById("csvResponse").innerHTML = response;
+              }
+          }).send(); //Don't forget to send our request!
+    //  });
+  </script>
+
+
+
+
+
+
+
+
 <script>
 
   // Read in the file...
@@ -173,118 +199,118 @@
   // Note: This works for a static filename/local location...
 
   // Declare a variable to hold the contents of the CSV file in...
-  var csvFile;
-
-  //For now, store the static path to the CSV file in a variable...
-  //This may be adjusted to support the location of the file on the server...
-  //__dirname = path.resolve();
-  //var filePath = "file://" + __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
-//console.log(filePath);
-  // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
-  var contents = new XMLHttpRequest();
-  //contents.open("GET", filePath, false);
-  contents.open("GET", "https://github.com/rjfreedman/CSC-331-631/overallClusterInfo.csv", false);
-  contents.onreadystatechange = function ()
-  {
-     if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
-     {
-             csvFile = contents.responseText;
-     }
-  }
-  contents.send(null);
-
-  // Parse the data file by rows (newline character-delimited)...
-  // Store each row in an element of rows.
-  var rows = csvFile.split("\n");
-
-  // Access the HTML table to be updated with this data.
-  var overallStatusTable = document.getElementById("overall_status_table");
-
-  //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
-  //Note that this line is a time stamp that is unique...
-  //initiliaze the prevFileID to that of the first file upload...
-  var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
-
-  var currentFileID = rows[0];
-  if(currentFileID === prevFileID)
-  {
-    console.log("the data file has NOT been refreshed")
-  }
-  else {
-    console.log("the data file HAS been refreshed")
-    //update the data stamp at the top right of the page
-    //in later iterations, store the new file to the database (for backlog story on storing historical data)
-  }
-
-  // Iterate through each column in the table and insert the values of the row in
-  // that element...
-  // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
-    // ***Note that it will be important to populate the headers of the table from the file
-  // as well in order to allow for the data file/data population to be dynamic.***
-
-  //Populate the table.
-  for(var r = 1; r < rows.length; r++)
-  {
-    //Populate the headers...
-    if(r === 1)
-    {
-      //Dynamically insert the headers for the table according to the data file...
-      // Parse this comma-delimited row...
-      var headerRow = rows[r].split(",");
-      for(var c = 0; c < headerRow.length; c++)
-      {
-        // Add element e to the current row in column c.
-        var newHeader = document.createElement("TH");
-        var newHeaderContent = document.createTextNode(headerRow[c]);
-        newHeader.appendChild(newHeaderContent);
-        document.getElementById("overall_status_table_HEADERS").appendChild(newHeader);
-      }
-    }
-    //Populate the non-header rows of the table...
-    else {
-      // Add a row to the table.
-      var newRow = overallStatusTable.insertRow(r);
-
-      // Parse this comma-delimited row...
-      var thisRow = rows[r].split(",");
-
-      // Populate the newly created row...
-      // ***Note that (in a later iteration), the size of the table will need
-      // to potentially dynamically change to accommodate the longest data entry.***
-      for(var c = 0; c < thisRow.length; c++)
-      {
-        // Add element e to the current row in column c.
-        var cell = newRow.insertCell(c);
-        //cell.style.border = "initial"; //trying to add column delimiters in table
-        cell.innerHTML = thisRow[c];
-      }
-    }
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // NOTES for future iterations/once I have access to the data file...
-  // ***Note: We somehow need to show the lines between the columns...***
-  // ***It may also be useful to erase the table and redraw it with each
-  // reload of the table to avoid accidentally appending to it, etc.***
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Questions that will be answered by sample data to be provided by the HPC Team:
-
-  // Do we need to redraw the table each time read file?
-  // Will we have one file or a file per table?
-
-  // For overallStatusTable, okay to take the data straight from the file
-  // each time it is needed...
-  // Need to do this for other tables, as well, in case the data changes.
-  // -OR-
-  // Could have a flag to check to tell whether or not the data file was altered.
-  // In this case, could store to a file and have an event triggered when the file
-  // is refreshed (for example), saying the file has been altered...
-  // Would also need a flag to tell if the file fails to exist.
-
-  // In either case, would store the current data in a data structure in case some updated
-  // error occurs (?), but likely best to read straight from file every time
-  // to ensure the most up-to-date info...
+//    var csvFile;
+// //
+// //   //For now, store the static path to the CSV file in a variable...
+// //   //This may be adjusted to support the location of the file on the server...
+// //   //__dirname = path.resolve();
+// //   //var filePath = "file://" + __dirname + "/overallClusterInfo.csv"; // Note: Will need to add the file path here once it is set...this has been tested with a local file path...
+// // //console.log(filePath);
+// //   // Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
+// //   var contents = new XMLHttpRequest();
+// //   //contents.open("GET", filePath, false);
+// //   contents.open("GET", "overallClusterInfo.csv", false);
+// //   contents.onreadystatechange = function ()
+// //   {
+// //      if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
+// //      {
+// //              csvFile = contents.responseText;
+// //      }
+// //   }
+// //   contents.send(null);
+//
+//   // Parse the data file by rows (newline character-delimited)...
+//   // Store each row in an element of rows.
+//   var rows = csvFile.split("\n");
+//
+//   // Access the HTML table to be updated with this data.
+//   var overallStatusTable = document.getElementById("overall_status_table");
+//
+//   //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
+//   //Note that this line is a time stamp that is unique...
+//   //initiliaze the prevFileID to that of the first file upload...
+//   var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
+//
+//   var currentFileID = rows[0];
+//   if(currentFileID === prevFileID)
+//   {
+//     console.log("the data file has NOT been refreshed")
+//   }
+//   else {
+//     console.log("the data file HAS been refreshed")
+//     //update the data stamp at the top right of the page
+//     //in later iterations, store the new file to the database (for backlog story on storing historical data)
+//   }
+//
+//   // Iterate through each column in the table and insert the values of the row in
+//   // that element...
+//   // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
+//     // ***Note that it will be important to populate the headers of the table from the file
+//   // as well in order to allow for the data file/data population to be dynamic.***
+//
+//   //Populate the table.
+//   for(var r = 1; r < rows.length; r++)
+//   {
+//     //Populate the headers...
+//     if(r === 1)
+//     {
+//       //Dynamically insert the headers for the table according to the data file...
+//       // Parse this comma-delimited row...
+//       var headerRow = rows[r].split(",");
+//       for(var c = 0; c < headerRow.length; c++)
+//       {
+//         // Add element e to the current row in column c.
+//         var newHeader = document.createElement("TH");
+//         var newHeaderContent = document.createTextNode(headerRow[c]);
+//         newHeader.appendChild(newHeaderContent);
+//         document.getElementById("overall_status_table_HEADERS").appendChild(newHeader);
+//       }
+//     }
+//     //Populate the non-header rows of the table...
+//     else {
+//       // Add a row to the table.
+//       var newRow = overallStatusTable.insertRow(r);
+//
+//       // Parse this comma-delimited row...
+//       var thisRow = rows[r].split(",");
+//
+//       // Populate the newly created row...
+//       // ***Note that (in a later iteration), the size of the table will need
+//       // to potentially dynamically change to accommodate the longest data entry.***
+//       for(var c = 0; c < thisRow.length; c++)
+//       {
+//         // Add element e to the current row in column c.
+//         var cell = newRow.insertCell(c);
+//         //cell.style.border = "initial"; //trying to add column delimiters in table
+//         cell.innerHTML = thisRow[c];
+//       }
+//     }
+//   }
+//
+//   //////////////////////////////////////////////////////////////////////////////
+//   // NOTES for future iterations/once I have access to the data file...
+//   // ***Note: We somehow need to show the lines between the columns...***
+//   // ***It may also be useful to erase the table and redraw it with each
+//   // reload of the table to avoid accidentally appending to it, etc.***
+//
+//   //////////////////////////////////////////////////////////////////////////////
+//   // Questions that will be answered by sample data to be provided by the HPC Team:
+//
+//   // Do we need to redraw the table each time read file?
+//   // Will we have one file or a file per table?
+//
+//   // For overallStatusTable, okay to take the data straight from the file
+//   // each time it is needed...
+//   // Need to do this for other tables, as well, in case the data changes.
+//   // -OR-
+//   // Could have a flag to check to tell whether or not the data file was altered.
+//   // In this case, could store to a file and have an event triggered when the file
+//   // is refreshed (for example), saying the file has been altered...
+//   // Would also need a flag to tell if the file fails to exist.
+//
+//   // In either case, would store the current data in a data structure in case some updated
+//   // error occurs (?), but likely best to read straight from file every time
+//   // to ensure the most up-to-date info...
 
 </script>
 
