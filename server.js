@@ -12,7 +12,8 @@ var http = httpModule.Server(app);
 app.use(express.static('assets'));
 
 //added begin:
-app.use(express.static(__dirname + '/public'));
+//app.use('/data',express.static(path.join(__dirname, 'public/data')));
+app.use('/', express.static(__dirname));
 //added end
 
 function responder(req, res) {
