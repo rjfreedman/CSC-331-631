@@ -11,6 +11,10 @@ var http = httpModule.Server(app);
 // assets
 app.use(express.static('assets'));
 
+//added begin:
+app.use(express.static(__dirname + '/public'));
+//added end
+
 function responder(req, res) {
   // Sending a file to the user's browser
   res.sendFile(__dirname + '/index.html');
