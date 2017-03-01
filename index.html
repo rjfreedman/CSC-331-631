@@ -60,6 +60,7 @@
 	document.getElementById("currentDateTime").innerHTML=Date()
       </script>
       <p id="lastUpdateDateTime">Site last updated: </p>
+      <button class="btn" onclick="refresh()">Refresh</button><br><br> <!-- Added by Riana for refreshing purposes (per discussion with Dr. Pauca). -->
     </div>
   </div>
 
@@ -170,12 +171,12 @@
 <script>
 
 //initiliaze
-var INIT = 0;
-if(INIT === 0)
-{
-  INIT = 1;
-  //read in initial data file and set var prevFileIDs...
-}
+// var INIT = 0;
+// if(INIT === 0)
+// {
+//   INIT = 1;
+//   //read in initial data file and set var prevFileIDs...
+// }
 
   // Read in the file...
   // Resource used to assist:
@@ -395,7 +396,12 @@ if(INIT === 0)
     //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
     //Note that this line is a time stamp that is unique...
     //initiliaze the prevFileID to that of the first file upload...
-    var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
+    if(init === 0)
+    {
+      var prevFileID = rows[0]; //call this outside the function that checks if a new function and pass it in...return currentFileID
+      init = 1;
+      document.getElementById("lastUpdateDateTime").innerHTML = "Site last updated: " + prevFileID;
+    }
 
     var currentFileID = rows[0];
 
@@ -408,6 +414,7 @@ if(INIT === 0)
     }
     else {
       console.log("the data file HAS been refreshed")
+      document.getElementById("lastUpdateDateTime").innerHTML = "Site last updated: " + currentFileID;
       //update the data stamp at the top right of the page
       //in later iterations, store the new file to the database (for backlog story on storing historical data)
     }
@@ -453,12 +460,59 @@ if(INIT === 0)
   ////////////////////////////////////////
   ////////////////////////////////////////
 
+  function clearTable(table, tableHeaders) {
+
+  //  table.innerHTML = "";
+
+    // //Delete headers...
+    // deleteTHead();
+
+    var numRows = table.getElementsByTagName("tr").length;
+
+    //deletes each row from the bottom up until the top, leaves row 0, our header row
+    for(i = numRows - 1; i > 0; i--){
+      table.deleteRow(i);
+    }
+
+    var numHeaders = tableHeaders.getElementsByTagName("TH").length;
+
+    //deletes each row from the bottom up until the top, leaves row 0, our header row
+    for(i = numHeaders - 1; i >= 0; i--){
+      tableHeaders.deleteCell(i);
+    }
+
+
+    //Call these here to avoid a race condition...
+  //
+  //   //Populate the Overall Cluster Status table...
+  //   // Access the HTML table to be updated with this data.
+  //   readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable);
+  //
+  // ////////////////////////////////////////
+  // ////////////////////////////////////////
+  //
+  //   //Populate the Per Chassis Info table...
+  //   // Access the HTML table to be updated with this data.
+  //   readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable);
+  //   //var derivedClusterHealthStatus = populateTableFromCSVFile("per_chassis_detailed_information_table_HEADERS", perChassisTable);
+  //   //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
+    //AND the health status table is populated when the chassis detailed information is complete...
+  }
+
+
   function refresh()
   {
+    var overallStatusTable = document.getElementById("overall_status_table");
+    var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
+
+    //FIRST - clear the tables to be sure the refreshed data is NOT accidentally appended to the existing table...
+    clearTable(overallStatusTable, document.getElementById("overall_status_table_HEADERS"));
+    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+    clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+
 
     //Populate the Overall Cluster Status table...
     // Access the HTML table to be updated with this data.
-    var overallStatusTable = document.getElementById("overall_status_table");
     readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable);
 
   ////////////////////////////////////////
@@ -466,7 +520,6 @@ if(INIT === 0)
 
     //Populate the Per Chassis Info table...
     // Access the HTML table to be updated with this data.
-    var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
     readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable);
     //var derivedClusterHealthStatus = populateTableFromCSVFile("per_chassis_detailed_information_table_HEADERS", perChassisTable);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
@@ -692,12 +745,14 @@ if(INIT === 0)
   // error occurs (?), but likely best to read straight from file every time
   // to ensure the most up-to-date info...
 
+var init;
 
   //The function that is called when the window is loaded...
   function start()
   {
     //Call the refresh function...
     refresh();
+    init = 0;
   }
 
   window.onload = start;
