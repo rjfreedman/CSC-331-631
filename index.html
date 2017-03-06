@@ -286,6 +286,8 @@
   //Define a variable to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
   var init;
 
+
+
   //Place all code for populating a data file from a header in a function
   //  to avoid duplication of code...
   function populateTableFromCSVFile(rowsRead, headerID, rowID)
@@ -470,18 +472,18 @@
 
       //Call the function to populate the Cluster Health Status table.
       //Call this function here to avoid a race condition since javascript functions are non-blocking...
-//      populateHealthStatusTable(jsonDerivedClusterHealth);
       populateDerivedTable(jsonDerivedClusterHealth, "health_table", "health_table_HEADERS");
 
       //Call the function to populate the Node Utilization Status table.
       //Call this function here to avoid a race condition since javascript functions are non-blocking...
-//      populateNodeUtilizationStatusTable(jsonDerivedNodeUtilization);
       populateDerivedTable(jsonDerivedNodeUtilization, "node_utilization_table", "node_utilization_table_HEADERS");
     }
     //else { //do nothing...
     //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
     //}
   }
+
+
 
   //Define a function to access, open, and read a CSV data file.
   //Store the contents extracted from the file in a variable.
@@ -586,80 +588,6 @@
     }
   }
 
-
-  // //Define a function to populate the Cluster Health Status table with the data derived from the per chassis info.
-  // //The data needed to populate this table is stored in a JSON object, passed into this function as an input parameter.
-  // function populateHealthStatusTable(derivedClusterHealthStatus)
-  // {
-  //   //Access the HTML table to be updated with this data.
-  //   var healthTable = document.getElementById("health_table");
-  //
-  //   //Populate the headers.
-  //   for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
-  //   {
-  //     // Add an element to the current row in column c.
-  //     var newHeader = document.createElement("TH");
-  //     var newHeaderContent = document.createTextNode(Object.keys(derivedClusterHealthStatus)[c]);
-  //     newHeader.appendChild(newHeaderContent);
-  //     document.getElementById("health_table_HEADERS").appendChild(newHeader);
-  //   }
-  //
-  //   //ERROR CHECK...
-  //   console.log("WORKING ON HEALTH TABLE...");
-  //
-  //   //Populate the rows...
-  //
-  //   //Add a row to the table.
-  //   //Reminder to self: If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
-  //   var newRow = healthTable.insertRow(1);
-  //
-  //   // Populate the newly created row...
-  //   // ***Note that (in a later iteration), the size of the table will need
-  //   // to potentially dynamically change to accommodate the longest data entry.***
-  //   for(var c = 0; c < Object.keys(derivedClusterHealthStatus).length; c++)
-  //   {
-  //     // Add a cell to the current row in column c.
-  //     var cell = newRow.insertCell(c);
-  //     cell.innerHTML = derivedClusterHealthStatus[Object.keys(derivedClusterHealthStatus)[c]];
-  //   }
-  // }
-  //
-  // //Define a function to populate the Node Utilization Status table with the data derived from the per chassis info.
-  // //The data needed to populate this table is stored in a JSON object, passed into this function as an input parameter.
-  // function populateNodeUtilizationStatusTable(derivedNodeUtilizationStatus)
-  // {
-  //   //Access the HTML table to be updated with this data.
-  //   var nodeUtilizationTable = document.getElementById("node_utilization_table");
-  //
-  //   //Populate the headers.
-  //   for(var c = 0; c < Object.keys(derivedNodeUtilizationStatus).length; c++)
-  //   {
-  //     // Add an element to the current row in column c.
-  //     var newHeader = document.createElement("TH");
-  //     var newHeaderContent = document.createTextNode(Object.keys(derivedNodeUtilizationStatus)[c]);
-  //     newHeader.appendChild(newHeaderContent);
-  //     document.getElementById("node_utilization_table_HEADERS").appendChild(newHeader);
-  //   }
-  //
-  //   //ERROR CHECK...
-  //   console.log("WORKING ON NODE UTILIZATION STATUS TABLE...");
-  //
-  //   //Populate the rows...
-  //
-  //   //Add a row to the table.
-  //   //Reminder to self: If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
-  //   var newRow = nodeUtilizationTable.insertRow(1);
-  //
-  //   // Populate the newly created row...
-  //   // ***Note that (in a later iteration), the size of the table will need
-  //   // to potentially dynamically change to accommodate the longest data entry.***
-  //   for(var c = 0; c < Object.keys(derivedNodeUtilizationStatus).length; c++)
-  //   {
-  //     // Add a cell to the current row in column c.
-  //     var cell = newRow.insertCell(c);
-  //     cell.innerHTML = derivedNodeUtilizationStatus[Object.keys(derivedNodeUtilizationStatus)[c]];
-  //   }
-  // }
   ////////////////////////////////////////
   ////////////////////////////////////////
 
@@ -692,6 +620,7 @@
     clearTable(overallStatusTable, document.getElementById("overall_status_table_HEADERS"));
     clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
     clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+    clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
     readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable);
