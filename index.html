@@ -132,10 +132,12 @@
     </div>
   </div>
 
+<!-- Riana: I changed all div classes to "col-sm-3" to have a row of 4 items in the initial view... -->
   <div class="row" id="initialView">
     <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
     <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
-    <div class="col-sm-4" id="clusterStatusFirstView" align="center">
+    <!--<div class="col-sm-4" id="clusterStatusFirstView" align="center">-->
+    <div class="col-sm-3" id="clusterStatusFirstView" align="center">
       <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
      <div id="chart_div" style="font-size: 15px"></div>
       <!-- KR: collapsible button to expand statusTable div -->
@@ -143,7 +145,9 @@
 	More Cluster Status Information
       </button>
     </div>
-  <div class="col-sm-4" id="clusterHealthFirstView" align="center">
+
+  <!--<div class="col-sm-4" id="clusterHealthFirstView" align="center"> -->
+  <div class="col-sm-3" id="clusterHealthFirstView" align="center">
     <!-- KR: put clusterHealthInfographic in the following <figure></figure> -->
     <div id="piechart_div"></div>
     <!-- KR: collapsible button to expand healthTable div -->
@@ -152,7 +156,18 @@
     </button>
   </div>
 
-  <div class="col-sm-4" id="perChassisAccessPoint" align="center">
+<!-- Begin Riana's addition for node utilization status table -->
+  <div class="col-sm-3" id="nodeUtilizationStatusFirstView" align="center">
+    <!-- Replace the id in the next line when ready... -->
+    <div id="node_utilization_div"></div>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#nodeUtilizationTable" aria-expanded="false" aria-controls="nodeUtilizationTable">
+      Expand Node Utilization Information
+    </button>
+  </div>
+<!-- End Riana's addition for node utilization status table -->
+
+  <!--<div class="col-sm-4" id="perChassisAccessPoint" align="center"> -->
+  <div class="col-sm-3" id="perChassisAccessPoint" align="center">
     <!-- KR: collapsible button to expand healthTable div -->
     <button class="btn btn-primary" data-toggle="collapse" data-target="#chassisInfo" aria-expanded="false" aria-controls="chassisInfo">
       Detailed Information for Each Chassis
@@ -195,6 +210,20 @@
 	</table>
 
 </div>
+
+<!-- Begin Riana's addition of the node utilization status table -->
+<div class="collapse" id="nodeUtilizationTable">
+  <br></br>
+  <br></br>
+	<table id="node_utilization_table">
+	  <h4 class="combo-label">Node Utilization Status</h4>
+		<tr id= "node_utilization_table_HEADERS">
+      <!-- Column headers will be filled in dynamically according to file... -->
+		</tr>
+	</table>
+</div>
+<!-- End Riana's addition of the node utilization status table -->
+
 <!-- KG: Chassis Information table and drop down -->
 <div class="collapse" id="chassisInfo">
   <br></br>
@@ -276,6 +305,15 @@
     var numberOfNodesDOWN = 0;
     var numberOfNodesUNDERMAINTENANCE = 0;
 
+    //The following variables will assist in deriving the Node Utilization Status data from the per chassis info.
+    //Initialize to invalid values...
+    var indexNodesIdle = -1;
+    var indexNodesMixed = -1;
+    var indexNodesAllocated = -1;
+    var numberOfNodesIdle = 0;
+    var numberOfNodesMixed = 0;
+    var numberOfNodesAllocated = 0;
+
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
@@ -298,7 +336,7 @@
           //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
-            //If the current header is any of the categories indicated in Cluster Health Status,
+            //If the current header is any of the categories indicated in Cluster Health Status OR in Node Utilization Status,
             //  then mark this column accordingly for data collection when populating the rows of the table...
 
             if(headerRow[c].includes("Number of Nodes UP"))
@@ -312,6 +350,18 @@
             else if(headerRow[c].includes("Number of Nodes UNDER MAINTENANCE"))
             {
               indexNodesUNDERMAINTENANCE = c;
+            }
+            else if(headerRow[c].includes("Number of Nodes Idle"))
+            {
+              indexNodesIdle = c;
+            }
+            else if(headerRow[c].includes("Number of Nodes Mixed"))
+            {
+              indexNodesMixed = c;
+            }
+            else if(headerRow[c].includes("Number of Nodes Allocated"))
+            {
+              indexNodesAllocated = c;
             }
 
           }
@@ -358,6 +408,21 @@
               numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
             }
 
+            //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
+            //  if the current column represents one of these categories.
+            if(c === indexNodesIdle)
+            {
+              numberOfNodesIdle += parseInt(thisRow[c]);
+            }
+            if(c === indexNodesMixed)
+            {
+              numberOfNodesMixed += parseInt(thisRow[c]);
+            }
+            if(c === indexNodesAllocated)
+            {
+              numberOfNodesAllocated += parseInt(thisRow[c]);
+            }
+
           }
         }
       }
@@ -378,17 +443,38 @@
       if(indexNodesUNDERMAINTENANCE === -1) {
         numberOfNodesUNDERMAINTENANCE = "ERROR";
       }
+      if(indexNodesIdle === -1) {
+        numberOfNodesIdle = "ERROR";
+      }
+      if(indexNodesMixed === -1) {
+        numberOfNodesMixed = "ERROR";
+      }
+      if(indexNodesAllocated === -1) {
+        numberOfNodesAllocated = "ERROR";
+      }
 
-      //Create a JSON object containing the data.
+
+      //Create a JSON object containing the data for the Cluster Health Status table.
       var jsonDerivedClusterHealth = {
         "Number of Nodes UP": numberOfNodesUP,
         "Number of Nodes DOWN": numberOfNodesDOWN,
         "Number of Nodes UNDER MAINTENANCE": numberOfNodesUNDERMAINTENANCE
       };
 
+      //Create a JSON object containing the data for the Node Utilization Status table.
+      var jsonDerivedNodeUtilization = {
+        "Number of Nodes Idle": numberOfNodesIdle,
+        "Number of Nodes Mixed": numberOfNodesMixed,
+        "Number of Nodes Allocated": numberOfNodesAllocated
+      };
+
       //Call the function to populate the Cluster Health Status table.
       //Call this function here to avoid a race condition since javascript functions are non-blocking...
       populateHealthStatusTable(jsonDerivedClusterHealth);
+
+      //Call the function to populate the Node Utilization Status table.
+      //Call this function here to avoid a race condition since javascript functions are non-blocking...
+      populateNodeUtilizationStatusTable(jsonDerivedNodeUtilization);
     }
     //else { //do nothing...
     //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
@@ -496,6 +582,42 @@
     }
   }
 
+  //Define a function to populate the Node Utilization Status table with the data derived from the per chassis info.
+  //The data needed to populate this table is stored in a JSON object, passed into this function as an input parameter.
+  function populateNodeUtilizationStatusTable(derivedNodeUtilizationStatus)
+  {
+    //Access the HTML table to be updated with this data.
+    var nodeUtilizationTable = document.getElementById("node_utilization_table");
+
+    //Populate the headers.
+    for(var c = 0; c < Object.keys(derivedNodeUtilizationStatus).length; c++)
+    {
+      // Add an element to the current row in column c.
+      var newHeader = document.createElement("TH");
+      var newHeaderContent = document.createTextNode(Object.keys(derivedNodeUtilizationStatus)[c]);
+      newHeader.appendChild(newHeaderContent);
+      document.getElementById("node_utilization_table_HEADERS").appendChild(newHeader);
+    }
+
+    //ERROR CHECK...
+    console.log("WORKING ON NODE UTILIZATION STATUS TABLE...");
+
+    //Populate the rows...
+
+    //Add a row to the table.
+    //Reminder to self: If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
+    var newRow = nodeUtilizationTable.insertRow(1);
+
+    // Populate the newly created row...
+    // ***Note that (in a later iteration), the size of the table will need
+    // to potentially dynamically change to accommodate the longest data entry.***
+    for(var c = 0; c < Object.keys(derivedNodeUtilizationStatus).length; c++)
+    {
+      // Add a cell to the current row in column c.
+      var cell = newRow.insertCell(c);
+      cell.innerHTML = derivedNodeUtilizationStatus[Object.keys(derivedNodeUtilizationStatus)[c]];
+    }
+  }
   ////////////////////////////////////////
   ////////////////////////////////////////
 

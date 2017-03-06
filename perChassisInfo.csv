@@ -1,5 +1,5 @@
-Tues, Feb 28, 2017 02:20:15 PM
-Chassis Name,Utilization,Number of CPUs Available,Total Number of CPUs,Memory Utilization,Number of Nodes UP,Number of Nodes DOWN,Number of Nodes UNDER MAINTENANCE
-bc01,30%,8,112,5%,11,8,0
-bc02,15%,15,112,4%,17,1,2
-bc06,50%,30,220,10%,11,2,2
+Tues, Feb 28, 2017 02:20:15 PM,,,,,,,,
+Chassis Name,Utilization,Number of CPUs Available,Total Number of CPUs,Memory Utilization,Number of Nodes UP,Number of Nodes DOWN,Number of Nodes UNDER MAINTENANCE,Number of Nodes Idle,Number of Nodes Mixed,Number of Nodes Allocated
+bc01,30%,8,112,5%,12,8,0,3,12,5
+bc02,15%,15,112,4%,17,1,2,5,10,5
+bc06,50%,30,220,10%,16,2,2,10,0,10
