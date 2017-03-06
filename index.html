@@ -233,26 +233,32 @@
     <!-- submit button for per chasiss detailed information-->
     <input type="button" name="Submit Chassis" value="Submit single/multiple Chassis" onclick="return getSelectedOptions();" >
     <br> </br>
-    <script type="text/javascript">
-        var chasiss = [
-            { Name: "Chassis 1" },
-            { Name: "Chassis 2" },
-            { Name: "Chassis 3" },
-            { Name: "Chassis 4" }
-        ];
-        $(function () {
-            $("#checkboxSelectCombo").igCombo({
-                width: "270px",
-                dataSource: chasiss,
-                textKey: "Name",
-                valueKey: "Name",
-                multiSelection: {
-                    enabled: true,
-                    showCheckboxes: true
-                }
-            });
-        });
-    </script>
+
+    <!-- Riana: commented out this code and moved the necessary information to the script below so that the data will be accessible and
+        can then populate the HTML component via the ID assigned to the dropdown menu. -->
+
+    <!-- <script type="text/javascript">
+        //Riana: commented out contents of this array to work on aut-population and fixed the spelling of chassis
+        //Riana: to note - do not need objects here - just list the chassis names as strings and comma-separate the different chassis names in the array...
+        //var chassis = [
+            // { Name: "Chassis 1" },
+            // { Name: "Chassis 2" },
+            // { Name: "Chassis 3" },
+            // { Name: "Chassis 4" }
+        //];
+        // $(function () {
+        //     $("#checkboxSelectCombo").igCombo({
+        //         width: "270px",
+        //         dataSource: window.chassisNames, //Riana: fixed the spelling of chassis
+        //         textKey: "Name",
+        //         valueKey: "Name",
+        //         multiSelection: {
+        //             enabled: true,
+        //             showCheckboxes: true
+        //         }
+        //     });
+        // });
+    </script> -->
 
   <!--Riana: fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
   <table id="per_chassis_detailed_information_table">
@@ -286,6 +292,9 @@
   //Define a variable to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
   var init;
 
+  //The following variable will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
+//  var chassisNames = []; //no names collected yet; thus, initialize to an empty array
+
 
 
   //Place all code for populating a data file from a header in a function
@@ -299,7 +308,7 @@
     // as well in order to allow for the data file/data population to be dynamic.***
 
     //The following variables will assist in deriving the Cluster health data from the per chassis info.
-    //Initialize to invalid values...
+    //Initialize indices to invalid values...
     var indexNodesUP = -1;
     var indexNodesDOWN = -1;
     var indexNodesUNDERMAINTENANCE = -1;
@@ -308,13 +317,19 @@
     var numberOfNodesUNDERMAINTENANCE = 0;
 
     //The following variables will assist in deriving the Node Utilization Status data from the per chassis info.
-    //Initialize to invalid values...
+    //Initialize indices to invalid values...
     var indexNodesIdle = -1;
     var indexNodesMixed = -1;
     var indexNodesAllocated = -1;
     var numberOfNodesIdle = 0;
     var numberOfNodesMixed = 0;
     var numberOfNodesAllocated = 0;
+
+    //The following variable will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
+    //Initiliaze index to an invalid value...
+    var indexChassisNames = -1;
+    var chassisNames = []; //no names collected yet; thus, initialize to an empty array
+                           //(also - create and initialize variable here so the refresh will clear the array before re-populating)
 
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
@@ -338,7 +353,8 @@
           //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
-            //If the current header is any of the categories indicated in Cluster Health Status OR in Node Utilization Status,
+            //If the current header is any of the categories indicated in Cluster Health Status OR in Node Utilization Status OR
+            //  for auto-population of the Chassis Names dropdown menu,
             //  then mark this column accordingly for data collection when populating the rows of the table...
 
             if(headerRow[c].includes("Number of Nodes UP"))
@@ -364,6 +380,10 @@
             else if(headerRow[c].includes("Number of Nodes Allocated"))
             {
               indexNodesAllocated = c;
+            }
+            else if(headerRow[c].includes("Chassis Name"))
+            {
+              indexChassisNames = c;
             }
 
           }
@@ -425,6 +445,13 @@
               numberOfNodesAllocated += parseInt(thisRow[c]);
             }
 
+            //Assemble the list of chassis names to be used to auto-populate the dropdown menu
+            //  if the current column represents a chassis name.
+            if(c === indexChassisNames)
+            {
+              chassisNames.push(thisRow[c]);
+            }
+
           }
         }
       }
@@ -455,6 +482,7 @@
         numberOfNodesAllocated = "ERROR";
       }
 
+      //Do nothing if an empty array of chassis names (as the dropdown menu above will handle this)...
 
       //Create a JSON object containing the data for the Cluster Health Status table.
       var jsonDerivedClusterHealth = {
@@ -481,6 +509,23 @@
     //else { //do nothing...
     //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
     //}
+
+    //Populate the dropdown menu dynamically...
+    //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
+    //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
+    $(function () {
+        $("#checkboxSelectCombo").igCombo({
+            width: "270px",
+            dataSource: chassisNames, //Riana: fixed the spelling of chassis
+            textKey: "Name",
+            valueKey: "Name",
+            multiSelection: {
+                enabled: true,
+                showCheckboxes: true
+            }
+        });
+    });
+
   }
 
 
