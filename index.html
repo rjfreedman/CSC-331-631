@@ -292,14 +292,15 @@
   //Define a variable to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
   var init;
 
-  //The following variable will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
-//  var chassisNames = []; //no names collected yet; thus, initialize to an empty array
+  //Access the tables directly associated with data reported in the CSV files.
+  var overallStatusTable = document.getElementById("overall_status_table");
+  var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
 
 
 
   //Place all code for populating a data file from a header in a function
   //  to avoid duplication of code...
-  function populateTableFromCSVFile(rowsRead, headerID, rowID)
+  function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON)
   {
     // Iterate through each column in the table and insert the values of the row in
     // that element...
@@ -330,6 +331,7 @@
     var indexChassisNames = -1;
     var chassisNames = []; //no names collected yet; thus, initialize to an empty array
                            //(also - create and initialize variable here so the refresh will clear the array before re-populating)
+    var rowsToAdd = 0; //keep track of the row index that should be added to the table next (for use when filtering)
 
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
@@ -391,70 +393,161 @@
       }
       else { //Populate the non-header rows of the table...
 
-        // Add a row to the table.
-        var newRow = rowID.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
-
         // Parse this comma-delimited row...
         var thisRow = rowsRead[r].split(",");
 
-        // Populate the newly created row...
-        // ***Note that (in a later iteration), the size of the table will need
-        // to potentially dynamically change to accommodate the longest data entry.***
-        for(var c = 0; c < thisRow.length; c++)
+        // When filterON is true, ONLY create a new row if the Chassis Name is in the array rowsToDisplay.
+        // if(filterON)
+        // {
+        //   if(rowsToDisplay.includes(rowsRead[indexChassisNames]))
+        //   {
+        //
+        //   }
+        // }
+        // else //no filter is selected - display ALL rows...
+        // {
+        //
+        // }
+
+        //IF dealing with the per chassis table...
+        if(headerID === "per_chassis_detailed_information_table_HEADERS")
         {
-          // Add a cell to the current row in column c.
-          var cell = newRow.insertCell(c);
+console.log("\n\n\nDEBUG 0");
+console.log(thisRow[indexChassisNames]);
+console.log(rowsToDisplay.includes(thisRow[indexChassisNames]));
+console.log("DEBUG 1\n\n\n");
 
-          //Store the data in the new cell.
-          cell.innerHTML = thisRow[c];
-
-          //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
-          if(headerID === "per_chassis_detailed_information_table_HEADERS")
+          //Refresh the data from this row AND display the row in the per chassis table IF:
+          //  the rows are to be filtered and this row was selected
+          //  OR
+          //  the rows are NOT to be filtered (ie. all rows should be displayed)
+          if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames])) || (filterON === false))
           {
+            // Add a row to the table.
+            rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
+            var newRow = rowID.insertRow(rowsToAdd);
 
-            //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
-            //  if the current column represents one of these categories.
+            // Populate the newly created row...
+            // ***Note that (in a later iteration), the size of the table will need
+            // to potentially dynamically change to accommodate the longest data entry.***
+            for(var c = 0; c < thisRow.length; c++)
+            {
+              // Add a cell to the current row in column c.
+              var cell = newRow.insertCell(c);
 
-            if(c === indexNodesUP)
-            {
-              numberOfNodesUP += parseInt(thisRow[c]);
-            }
-            if(c === indexNodesDOWN)
-            {
-              //console.log("DOWN"); //error check
-              numberOfNodesDOWN += parseInt(thisRow[c]);
-            }
-            if(c === indexNodesUNDERMAINTENANCE)
-            {
-              //console.log("UM"); //error check
-              numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
-            }
+              //Store the data in the new cell.
+              cell.innerHTML = thisRow[c];
 
-            //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
-            //  if the current column represents one of these categories.
-            if(c === indexNodesIdle)
-            {
-              numberOfNodesIdle += parseInt(thisRow[c]);
-            }
-            if(c === indexNodesMixed)
-            {
-              numberOfNodesMixed += parseInt(thisRow[c]);
-            }
-            if(c === indexNodesAllocated)
-            {
-              numberOfNodesAllocated += parseInt(thisRow[c]);
-            }
+              //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
+              //  if the current column represents one of these categories.
 
-            //Assemble the list of chassis names to be used to auto-populate the dropdown menu
-            //  if the current column represents a chassis name.
-            if(c === indexChassisNames)
-            {
-              chassisNames.push(thisRow[c]);
-            }
+              if(c === indexNodesUP)
+              {
+                numberOfNodesUP += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesDOWN)
+              {
+                //console.log("DOWN"); //error check
+                numberOfNodesDOWN += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesUNDERMAINTENANCE)
+              {
+                //console.log("UM"); //error check
+                numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
+              }
 
+              //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
+              //  if the current column represents one of these categories.
+              if(c === indexNodesIdle)
+              {
+                numberOfNodesIdle += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesMixed)
+              {
+                numberOfNodesMixed += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesAllocated)
+              {
+                numberOfNodesAllocated += parseInt(thisRow[c]);
+              }
+
+              //Assemble the list of chassis names to be used to auto-populate the dropdown menu
+              //  if the current column represents a chassis name.
+              if(c === indexChassisNames)
+              {
+                chassisNames.push(thisRow[c]);
+              }
+            }
           }
-        }
-      }
+          else //filter is ON and this row was NOT selected - thus, refresh all data but do not display this row in the per chassis info table...
+          {
+            // Populate the newly created row...
+            // ***Note that (in a later iteration), the size of the table will need
+            // to potentially dynamically change to accommodate the longest data entry.***
+            for(var c = 0; c < thisRow.length; c++)
+            {
+              //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
+              //  if the current column represents one of these categories.
+
+              if(c === indexNodesUP)
+              {
+                numberOfNodesUP += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesDOWN)
+              {
+                //console.log("DOWN"); //error check
+                numberOfNodesDOWN += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesUNDERMAINTENANCE)
+              {
+                //console.log("UM"); //error check
+                numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
+              }
+
+              //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
+              //  if the current column represents one of these categories.
+              if(c === indexNodesIdle)
+              {
+                numberOfNodesIdle += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesMixed)
+              {
+                numberOfNodesMixed += parseInt(thisRow[c]);
+              }
+              if(c === indexNodesAllocated)
+              {
+                numberOfNodesAllocated += parseInt(thisRow[c]);
+              }
+
+              //Assemble the list of chassis names to be used to auto-populate the dropdown menu
+              //  if the current column represents a chassis name.
+              if(c === indexChassisNames)
+              {
+                chassisNames.push(thisRow[c]);
+              }
+            } //end for(... c < thisRow.length ...)
+          }
+        } //end if(headerID === "per_chassis_detailed_information_table_HEADERS")
+        else //if dealing with a table OTHER than the per chassis table, do not handle filters...
+        {
+          var newRow = rowID.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
+
+          // Parse this comma-delimited row...
+          var thisRow = rowsRead[r].split(",");
+
+          // Populate the newly created row...
+          // ***Note that (in a later iteration), the size of the table will need
+          // to potentially dynamically change to accommodate the longest data entry.***
+          for(var c = 0; c < thisRow.length; c++)
+          {
+            // Add a cell to the current row in column c.
+            var cell = newRow.insertCell(c);
+
+            //Store the data in the new cell.
+            cell.innerHTML = thisRow[c];
+          }
+        } //end else associated with if(headerID === "per_chassis_detailed_information_table_HEADERS")
+      } //end for(... r < rowsRead.length-1 ...)
     }
 
     //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
@@ -533,7 +626,7 @@
   //Define a function to access, open, and read a CSV data file.
   //Store the contents extracted from the file in a variable.
   //Place all of this code in a function to avoid duplication of code.
-  function readAndStoreData(fileName, idTableHeaders, idTableRows)
+  function readAndStoreData(fileName, idTableHeaders, idTableRows, rowsToDisplay, filterON)
   {
     // Declare a variable to hold the contents of the CSV file in...
     var csvFile = "";
@@ -591,7 +684,7 @@
 
     //Call the appropriate function to populate the data table associated with this data file.
     //Call this function here to avoid a race condition since javascript functions are non-blocking...
-    populateTableFromCSVFile(rows, idTableHeaders, idTableRows);
+    populateTableFromCSVFile(rows, idTableHeaders, idTableRows, rowsToDisplay, filterON);
   }
 
 
@@ -657,10 +750,6 @@
   //A refresh can occur on page load OR on pressing the refresh button.
   function refresh()
   {
-    //Access the tables directly associated with data reported in the CSV files.
-    var overallStatusTable = document.getElementById("overall_status_table");
-    var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
-
     //FIRST - clear the tables to be sure the refreshed data is NOT accidentally appended to the existing table...
     clearTable(overallStatusTable, document.getElementById("overall_status_table_HEADERS"));
     clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
@@ -668,12 +757,29 @@
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
-    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable);
+    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, [], false);
 
     //Populate the Per Chassis Info table...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable);
+    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, [], false);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
+
+    //FOR TESTING PURPOSES ONLY...
+    //filterPerChassisTableByDropdown(["bc01", "bc02", "a1a3"]);
+  }
+
+  //Define a function that will filter the table containing per chassis information to display only the rows containing the
+  //  chassis name(s) specified in the array passed in as a parameter.
+  //This function should be called when the SUBMIT button is clicked.
+  function filterPerChassisTableByDropdown(rowsToDisplay)
+  {
+    //FIRST - clear the table...
+    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+
+    //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
+    //  AND with the most up-to-date information...
+    //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
+    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true);
   }
 
   //Define the function that is called when the window is loaded...
