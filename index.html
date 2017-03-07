@@ -296,12 +296,25 @@
   var overallStatusTable = document.getElementById("overall_status_table");
   var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
 
+  //Indicate that a filter is currently in place such that the data should be refreshed with the per chassis table re-drawn only displaying the filtered rows...
+  var filterDropdownObserved;
+  var filterClickObserved;
+  var filterContent;
+
 
 
   //Place all code for populating a data file from a header in a function
   //  to avoid duplication of code...
   function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON, filterViaOtherTable)
   {
+    //Store information about the current filter in the event that the refresh button is clicked...
+    if(headerID === "per_chassis_detailed_information_table_HEADERS")
+    {
+      filterDropdownObserved = filterON;
+      filterClickObserved = filterViaOtherTable;
+      filterContent = rowsToDisplay;
+    }
+
     // Iterate through each column in the table and insert the values of the row in
     // that element...
     // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
@@ -757,10 +770,12 @@
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
-    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, [], false, false);
+    //readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, [], false, false);
+    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved);
 
     //Populate the Per Chassis Info table...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, [], false, false);
+    //readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, [], false, false);
+    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
 
@@ -806,6 +821,11 @@
   {
     //Indicate that the initial data read has not been completed yet.
     init = 0;
+
+    //Initialize the variables for data refresh to reflect that no filter is in place...
+    filterDropdownObserved = false;
+    filterClickObserved = false;
+    filterContent = [];
 
     //Call the refresh function...
     refresh();
