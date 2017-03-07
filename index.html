@@ -28,6 +28,11 @@
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
 
+    <!-- Riana: TESTING this as a way to add dependencies for using sortable tables - commented out for now -->
+    <!-- Resource: http://github.hubspot.com/sortable/ -->
+    <!-- <script src="sortable.min.js"></script>
+    <link rel="stylesheet" href="sortable-theme-bootstrap.css" /> -->
+
     <!-- HHL: Using google drive library for gauge graphics-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -262,15 +267,15 @@
 
   <!--Riana: fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
   <table id="per_chassis_detailed_information_table">
-                <tr id="per_chassis_detailed_information_table_HEADERS">
-                  <!-- Riana: commented out all table headers in order to auto-populate them -->
-                    <!-- <th>Chassis</th>
-                    <th>Utilization</th>
-                    <th>Number of CPUs Available</th>
-                    <th>Total Number of CPUs</th>
-                    <th>Memory Utilization</th> -->
-                </tr>
-            </table>
+      <tr id="per_chassis_detailed_information_table_HEADERS">
+        <!-- Riana: commented out all table headers in order to auto-populate them -->
+          <!-- <th>Chassis</th>
+          <th>Utilization</th>
+          <th>Number of CPUs Available</th>
+          <th>Total Number of CPUs</th>
+          <th>Memory Utilization</th> -->
+      </tr>
+  </table>
 </div> <!-- end chassisInfo div -->
 
 <!--Riana: added a space below the last table in order to be able to see the data in the last row of the table clearly -->
@@ -300,7 +305,7 @@
 
   //Place all code for populating a data file from a header in a function
   //  to avoid duplication of code...
-  function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON)
+  function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON, filterViaOtherTable)
   {
     // Iterate through each column in the table and insert the values of the row in
     // that element...
@@ -333,6 +338,10 @@
                            //(also - create and initialize variable here so the refresh will clear the array before re-populating)
     var rowsToAdd = 0; //keep track of the row index that should be added to the table next (for use when filtering)
 
+    //For filtering based on column content (if filterViaOtherTable === true)...
+    //Initiliaze index to an invalid value...
+    var specifiedColumnIndex = -1;
+
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
@@ -346,7 +355,7 @@
         for(var c = 0; c < headerRow.length; c++)
         {
           // Add an element to the current row in column c.
-          var newHeader = document.createElement("TH");
+          var newHeader = document.createElement("th");
           var newHeaderContent = document.createTextNode(headerRow[c]);
           newHeader.appendChild(newHeaderContent);
           document.getElementById(headerID).appendChild(newHeader);
@@ -355,6 +364,13 @@
           //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
+            //If the table is to be filtered to display only rows containing a value greater than zero in the selected column, determine the column to be addressed...
+            //Store its index in a variable
+            if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
+            {
+              specifiedColumnIndex = c;
+            }
+
             //If the current header is any of the categories indicated in Cluster Health Status OR in Node Utilization Status OR
             //  for auto-population of the Chassis Names dropdown menu,
             //  then mark this column accordingly for data collection when populating the rows of the table...
@@ -418,10 +434,10 @@ console.log(rowsToDisplay.includes(thisRow[indexChassisNames]));
 console.log("DEBUG 1\n\n\n");
 
           //Refresh the data from this row AND display the row in the per chassis table IF:
-          //  the rows are to be filtered and this row was selected
+          //  the rows are to be filtered and this row was selected AND this is not filtered by column content
           //  OR
           //  the rows are NOT to be filtered (ie. all rows should be displayed)
-          if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames])) || (filterON === false))
+          if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
           {
             // Add a row to the table.
             rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
@@ -479,6 +495,11 @@ console.log("DEBUG 1\n\n\n");
               }
             }
           }
+          // //If this row is to be filtered to only display rows with a value greater than 0 in the selected column...
+          // else if((filterON && filterViaOtherTable && thisRow[specifiedColumnIndex] > 0))
+          // {
+          //
+          // }
           else //filter is ON and this row was NOT selected - thus, refresh all data but do not display this row in the per chassis info table...
           {
             // Populate the newly created row...
@@ -626,7 +647,7 @@ console.log("DEBUG 1\n\n\n");
   //Define a function to access, open, and read a CSV data file.
   //Store the contents extracted from the file in a variable.
   //Place all of this code in a function to avoid duplication of code.
-  function readAndStoreData(fileName, idTableHeaders, idTableRows, rowsToDisplay, filterON)
+  function readAndStoreData(fileName, idTableHeaders, idTableRows, rowsToDisplay, filterON, filterViaOtherTable)
   {
     // Declare a variable to hold the contents of the CSV file in...
     var csvFile = "";
@@ -684,7 +705,7 @@ console.log("DEBUG 1\n\n\n");
 
     //Call the appropriate function to populate the data table associated with this data file.
     //Call this function here to avoid a race condition since javascript functions are non-blocking...
-    populateTableFromCSVFile(rows, idTableHeaders, idTableRows, rowsToDisplay, filterON);
+    populateTableFromCSVFile(rows, idTableHeaders, idTableRows, rowsToDisplay, filterON, filterViaOtherTable);
   }
 
 
@@ -702,6 +723,13 @@ console.log("DEBUG 1\n\n\n");
       // Add an element to the current row in column c.
       var newHeader = document.createElement("TH");
       var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
+
+      //When click the column header, filter by the information in these columns (ie. display only if a chassis made a contribution to the selected total)...
+      newHeader.onclick = function(){
+        filterByContributorsToThisColumn(this.innerHTML); //send the column header's text as the specification for the rows to be filtered by
+        console.log("FILTERING BY THIS ROW..."); //error check
+      };
+
       newHeader.appendChild(newHeaderContent);
       document.getElementById(tableHeadersID).appendChild(newHeader);
     }
@@ -757,10 +785,10 @@ console.log("DEBUG 1\n\n\n");
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
-    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, [], false);
+    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, [], false, false);
 
     //Populate the Per Chassis Info table...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, [], false);
+    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, [], false, false);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
 
@@ -773,13 +801,32 @@ console.log("DEBUG 1\n\n\n");
   //This function should be called when the SUBMIT button is clicked.
   function filterPerChassisTableByDropdown(rowsToDisplay)
   {
-    //FIRST - clear the table...
+    //FIRST - clear the tables...
     clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+    clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+    clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
     //  AND with the most up-to-date information...
     //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true);
+    //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
+    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false);
+  }
+
+  //Define a function that will filter the per chassis table by contributors to the column clicked on
+  //  (ie. rows whose value in that column is greater than 0).
+  function filterByContributorsToThisColumn(rowsToDisplay)
+  {
+    //FIRST - clear the table...
+    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+    clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+    clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
+
+    //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
+    //  AND with the most up-to-date information...
+    //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
+    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true);
+    console.log(rowsToDisplay);
   }
 
   //Define the function that is called when the window is loaded...

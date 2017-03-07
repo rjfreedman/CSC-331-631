@@ -2,5 +2,5 @@ Mon, Mar 6, 2017 09:20:15 AM
 Chassis Name,Utilization,Number of CPUs Available,Total Number of CPUs,Memory Utilization,Number of Nodes UP,Number of Nodes DOWN,Number of Nodes UNDER MAINTENANCE,Number of Nodes Idle,Number of Nodes Mixed,Number of Nodes Allocated
 bc01,30%,8,112,5%,12,8,0,3,12,5
 bc02,15%,15,112,4%,17,1,2,6,8,6
-bc06,50%,30,220,10%,16,2,2,11,1,8
-a1a3,75%,30,220,10%,16,2,2,11,1,1
+bc06,50%,30,220,10%,16,2,2,11,0,8
+a1a3,75%,30,220,10%,16,2,2,11,1,0
