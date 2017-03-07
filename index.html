@@ -235,10 +235,10 @@
     <br> </br>
 
     <!-- Riana: commented out this code and moved the necessary information to the script below so that the data will be accessible and
-        can then populate the HTML component via the ID assigned to the dropdown menu. -->
+        can then populate the HTML component via the ID assigned to the dropdown menu -->
 
     <!-- <script type="text/javascript">
-        //Riana: commented out contents of this array to work on aut-population and fixed the spelling of chassis
+        //Riana: commented out contents of this array to work on auto-population and fixed the spelling of chassis
         //Riana: to note - do not need objects here - just list the chassis names as strings and comma-separate the different chassis names in the array...
         //var chassis = [
             // { Name: "Chassis 1" },
@@ -339,7 +339,7 @@
     var numberOfNodesMixed = 0;
     var numberOfNodesAllocated = 0;
 
-    //The following variable will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
+    //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
     //Initiliaze index to an invalid value...
     var indexChassisNames = -1;
     var chassisNames = []; //no names collected yet; thus, initialize to an empty array
@@ -373,7 +373,7 @@
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
             //If the table is to be filtered to display only rows containing a value greater than zero in the selected column, determine the column to be addressed...
-            //Store its index in a variable
+            //  Store its index in a variable.
             if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
             {
               specifiedColumnIndex = c;
@@ -424,7 +424,9 @@
         if(headerID === "per_chassis_detailed_information_table_HEADERS")
         {
           //Refresh the data from this row AND display the row in the per chassis table IF:
-          //  the rows are to be filtered and this row was selected AND this is not filtered by column content
+          //  the rows are to be filtered AND this row was selected AND this is not filtered by column content
+          //  OR
+          //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
           //  OR
           //  the rows are NOT to be filtered (ie. all rows should be displayed)
           if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
@@ -709,7 +711,8 @@
       var newHeader = document.createElement("TH");
       var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
 
-      //When click the column header, filter by the information in these columns (ie. display only if a chassis made a contribution to the selected total)...
+      //For the Cluster Health Status and Node Utilization Status tables:
+      //  when the column header is clicked, filter by the information in these columns (ie. display only if a chassis made a contribution to the selected total)...
       newHeader.onclick = function(){
         filterByContributorsToThisColumn(this.innerHTML); //send the column header's text as the specification for the rows to be filtered by
         console.log("FILTERING BY THIS ROW..."); //error check
@@ -770,11 +773,9 @@
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
-    //readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, [], false, false);
     readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved);
 
     //Populate the Per Chassis Info table...
-    //readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, [], false, false);
     readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
@@ -796,7 +797,6 @@
     //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
     //  AND with the most up-to-date information...
     //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
-    //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
     readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false);
   }
 
@@ -804,16 +804,18 @@
   //  (ie. rows whose value in that column is greater than 0).
   function filterByContributorsToThisColumn(rowsToDisplay)
   {
-    //FIRST - clear the table...
+    //FIRST - clear the tables...
     clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
     clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
     //  AND with the most up-to-date information...
-    //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
+    //  Note that the filterON parameter of the function indicates that an array with the column to filter by is provided...
+    //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
     readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true);
-    console.log(rowsToDisplay);
+
+    console.log(rowsToDisplay); //error check
   }
 
   //Define the function that is called when the window is loaded...
