@@ -28,11 +28,6 @@
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
     <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
 
-    <!-- Riana: TESTING this as a way to add dependencies for using sortable tables - commented out for now -->
-    <!-- Resource: http://github.hubspot.com/sortable/ -->
-    <!-- <script src="sortable.min.js"></script>
-    <link rel="stylesheet" href="sortable-theme-bootstrap.css" /> -->
-
     <!-- HHL: Using google drive library for gauge graphics-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -412,27 +407,9 @@
         // Parse this comma-delimited row...
         var thisRow = rowsRead[r].split(",");
 
-        // When filterON is true, ONLY create a new row if the Chassis Name is in the array rowsToDisplay.
-        // if(filterON)
-        // {
-        //   if(rowsToDisplay.includes(rowsRead[indexChassisNames]))
-        //   {
-        //
-        //   }
-        // }
-        // else //no filter is selected - display ALL rows...
-        // {
-        //
-        // }
-
         //IF dealing with the per chassis table...
         if(headerID === "per_chassis_detailed_information_table_HEADERS")
         {
-console.log("\n\n\nDEBUG 0");
-console.log(thisRow[indexChassisNames]);
-console.log(rowsToDisplay.includes(thisRow[indexChassisNames]));
-console.log("DEBUG 1\n\n\n");
-
           //Refresh the data from this row AND display the row in the per chassis table IF:
           //  the rows are to be filtered and this row was selected AND this is not filtered by column content
           //  OR
@@ -495,11 +472,6 @@ console.log("DEBUG 1\n\n\n");
               }
             }
           }
-          // //If this row is to be filtered to only display rows with a value greater than 0 in the selected column...
-          // else if((filterON && filterViaOtherTable && thisRow[specifiedColumnIndex] > 0))
-          // {
-          //
-          // }
           else //filter is ON and this row was NOT selected - thus, refresh all data but do not display this row in the per chassis info table...
           {
             // Populate the newly created row...
