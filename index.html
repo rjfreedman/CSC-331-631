@@ -30,7 +30,7 @@
 
     <!-- HHL: Using google drive library for gauge graphics-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
        google.charts.load('current', {'packages':['gauge', 'corechart']});
        google.charts.setOnLoadCallback(drawChart);
        function drawChart() {
@@ -51,13 +51,13 @@
            chart.draw(data, options);
          }, 13000);
        }
-   </script>
+   </script> -->
 
     <!--START Alexis code for health status infographic -->
 
       <!--Load the AJAX API-->
      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-     <script type="text/javascript">
+     <!-- <script type="text/javascript">
 
        // Load the Visualization API and the corechart package.
        //google.charts.load('current', {'packages':['corechart']});
@@ -89,7 +89,7 @@
          var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
          pichart.draw(pidata, pioptions);
        }
-     </script>
+     </script> -->
 
     <!--END Alexis code for health status infographic -->
 
@@ -304,7 +304,72 @@
   var filterClickObserved;
   var filterContent;
 
+  //FOR INFOGRAPHICS
+  google.charts.load('current', {'packages':['gauge', 'corechart']});
 
+  //BEGIN CODE FOR OVERALL STATUS INFOGRAPHIC
+  var numberOfCPUsConsumed;
+  var totalNumberOfCPUs;
+
+  var fractionOfCPUsConsumed;
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Label', 'Value'],
+      ['Overall Status', fractionOfCPUsConsumed],
+    ]);
+    var options = {
+      width: 420, height: 200,
+      redFrom: 90, redTo: 100,
+      yellowFrom:75, yellowTo: 90,
+      minorTicks: 5
+    };
+    var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+    chart.draw(data, options);
+    setInterval(function() {
+      data.setValue(fractionOfCPUsConsumed);
+      chart.draw(data, options);
+    }, 13000);
+  }
+
+  //END CODE FOR OVERALL STATUS INFOGRAPHIC
+
+
+  //BEGIN CODE FOR HEALTH STATUS INFOGRAPHIC
+
+  // Load the Visualization API and the corechart package.
+  //google.charts.load('current', {'packages':['corechart']});
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  var numberOfNodesUP;
+  var numberOfNodesDOWN;
+  var numberOfNodesUNDERMAINTENANCE;
+
+  function drawPiChart() {
+
+    // Create the data table.
+    var pidata = new google.visualization.DataTable();
+    pidata.addColumn('string', 'Node Status');
+    pidata.addColumn('number', 'Nodes');
+    pidata.addRows([
+      ['Nodes Up', numberOfNodesUP],
+      ['Nodes Down', numberOfNodesDOWN],
+      ['Under Maintenance', numberOfNodesUNDERMAINTENANCE]
+    ]);
+
+    // Set chart options
+    var pioptions = {
+                   'width':420,
+                   'height':200};
+
+    // Instantiate and draw our chart, passing in some options.
+    var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+    pichart.draw(pidata, pioptions);
+  }
+
+  //END CODE FOR HEALTH STATUS INFOGRAPHIC
 
   //Place all code for populating a data file from a header in a function
   //  to avoid duplication of code...
@@ -329,9 +394,9 @@
     var indexNodesUP = -1;
     var indexNodesDOWN = -1;
     var indexNodesUNDERMAINTENANCE = -1;
-    var numberOfNodesUP = 0;
-    var numberOfNodesDOWN = 0;
-    var numberOfNodesUNDERMAINTENANCE = 0;
+    numberOfNodesUP = 0;
+    numberOfNodesDOWN = 0;
+    numberOfNodesUNDERMAINTENANCE = 0;
 
     //The following variables will assist in deriving the Node Utilization Status data from the per chassis info.
     //Initialize indices to invalid values...
@@ -341,6 +406,11 @@
     var numberOfNodesIdle = 0;
     var numberOfNodesMixed = 0;
     var numberOfNodesAllocated = 0;
+
+    //The following variables will assist in deriving the information required to fill in the data of the Overall Cluster Status infographic.
+    var indexNumberOfCPUsConsumed = -1;
+    var indexTotalNumberOfCPUs = -1;
+    totalNumberOfCPUs = 0;
 
     //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
     //Initiliaze index to an invalid value...
@@ -370,6 +440,15 @@
           var newHeaderContent = document.createTextNode(headerRow[c]);
           newHeader.appendChild(newHeaderContent);
           document.getElementById(headerID).appendChild(newHeader);
+
+          //IF this is the Overall Cluster Status information - gather data dynamically...
+          if(headerID === "overall_status_table_HEADERS")
+          {
+            if(headerRow[c].includes("Number of CPUs"))
+            {
+              indexNumberOfCPUsConsumed = c;
+            }
+          }
 
           //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
           //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
@@ -413,6 +492,10 @@
             else if(headerRow[c].includes("Chassis Name"))
             {
               indexChassisNames = c;
+            }
+            else if(headerRow[c].includes("Total Number of CPUs"))
+            {
+              indexTotalNumberOfCPUs = c;
             }
 
           }
@@ -482,6 +565,12 @@
                 numberOfNodesAllocated += parseInt(thisRow[c]);
               }
 
+              //Add (the numberical equivalent of) the number of CPUs total for the Overall Cluster Status infographic.
+              if(c === indexTotalNumberOfCPUs)
+              {
+                totalNumberOfCPUs += parseInt(thisRow[c]);
+              }
+
               //Assemble the list of chassis names to be used to auto-populate the dropdown menu
               //  if the current column represents a chassis name.
               if(c === indexChassisNames)
@@ -530,6 +619,12 @@
                 numberOfNodesAllocated += parseInt(thisRow[c]);
               }
 
+              //Add (the numberical equivalent of) the number of CPUs total for the Overall Cluster Status infographic.
+              if(c === indexTotalNumberOfCPUs)
+              {
+                totalNumberOfCPUs += parseInt(thisRow[c]);
+              }
+
               //Assemble the list of chassis names to be used to auto-populate the dropdown menu
               //  if the current column represents a chassis name.
               if(c === indexChassisNames)
@@ -556,6 +651,15 @@
 
             //Store the data in the new cell.
             cell.innerHTML = thisRow[c];
+
+            if(headerID === "overall_status_table_HEADERS")
+            {
+              console.log("HERE in overall table" + thisRow[c]);
+              if(c === indexNumberOfCPUsConsumed)
+              {
+                numberOfCPUsConsumed = thisRow[c];
+              }
+            }
           }
         } //end else associated with if(headerID === "per_chassis_detailed_information_table_HEADERS")
       } //end for(... r < rowsRead.length-1 ...)
@@ -585,6 +689,9 @@
       if(indexNodesAllocated === -1) {
         numberOfNodesAllocated = "ERROR";
       }
+      if(indexTotalNumberOfCPUs === -1) {
+        totalNumberOfCPUs = "ERROR";
+      }
 
       //Do nothing if an empty array of chassis names (as the dropdown menu above will handle this)...
 
@@ -609,6 +716,17 @@
       //Call the function to populate the Node Utilization Status table.
       //Call this function here to avoid a race condition since javascript functions are non-blocking...
       populateDerivedTable(jsonDerivedNodeUtilization, "node_utilization_table", "node_utilization_table_HEADERS");
+
+      //FOR OVERALL CLUSTER STATUS
+      fractionOfCPUsConsumed = (numberOfCPUsConsumed / totalNumberOfCPUs) * 100;
+      console.log("FRACTION: " + fractionOfCPUsConsumed);
+      console.log("DIVISION: " + numberOfCPUsConsumed + " " + totalNumberOfCPUs);
+      google.charts.setOnLoadCallback(drawChart);
+
+      //FOR CLUSTER HEALTH STATUS INFOGRAPHIC
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawPiChart);
+
     }
     //else { //do nothing...
     //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
