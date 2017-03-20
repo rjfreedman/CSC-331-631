@@ -31,7 +31,7 @@
     <!-- HHL: Using google drive library for gauge graphics-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-       google.charts.load('current', {'packages':['gauge']});
+       google.charts.load('current', {'packages':['gauge', 'corechart']});
        google.charts.setOnLoadCallback(drawChart);
        function drawChart() {
          var data = google.visualization.arrayToDataTable([
@@ -53,40 +53,43 @@
        }
    </script>
 
-   <!--START Alexis code for health status infographic -->
-     <!-- <script type="text/javascript">
+    <!--START Alexis code for health status infographic -->
 
-      //loads the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
+      <!--Load the AJAX API-->
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script type="text/javascript">
 
-      // sets a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawPieChart);
+       // Load the Visualization API and the corechart package.
+       //google.charts.load('current', {'packages':['corechart']});
 
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawPieChart() {
+       // Set a callback to run when the Google Visualization API is loaded.
+       google.charts.setOnLoadCallback(drawPiChart);
 
-        // Create the data table.
-        var dataPie = new google.visualization.DataTable();
-        data.addColumn('string', 'Node Status');
-        data.addColumn('number', 'Nodes');
-        data.addRows([
-          ['Up', 24],
-          ['Down', 3],
-          ['Under Maintenance', 1]
-        ]);
+       // Callback that creates and populates a data table,
+       // instantiates the pie chart, passes in the data and
+       // draws it.
+       function drawPiChart() {
 
-        // Set chart options
-        var optionsPie = {'title':'Node Health Status',
-                       'width':400,
-                       'height':300};
+         // Create the data table.
+         var pidata = new google.visualization.DataTable();
+         pidata.addColumn('string', 'Node Status');
+         pidata.addColumn('number', 'Nodes');
+         pidata.addRows([
+           ['Nodes Up', 256],
+           ['Nodes Down', 16],
+           ['Under Maintenance', 4]
+         ]);
 
-        // Instantiate and draw our chart, passing in some options.
-        var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
-        chart.draw(dataPie, optionsPie);
-      }
-    </script> -->
+         // Set chart options
+         var pioptions = {
+                        'width':420,
+                        'height':200};
+
+         // Instantiate and draw our chart, passing in some options.
+         var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+         pichart.draw(pidata, pioptions);
+       }
+     </script>
 
     <!--END Alexis code for health status infographic -->
 
