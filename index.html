@@ -30,6 +30,27 @@
 
     <!-- HHL: Using google drive library for gauge graphics-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- <script type="text/javascript">
+       google.charts.load('current', {'packages':['gauge', 'corechart']});
+       google.charts.setOnLoadCallback(drawChart);
+       function drawChart() {
+         var data = google.visualization.arrayToDataTable([
+           ['Label', 'Value'],
+           ['Overall Status', 80],
+         ]);
+         var options = {
+           width: 420, height: 200,
+           redFrom: 90, redTo: 100,
+           yellowFrom:75, yellowTo: 90,
+           minorTicks: 5
+         };
+         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+         chart.draw(data, options);
+         setInterval(function() {
+           data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+           chart.draw(data, options);
+         }, 13000);
+       }
    </script> -->
 
     <!--START Alexis code for health status infographic -->
@@ -69,46 +90,6 @@
          pichart.draw(pidata, pioptions);
        }
      </script> -->
-
-
-   </script>
-
-   <!--START Alexis code for health status infographic -->
-     <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-
-      // Load the Visualization API and the corechart package.
-      //google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawPiChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawPiChart() {
-
-        // Create the data table.
-        var pidata = new google.visualization.DataTable();
-        pidata.addColumn('string', 'Node Status');
-        pidata.addColumn('number', 'Nodes');
-        pidata.addRows([
-          ['Nodes Up', 256],
-          ['Nodes Down', 16],
-          ['Under Maintenance', 4]
-        ]);
-
-        // Set chart options
-        var pioptions = {
-                       'width':420,
-                       'height':200};
-
-        // Instantiate and draw our chart, passing in some options.
-        var pichart = new google.visualization.PieChart(document.getElementById('pichart_div'));
-        pichart.draw(pidata, pioptions);
-      }
-    </script>
 
     <!--END Alexis code for health status infographic -->
 
@@ -171,7 +152,7 @@
   <!--<div class="col-sm-4" id="clusterHealthFirstView" align="center"> -->
   <div class="col-sm-3" id="clusterHealthFirstView" align="center">
     <!-- KR: put clusterHealthInfographic in the following <figure></figure> -->
-    <div id="pichart_div"></div>
+    <div id="piechart_div"></div>
     <!-- KR: collapsible button to expand healthTable div -->
     <button class="btn btn-primary" data-toggle="collapse" data-target="#healthTable" aria-expanded="false" aria-controls="healthTable">
       More Cluster Health Information
