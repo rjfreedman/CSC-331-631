@@ -371,6 +371,32 @@
 
   //END CODE FOR HEALTH STATUS INFOGRAPHIC
 
+  //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
+
+  var fractionOfNodesAllocated;
+
+  function drawAllocatedChart(){
+      var allocatedData=google.visualization.arrayToDataTable([
+          ['Label','Value'],
+          ['Allocation', fractionOfNodesAllocated],
+      ]);
+      var allocatedOptions = {
+                 width: 420, height: 200,
+                 redFrom: 90, redTo: 100,
+                 yellowFrom:75, yellowTo: 90,
+                 minorTicks: 5
+           };
+           var allocatedChart = new google.visualization.Gauge(document.getElementById('node_utilization_div'));
+           allocatedChart.draw(allocatedData, allocatedOptions);
+          //  setInterval(function() {
+          //    allocatedData.setValue(fractionOfCPUsConsumed);
+          //    chart.draw(allocatedData, allocatedOptions);
+          //  }, 13000);
+  }
+
+  //END CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
+
+
   //Place all code for populating a data file from a header in a function
   //  to avoid duplication of code...
   function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON, filterViaOtherTable)
@@ -727,6 +753,9 @@
       // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawPiChart);
 
+      //For Node Utilization Status table
+      fractionOfNodesAllocated = (numberOfNodesAllocated / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
+      google.charts.setOnLoadCallback(drawAllocatedChart);
     }
     //else { //do nothing...
     //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
