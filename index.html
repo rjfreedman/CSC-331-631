@@ -2,10 +2,15 @@
 <html lang = "en">
 <head>
   <title> DEAC Cluster System Monitor </title>
+  <!-- The icon that appears in the tab -->
+  <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
   <!-- charset allows bootstrap characters -->
   <meta charset = "utf-8">
   <!-- viewport should allow bootstrap to resize for viewing device -->
   <meta name = "viewport" content = "width = device-width, initial-scale =1">
+  <!-- KR: stylesheet specific to system monitor page -->
+  <link rel="stylesheet" type="text/css" href="SysMonitorStyle.css">
+
   <!-- Getting the bootstrap libraries for CSS from a CDN-->
   <!-- KR: Getting the bootstrap libraries for CSS from a CDN-->
   <!-- KR: add bootstrap for CSS, jquery and JavaScript -->
@@ -17,20 +22,20 @@
 
   <!-- KG: needs these bootstrap and style for drop down menu check box functionality -->
   <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-    <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" />
-    <!-- KR: modernizr allows it to run on old systems like IE7 -->
-    <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
-    <!-- KR: removing this jquery because I needed 3.1.1 earlier
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
-    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-
-    <!-- KG: Ignite UI Required Combined JavaScript Files -->
-    <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
-    <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
-
-    <!-- HHL: Using google drive library for gauge graphics-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <!-- <script type="text/javascript">
+  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" />
+  <!-- KR: modernizr allows it to run on old systems like IE7 -->
+  <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+  <!-- KR: removing this jquery because I needed 3.1.1 earlier
+       <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+  
+  <!-- KG: Ignite UI Required Combined JavaScript Files -->
+  <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
+  <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
+  
+  <!-- HHL: Using google drive library for gauge graphics-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- <script type="text/javascript">
        google.charts.load('current', {'packages':['gauge', 'corechart']});
        google.charts.setOnLoadCallback(drawChart);
        function drawChart() {
@@ -53,12 +58,12 @@
        }
    </script> -->
 
-    <!--START Alexis code for health status infographic -->
+  <!--START Alexis code for health status infographic -->
 
-      <!--Load the AJAX API-->
-     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-     <!-- <script type="text/javascript">
-
+  <!--Load the AJAX API-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- <script type="text/javascript">
+       
        // Load the Visualization API and the corechart package.
        //google.charts.load('current', {'packages':['corechart']});
 
@@ -91,194 +96,219 @@
        }
      </script> -->
 
-    <!--END Alexis code for health status infographic -->
+  <!--END Alexis code for health status infographic -->
 
-    <style>
-            .combo-label {margin-bottom:.5em; align-items:right; }
-    </style>
-    <!-- Lee's table style currently styling ALL tables on page -->
-    <!-- Riana: added the text-align: center specification when populating the data for readability -->
-    <style>
-            table, tr, th{
-                border: 1px solid black;
-                border-collapse: collapse;
-                text-align: center;
-            }
-            tr, th{
-                padding: 5px
-            }
-        </style>
+  <style>
+    .combo-label {margin-bottom:.5em; align-items:right; }
+  </style>
+  <!-- Lee's table style currently styling ALL tables on page -->
+  <!-- Riana: added the text-align: center specification when populating the data for readability -->
+  <style>
+    table, tr, th{
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    tr, th{
+      padding: 5px
+    }
+  </style>
 
 
 </head>
 <body>
   <!-- adding containers to ensure the page resizes well on different devices -->
-<div class="container-fluid">
-  <div class = "row">
+<div class="container-fluid bg bg-2"> <!-- contains portion of page over image -->
+  <div class="container-fluid">
+  <div class="row">
     <!-- KR: This is the top of the page, small container at each side for logo/update info, large box in middle for title -->
-    <div class="col-sm-2"><p id="logo">logo?</p> </div>
-    <div class="col-sm-8"><h1 id="pageTitle" align="center">DEAC Cluster System Monitor</h1></div>
-    <div class="col-sm-2">
-      <!-- KR: divs for current time and last update time JS fills current, need to add last update time functionality-->
-      <p id="currentDateTime"></p>
-      <script>
-	document.getElementById("currentDateTime").innerHTML=Date()
-      </script>
-      <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
-      <p id="lastUpdateDateTimeStatic">Site last updated:</p>
-      <p id="lastUpdateDateTime"></p>
-      <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
-      <button class="btn" onclick="refresh()">Refresh</button><br><br>
-      <!-- Riana: added this line of information as note regarding refresh -->
-      <p><i>*Please Note:<br>Data is updated hourly.</i></p><br>
-
+    <div class="col-sm-1">
+      <img src="http://www.deac.wfu.edu/images/favicon.png" class="img-responsive" style="display:inline" alt="logo" width="150" height="150" id="logo">
     </div>
+    <div class="col-sm-10">
+      <h1 id="pageTitle" align="left" style="font-weight: 900">DEAC Cluster</h1>
+      <h3 align="left" style="font-weight: 700">System Monitor</h3>
+    </div>
+    <div class="col-sm-1">
+    </div>
+  </div> <!-- close row div -->
   </div>
 
-<!-- Riana: I changed all div classes to "col-sm-3" to have a row of 4 items in the initial view... -->
-  <div class="row" id="initialView">
+  <div class="container-fluid">
+  <!-- Riana: I changed all div classes to "col-sm-3" to have a row of 4 items in the initial view... -->
+  <div class="row" id="initialView" align="center">
     <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
     <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
-    <!--<div class="col-sm-4" id="clusterStatusFirstView" align="center">-->
-    <div class="col-sm-3" id="clusterStatusFirstView" align="center">
-      <!-- KR: put clusterStatusInfographis in the following <figure></figure> -->
-     <div id="chart_div" style="font-size: 15px"></div>
-      <!-- KR: collapsible button to expand statusTable div -->
-      <button class="btn btn-primary" data-toggle="collapse" data-target="#statusTable">
-	More Cluster Status Information
-      </button>
-    </div>
+    <!-- Add padding at sides, if you do make two gauge columns 3 <div class="col-sm-1"></div>-->
+    <div class="col-sm-4" id="clusterStatusFirstView">
+      <div class="panel panel-default" id="StatusInfographicPanel">
+	<div class="panel-heading"><h3>Cluster Status</h3></div>
+	<div class="panel-body">
+	  <div id="chart_div" style="width: 100%; height: 200px;"></div>
+	  <!-- KR: collapsible button to expand statusTable div -->
+	  <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#statusTable">
+	    Expand Cluster Status
+	  </button>
+	</div>
+      </div>
+    </div><!-- end column div -->
 
-  <!--<div class="col-sm-4" id="clusterHealthFirstView" align="center"> -->
-  <div class="col-sm-3" id="clusterHealthFirstView" align="center">
-    <!-- KR: put clusterHealthInfographic in the following <figure></figure> -->
-    <div id="piechart_div"></div>
-    <!-- KR: collapsible button to expand healthTable div -->
-    <button class="btn btn-primary" data-toggle="collapse" data-target="#healthTable" aria-expanded="false" aria-controls="healthTable">
-      More Cluster Health Information
-    </button>
-  </div>
+    <div class="col-sm-4" id="clusterHealthFirstView" align="center">
+      <div class="panel panel-default" id="HealthInfographicPanel">
+	<div class="panel panel-heading"><h3>Cluster Health</h3></div>
+	<div class="panel-body">
+	  <div id="piechart_div" style="width: 100%; height: 200px;"></div>
+	  <!-- KR: collapsible button to expand healthTable div -->
+	  <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#healthTable">
+	    Expand Cluster Health
+	  </button>
+	</div>
+      </div>
+    </div><!-- end column div -->
 
-<!-- Begin Riana's addition for node utilization status table -->
-  <div class="col-sm-3" id="nodeUtilizationStatusFirstView" align="center">
-    <!-- Replace the id in the next line when ready... -->
-    <div id="node_utilization_div"></div>
-    <button class="btn btn-primary" data-toggle="collapse" data-target="#nodeUtilizationTable" aria-expanded="false" aria-controls="nodeUtilizationTable">
-      Expand Node Utilization Information
-    </button>
-  </div>
-<!-- End Riana's addition for node utilization status table -->
-
-  <!--<div class="col-sm-4" id="perChassisAccessPoint" align="center"> -->
-  <div class="col-sm-3" id="perChassisAccessPoint" align="center">
-    <!-- KR: collapsible button to expand healthTable div -->
-    <button class="btn btn-primary" data-toggle="collapse" data-target="#chassisInfo" aria-expanded="false" aria-controls="chassisInfo">
-      Detailed Information for Each Chassis
-    </button>
-  </div>
-</div> <!-- end 3 column responsive row -->
+    <!-- Begin Riana's addition for node utilization status table -->
+    <div class="col-sm-4" id="nodeUtilizationStatusFirstView" align="center">
+      <!-- Replace the id in the next line when ready... -->
+      <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
+	<div class="panel panel-heading"><h3>Node Utilization</h3></div>
+	<div class="panel panel-body">
+	  <div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
+	  <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#nodeUtilizationTable">
+	    Expand Node Utilization
+	  </button>
+	</div>
+      </div>
+    </div><!-- end column div -->
+    <!-- End Riana's addition for node utilization status table -->
+    <!--<div class="col-sm-1"></div> -->
+  </div><!-- end row div for infographics -->
+  </div><!-- end container-fluid that contains infographics -->
+<!--</div> end container with background image -->
 
 <!-- KR: following divs must have class="Collapse" so that collapse buttons work -->
-<div class="collapse" id="statusTable">
+<div class="collapse container-fluid bg-1" id="statusTable">
   <!-- Status Table by Lee -->
   <!-- KR: br adds vertical space before the table, play with these to achieve optimal spacing -->
-  <br></br>
-  <br></br>
   <table id="overall_status_table">
     <h4 class="combo-label">Overall Cluster Status</h4>
     <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
     <tr id="overall_status_table_HEADERS">
       <!-- Riana: commented out all table headers in order to auto-populate them -->
       <!-- <th>Running Jobs</th>
-      <th>Queued Jobs</th>
+	   <th>Queued Jobs</th>
       <th>Number of CPUs</th> -->
     </tr>
   </table>
 </div>
 
-<div class="collapse" id="healthTable">
-  <br></br>
-  <br></br>
-<!-- Health Status Table by AA -->
-	<table id="health_table">
-	  <h4 class="combo-label">Cluster Health Status</h4>
+<div class="collapse container-fluid bg-1" id="healthTable">
+  <!-- Health Status Table by AA -->
+  <table id="health_table">
+    <h4 class="combo-label">Cluster Health Status</h4>
     <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-		<tr id= "health_table_HEADERS">
+    <tr id= "health_table_HEADERS">
       <!-- Riana: commented out all table headers in order to auto-populate them. -->
-			<!-- <th>Number of Nodes Up</th>
-			<th>Number of Nodes Down</th>
-			<th>Number of Nodes Under Maintenance</th> -->
-		</tr>
-
-	</table>
-
+      <!-- <th>Number of Nodes Up</th>
+	   <th>Number of Nodes Down</th>
+      <th>Number of Nodes Under Maintenance</th> -->
+    </tr>
+  </table>
 </div>
 
 <!-- Begin Riana's addition of the node utilization status table -->
-<div class="collapse" id="nodeUtilizationTable">
-  <br></br>
-  <br></br>
-	<table id="node_utilization_table">
-	  <h4 class="combo-label">Node Utilization Status</h4>
-		<tr id= "node_utilization_table_HEADERS">
+<div class="collapse container-fluid bg-1" id="nodeUtilizationTable">
+  <table id="node_utilization_table">
+    <h4 class="combo-label">Node Utilization Status</h4>
+    <tr id= "node_utilization_table_HEADERS">
       <!-- Column headers will be filled in dynamically according to file... -->
-		</tr>
-	</table>
+    </tr>
+  </table>
 </div>
+
 <!-- End Riana's addition of the node utilization status table -->
+<div class="container-fluid">
+<!--<div class="row" id="ChassisButtonContainer">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10" id="perChassisAccessPoint" align="center">
+    <!-- KR: collapsible button to expand healthTable div -->
+    <button class="btn btn-1 btn-block" data-toggle="collapse" data-target="#chassisInfo" aria-expanded="false" aria-controls="chassisInfo">
+      Detailed Information for Each Chassis
+    </button>
+ <!-- </div>
+  <div class="col-sm-1"></div>
+</div> -->
+</div>
 
 <!-- KG: Chassis Information table and drop down -->
-<div class="collapse" id="chassisInfo">
-  <br></br>
-        <br></br>
-    <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4>
-    <div id="checkboxSelectCombo" ></div>
-    <!-- submit button for per chasiss detailed information-->
-    <input type="button" name="Submit Chassis" value="Submit single/multiple Chassis" onclick="return getSelectedOptions();" >
-    <br> </br>
-
-    <!-- Riana: commented out this code and moved the necessary information to the script below so that the data will be accessible and
-        can then populate the HTML component via the ID assigned to the dropdown menu -->
-
-    <!-- <script type="text/javascript">
-        //Riana: commented out contents of this array to work on auto-population and fixed the spelling of chassis
-        //Riana: to note - do not need objects here - just list the chassis names as strings and comma-separate the different chassis names in the array...
-        //var chassis = [
-            // { Name: "Chassis 1" },
-            // { Name: "Chassis 2" },
-            // { Name: "Chassis 3" },
-            // { Name: "Chassis 4" }
-        //];
-        // $(function () {
-        //     $("#checkboxSelectCombo").igCombo({
-        //         width: "270px",
-        //         dataSource: window.chassisNames, //Riana: fixed the spelling of chassis
-        //         textKey: "Name",
-        //         valueKey: "Name",
-        //         multiSelection: {
-        //             enabled: true,
-        //             showCheckboxes: true
-        //         }
-        //     });
-        // });
-    </script> -->
-
+<div class="collapse container-fluid bg-1" id="chassisInfo">
+  <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4>
+  <div id="checkboxSelectCombo" ></div>
+  <!-- submit button for per chasiss detailed information-->
+  <input type="button" name="Submit Chassis" value="Submit single/multiple Chassis" onclick="return getSelectedOptions();" >
+  <br> </br>
+  
+  <!-- Riana: commented out this code and moved the necessary information to the script below so that the data will be accessible and
+       can then populate the HTML component via the ID assigned to the dropdown menu -->
+  
+  <!-- <script type="text/javascript">
+       //Riana: commented out contents of this array to work on auto-population and fixed the spelling of chassis
+       //Riana: to note - do not need objects here - just list the chassis names as strings and comma-separate the different chassis names in the array...
+       //var chassis = [
+       // { Name: "Chassis 1" },
+       // { Name: "Chassis 2" },
+       // { Name: "Chassis 3" },
+       // { Name: "Chassis 4" }
+       //];
+       // $(function () {
+       //     $("#checkboxSelectCombo").igCombo({
+       //         width: "270px",
+       //         dataSource: window.chassisNames, //Riana: fixed the spelling of chassis
+       //         textKey: "Name",
+       //         valueKey: "Name",
+       //         multiSelection: {
+       //             enabled: true,
+       //             showCheckboxes: true
+       //         }
+       //     });
+       // });
+       </script> -->
+  
   <!--Riana: fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
   <table id="per_chassis_detailed_information_table">
-      <tr id="per_chassis_detailed_information_table_HEADERS">
-        <!-- Riana: commented out all table headers in order to auto-populate them -->
-          <!-- <th>Chassis</th>
-          <th>Utilization</th>
-          <th>Number of CPUs Available</th>
-          <th>Total Number of CPUs</th>
-          <th>Memory Utilization</th> -->
-      </tr>
+    <tr id="per_chassis_detailed_information_table_HEADERS">
+      <!-- Riana: commented out all table headers in order to auto-populate them -->
+      <!-- <th>Chassis</th>
+           <th>Utilization</th>
+      <th>Number of CPUs Available</th>
+      <th>Total Number of CPUs</th>
+      <th>Memory Utilization</th> -->
+    </tr>
   </table>
 </div> <!-- end chassisInfo div -->
 
 <!--Riana: added a space below the last table in order to be able to see the data in the last row of the table clearly -->
 <br>
-
+</div><!-- end div with background image -->
+<div class="container-fluid bg-footer" id="dateTimeFooter">
+  <div class="row">
+    <div class="col-sm-9"></div>
+    <div class="col-sm-3" id="siteUpdateInformation">
+      <!-- KR: divs for current time and last update time JS fills current, need to add last update time functionality commented out at suggestion of customer
+	   <p id="currentDateTime"></p>
+	   <script>
+	     document.getElementById("currentDateTime").innerHTML=Date()
+	   </script> -->
+      <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
+      <p id="lastUpdateDateTimeStatic">Site last updated:</p>
+      <p id="lastUpdateDateTime"></p>
+      <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
+      <button class="btn btn-outline" onclick="refresh()">Refresh</button><br><br>
+      <!-- Riana: added this line of information as note regarding refresh -->
+      <p><i>*Please Note:<br>Data is updated hourly.</i></p><br>
+    </div>
+  </div>
+</div>
+</div>
 </body>
 </html>
 
@@ -319,7 +349,7 @@
       ['Overall Status', fractionOfCPUsConsumed],
     ]);
     var options = {
-      width: 420, height: 200,
+//      width: 420, height: 200,
       redFrom: 90, redTo: 100,
       yellowFrom:75, yellowTo: 90,
       minorTicks: 5
@@ -361,7 +391,7 @@
 
     // Set chart options
     var pioptions = {
-                   'width':420,
+//                   'width':420,
                    'height':200};
 
     // Instantiate and draw our chart, passing in some options.
@@ -381,7 +411,7 @@
           ['Allocation', fractionOfNodesAllocated],
       ]);
       var allocatedOptions = {
-                 width: 420, height: 200,
+          //       width: 420, height: 200,
                  redFrom: 90, redTo: 100,
                  yellowFrom:75, yellowTo: 90,
                  minorTicks: 5
