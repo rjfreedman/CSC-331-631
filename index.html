@@ -245,7 +245,8 @@ tr, th{
     <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4>
     <div id="checkboxSelectCombo" ></div>
     <!-- submit button for per chasiss detailed information-->
-    <input type="button" name="Submit Chassis" value="Submit single/multiple Chassis" onclick="return getSelectedOptions();" >
+    <input type="button" name="Submit Chassis" value="SUBMIT" onclick="submitButtonPressed()" >
+    <div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
     <br> </br>
 
     <!-- Riana: commented out this code and moved the necessary information to the script below so that the data will be accessible and
@@ -319,10 +320,14 @@ tr, th{
 
 <script>
 
-//For sorting the tables...
+//For sorting the per chassis table...
 var savedHeaders;
 var savedData;
 var chassisNameID;
+
+//For filtering the per chassis table...
+var selectedChassisNames;
+var chassisNames;
 
 //Declare variables needed throughout this script...
 var prevFileID;
@@ -443,7 +448,7 @@ function drawPiChart() {
     //Initialize/reset to empty array...
     //ERROR CHECK...
     var idIterator; //for assigning hidden id numbers...
-    if(headerID === "per_chassis_detailed_information_table_HEADERS" && !sorting)
+    if((headerID === "per_chassis_detailed_information_table_HEADERS" && !sorting) || filterON)
     {
       savedData = [];
       savedHeaders = [];
@@ -489,10 +494,15 @@ function drawPiChart() {
     var indexTotalNumberOfCPUs = -1;
     totalNumberOfCPUs = 0;
 
-    //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
-    //Initiliaze index to an invalid value...
-    var indexChassisNames = -1;
-    var chassisNames = []; //no names collected yet; thus, initialize to an empty array
+    if(!sorting)
+    {
+      //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
+      //Initiliaze index to an invalid value...
+      var indexChassisNames = -1;
+    //    var chassisNames = []; //no names collected yet; thus, initialize to an empty array
+      chassisNames = []; //no names collected yet; thus, initialize to an empty array
+    }
+
     //(also - create and initialize variable here so the refresh will clear the array before re-populating)
     var rowsToAdd = 0; //keep track of the row index that should be added to the table next (for use when filtering)
 
@@ -503,7 +513,7 @@ function drawPiChart() {
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
-      if(!sorting)
+      if(!sorting || filterON)
       {
         //Populate the headers...
         if(r === 1)
@@ -953,21 +963,36 @@ function drawPiChart() {
       //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
       //}
 
-      //Populate the dropdown menu dynamically...
-      //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
-      //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
-      $(function () {
-        $("#checkboxSelectCombo").igCombo({
-          width: "270px",
-          dataSource: chassisNames, //Riana: fixed the spelling of chassis
-          textKey: "Name",
-          valueKey: "Name",
-          multiSelection: {
-            enabled: true,
-            showCheckboxes: true
-          }
-        });
-      });
+      // //Populate the dropdown menu dynamically...
+      // //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
+      // //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
+      // $(function () {
+      //   $("#checkboxSelectCombo").igCombo({
+      //     width: "270px",
+      //     dataSource: chassisNames, //Riana: fixed the spelling of chassis
+      //     textKey: "Name",
+      //     valueKey: "Name",
+      //     //REFERENCE: http://www.igniteui.com/help/igcombo-cascading
+      //     selectionChanged: function (evt, ui) { //Riana: added this function to store the current selection in an array that can be handled when click SUBMIT...
+      //       selectedChassisNames = [];
+      //       var itemData;
+      //         for(var itr = 0; itr < chassisNames.length; itr++)
+      //         {
+      //           if (ui.items && ui.items[itr]) {
+      //             itemData = ui.items[itr].data;
+      //             selectedChassisNames.push(
+      //               itemData.Name
+      //             );
+      //         }
+      //     }
+      //   },
+      //     multiSelection: {
+      //       enabled: true,
+      //       showCheckboxes: true,
+      //       itemSeparator: ', ' //Riana: added to get the submitted values in a readable format...
+      //     }
+      //   });
+      // });
 
       //ERROR CHECK...
       if(headerID === "per_chassis_detailed_information_table_HEADERS")
@@ -975,6 +1000,37 @@ function drawPiChart() {
         console.log(savedData);
       }
     } //end of second if(!sorting)
+
+    //Populate the dropdown menu dynamically...
+    //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
+    //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
+    $(function () {
+      $("#checkboxSelectCombo").igCombo({
+        width: "270px",
+        dataSource: chassisNames, //Riana: fixed the spelling of chassis
+        textKey: "Name",
+        valueKey: "Name",
+        //REFERENCE: http://www.igniteui.com/help/igcombo-cascading
+        selectionChanged: function (evt, ui) { //Riana: added this function to store the current selection in an array that can be handled when click SUBMIT...
+          selectedChassisNames = [];
+          var itemData;
+            for(var itr = 0; itr < chassisNames.length; itr++)
+            {
+              if (ui.items && ui.items[itr]) {
+                itemData = ui.items[itr].data;
+                selectedChassisNames.push(
+                  itemData.Name
+                );
+            }
+        }
+      },
+        multiSelection: {
+          enabled: true,
+          showCheckboxes: true,
+          itemSeparator: ', ' //Riana: added to get the submitted values in a readable format...
+        }
+      });
+    });
   }
 
 
@@ -1130,6 +1186,34 @@ function drawPiChart() {
 
     //FOR TESTING PURPOSES ONLY...
     //filterPerChassisTableByDropdown(["bc01", "bc02", "a1a3"]);
+  }
+
+  //Riana: This function is called when the SUBMIT button is clicked to indicate that the per chassis table should be filtered by the selection(s)
+  //  from the dropdown menu...
+  function submitButtonPressed()
+  {
+    //Note: The selected chasses are stored in the array called selectedChassisNames...
+
+    //ERROR CHECK...
+    console.log("Selected chasses: ");
+    console.log(selectedChassisNames);
+
+    //Check that a selection was made...
+    if(typeof selectedChassisNames != 'undefined')
+    {
+      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "";
+
+      //Call the function needed to filter the per chassis table accordingly and pass it the array of chassis names to filter by...
+      filterPerChassisTableByDropdown(selectedChassisNames);
+    }
+    else
+    {
+      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "Please select at least one chassis to display.";
+    }
+
+    //Reset...
+    selectedChassisNames = undefined;
+
   }
 
   //Define a function that will filter the table containing per chassis information to display only the rows containing the
@@ -1333,7 +1417,6 @@ function drawPiChart() {
     for(var x = 0; x < dataCopy.length; x++)
     {
       stringToInclude = String(dataCopy[x]) + "\n";
-//      sortedData.push(String(dataCopy[x]) + "\n");
       sortedData.push(stringToInclude);
     }
     sortedData.push("\n");
@@ -1348,11 +1431,6 @@ function drawPiChart() {
     //Now, re-draw the table with the sorted data...
     populateTableFromCSVFile(sortedData, "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, true);
   }
-
-
-  //For re-drawing per chassis table ONLY when sorting...
-
-
 
   //Define the function that is called when the window is loaded...
   function start()
