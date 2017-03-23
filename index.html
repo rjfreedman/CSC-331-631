@@ -324,6 +324,8 @@ tr, th{
 var savedHeaders;
 var savedData;
 var chassisNameID;
+var storedSelection;
+var filteredData;
 
 //For filtering the per chassis table...
 var selectedChassisNames;
@@ -448,10 +450,15 @@ function drawPiChart() {
     //Initialize/reset to empty array...
     //ERROR CHECK...
     var idIterator; //for assigning hidden id numbers...
-    if((headerID === "per_chassis_detailed_information_table_HEADERS" && !sorting) || filterON)
+    if(!sorting)
     {
-      savedData = [];
-      savedHeaders = [];
+//      if((headerID === "per_chassis_detailed_information_table_HEADERS" && !sorting) || filterON || filterViaOtherTable)
+      if((headerID === "per_chassis_detailed_information_table_HEADERS")) // filterON || filterViaOtherTable)
+      {
+        savedData = [];
+        savedHeaders = [];
+        filteredData = [];
+      }
     }
 
       //Store information about the current filter in the event that the refresh button is clicked...
@@ -464,6 +471,9 @@ function drawPiChart() {
 
       idIterator = 0;
     }
+
+    console.log("FILTERS WHEN DRAW TABLE: ");
+    console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
 
     // Iterate through each column in the table and insert the values of the row in
     // that element...
@@ -513,7 +523,7 @@ function drawPiChart() {
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
-      if(!sorting || filterON)
+      if(!sorting) // || (sorting && filterON))
       {
         //Populate the headers...
         if(r === 1)
@@ -648,6 +658,8 @@ function drawPiChart() {
             //  the rows are NOT to be filtered (ie. all rows should be displayed)
             if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
             {
+              filteredData.push(thisRow);
+
               // Add a row to the table.
               rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
               var newRow = rowID.insertRow(rowsToAdd);
@@ -797,6 +809,7 @@ function drawPiChart() {
       }
       else //IF sorting === true...
       {
+        //IF sorting - just need to re-draw the table with the data in the rowsToDisplay parameter (except for the first row, which is the unique ID)...
         //Populate the headers...
         if(r === 1)
         {
@@ -841,10 +854,10 @@ function drawPiChart() {
             //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
             //If the table is to be filtered to display only rows containing a value greater than zero in the selected column, determine the column to be addressed...
             //  Store its index in a variable.
-            if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
-            {
-              specifiedColumnIndex = c;
-            }
+            // if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
+            // {
+            //   specifiedColumnIndex = c;
+            // }
 
           }
         }
@@ -860,10 +873,10 @@ function drawPiChart() {
           //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
           //  OR
           //  the rows are NOT to be filtered (ie. all rows should be displayed)
-          if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
-          {
-            //ERROR CHECK...
-            console.log("display this row...");
+          // if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
+          // {
+          //   //ERROR CHECK...
+          //   console.log("display this row...");
 
             // Add a row to the table.
             rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
@@ -884,7 +897,7 @@ function drawPiChart() {
               //  if the current column represents one of these categories.
 
             }
-          }
+//          }
         }
       } //end else (ie. sorting ===  true)
 
@@ -1212,6 +1225,7 @@ function drawPiChart() {
     }
 
     //Reset...
+    storedSelection = selectedChassisNames; //for sorting...
     selectedChassisNames = undefined;
 
   }
@@ -1262,16 +1276,125 @@ function drawPiChart() {
 
     //Make a local copy...
     //    var dataCopy = savedData;
-    var dataCopy = [];
-    for(var x = 0; x < savedData.length; x++)
-    {
-      //ERROR CHECK...
-      //console.log(savedData[x]);
 
-      dataCopy.push(savedData[x]);
+    //Find the index of the header containing the column to filter to only show contributing rows...
+    var theIndex;
+    if(filterClickObserved)
+    {
+      for(var t = 0; t < savedHeaders.length; t++)
+      {
+        if(savedHeaders[t].includes(filterContent))
+        {
+          theIndex = t;
+          break;
+        }
+      }
     }
 
     //ERROR CHECK...
+    console.log("THE SAVED DATA: ");
+    console.log(savedData);
+
+//THE PROBLEM IS THAT I AM NOT DOING THE RIGHT LOGIC FOR INCLUDING ROWS THAT ARE >0 IN THE SELECTED COLUMN...
+//maybe save the filtered rows above and use them???
+
+    var dataCopy = [];
+    if((filterDropdownObserved) || (filterClickObserved))
+    {
+      for(var x = 0; x < filteredData.length; x++)
+      {
+        dataCopy.push(filteredData[x]); 
+      }
+    }
+    else {
+      for(var x = 0; x < savedData.length; x++)
+      {
+        dataCopy.push(savedData[x]);
+      }
+    }
+
+
+//     for(var x = 0; x < savedData.length; x++)
+//     {
+//       //ERROR CHECK...
+//       //console.log(savedData[x]);
+// //////////////////////////////////////////////////
+//       // console.log("here");
+//       //Sort/display the row in the per chassis table IF:
+//       //  the rows are to be filtered AND this row was selected AND this is not filtered by column content
+//       //  OR
+//       //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
+//       //  OR
+//       //  the rows are NOT to be filtered (ie. all rows should be displayed)
+//
+//        if((filterDropdownObserved) || (filterClickObserved))
+//       /* {
+//          console.log("here2");
+//       //
+//       //   console.log("CHECK: " + savedData[x][chassisNameID]);
+//       //   console.log("CHECK2: " + storedSelection);
+//       //   console.log("CHECK3: " + storedSelection.includes(savedData[x][chassisNameID]));
+//         if((filterDropdownObserved && filterClickObserved === false && storedSelection.includes(savedData[x][chassisNameID])))// || (filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)) || (filterDropdownObserved === false))
+//         {
+//           console.log("ADDING DATA HERE");
+//       //    if(filterContent.includes(savedData[x][chassisNameID]))
+//         //  {
+//             dataCopy.push(savedData[x]);
+//           //}
+//         }
+// //        else if((filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)))// || (filterDropdownObserved === false))
+//         else if((filterClickObserved && (savedData[x][theIndex] > 0)))// || (filterDropdownObserved === false))
+//         {
+//           console.log("ADDING DATA (OPTION 2) HERE");
+//       //    if(filterContent.includes(savedData[x][chassisNameID]))
+//         //  {
+//             dataCopy.push(savedData[x]);
+//         }
+// //        if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
+//
+//         ////////////////////////////////////////
+//       // console.log("here");
+//       // if((filterDropdownObserved) || (filterClickObserved))
+//       // {
+//       //   console.log("here2");
+//       //
+//       //   console.log("CHECK: " + savedData[x][chassisNameID]);
+//       //   console.log("CHECK2: " + storedSelection);
+//       //   console.log("CHECK3: " + storedSelection.includes(savedData[x][chassisNameID]));
+//       //   if((filterDropdownObserved && storedSelection.includes(savedData[x][chassisNameID])))// && filterClickObserved === false) || (filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)) || (filterDropdownObserved === false))
+//       //   {
+//       //     console.log("ADDING DATA HERE");
+//       // //    if(filterContent.includes(savedData[x][chassisNameID]))
+//       //   //  {
+//       //       dataCopy.push(savedData[x]);
+//       //     //}
+//       //   }
+//       //   else if((filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)) || (filterDropdownObserved === false))
+//       //   {
+//       //     console.log("ADDING DATA (OPTION 2) HERE");
+//       // //    if(filterContent.includes(savedData[x][chassisNameID]))
+//       //   //  {
+//       //       dataCopy.push(savedData[x]);
+//       //   }
+//       */
+//
+//
+//
+//
+//       }
+//
+//       else
+//       {
+//         dataCopy.push(savedData[x]);
+//       }
+//
+//       //dataCopy.push(savedData[x]);
+//     }
+    //ERROR CHECK...
+    //console.log(filterContent);
+    console.log("FILTERS WHEN SORT TABLE: ");
+    console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
+
     console.log("DATA COPY: ");
     console.log(dataCopy);
 
@@ -1443,6 +1566,9 @@ function drawPiChart() {
     filterClickObserved = false;
     filterContent = [];
     sortingObserved = false;
+
+    //Initialize...
+    storedSelection = [];
 
     //Call the refresh function...
     refresh();
