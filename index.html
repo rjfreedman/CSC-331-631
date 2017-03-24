@@ -77,7 +77,7 @@
         <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
         <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
         <!-- Add padding at sides, if you do make two gauge columns 3 <div class="col-sm-1"></div>-->
-        <div class="col-sm-4" id="clusterStatusFirstView">
+        <div class="col-sm-4" id="clusterStatusFirstView" align="center">
           <div class="panel panel-default" id="StatusInfographicPanel">
             <div class="panel-heading"><h3>Cluster Status</h3></div>
             <div class="panel-body">
@@ -92,7 +92,7 @@
 
         <div class="col-sm-4" id="clusterHealthFirstView" align="center">
           <div class="panel panel-default" id="HealthInfographicPanel">
-            <div class="panel panel-heading"><h3>Cluster Health</h3></div>
+            <div class="panel-heading"><h3>Cluster Health</h3></div>
             <div class="panel-body">
               <div id="piechart_div" style="width: 100%; height: 200px;"></div>
               <!-- KR: collapsible button to expand healthTable div -->
@@ -107,8 +107,8 @@
         <div class="col-sm-4" id="nodeUtilizationStatusFirstView" align="center">
           <!-- Replace the id in the next line when ready... -->
           <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
-            <div class="panel panel-heading"><h3>Node Utilization</h3></div>
-            <div class="panel panel-body">
+            <div class="panel-heading"><h3>Node Utilization</h3></div>
+            <div class="panel-body">
               <div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
               <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#nodeUtilizationTable">
                 Expand Node Utilization
