@@ -33,90 +33,26 @@
   <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
   <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
 
-  <!-- HHL: Using google drive library for gauge graphics-->
+  <!-- HHL and Alexis: Using google drive library for gauge and pie chart graphics-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <!-- <script type="text/javascript">
-  google.charts.load('current', {'packages':['gauge', 'corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-  function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Label', 'Value'],
-  ['Overall Status', 80],
-  ]);
-  var options = {
-  width: 420, height: 200,
-  redFrom: 90, redTo: 100,
-  yellowFrom:75, yellowTo: 90,
-  minorTicks: 5
-};
-var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-chart.draw(data, options);
-setInterval(function() {
-data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-chart.draw(data, options);
-}, 13000);
-}
-</script> -->
 
-<!--START Alexis code for health status infographic -->
-
-<!--Load the AJAX API-->
-<!-- Riana: Commented out the next line of code because there was an error from including this line twice in the header... -->
-<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
-<!-- <script type="text/javascript">
-
-// Load the Visualization API and the corechart package.
-//google.charts.load('current', {'packages':['corechart']});
-
-// Set a callback to run when the Google Visualization API is loaded.
-google.charts.setOnLoadCallback(drawPiChart);
-
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawPiChart() {
-
-// Create the data table.
-var pidata = new google.visualization.DataTable();
-pidata.addColumn('string', 'Node Status');
-pidata.addColumn('number', 'Nodes');
-pidata.addRows([
-['Nodes Up', 256],
-['Nodes Down', 16],
-['Under Maintenance', 4]
-]);
-
-// Set chart options
-var pioptions = {
-'width':420,
-'height':200};
-
-// Instantiate and draw our chart, passing in some options.
-var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
-pichart.draw(pidata, pioptions);
-}
-</script> -->
-
-<!--END Alexis code for health status infographic -->
-
-<style>
-.combo-label {margin-bottom:.5em; align-items:right; }
-</style>
-<!-- Lee's table style currently styling ALL tables on page -->
-<!-- Riana: added the text-align: center specification when populating the data for readability -->
-<style>
-table, tr, th{
-  border: 1px solid black;
-  border-collapse: collapse;
-  text-align: center;
-}
-tr, th{
-  padding: 5px
-}
-</style>
-
-
+  <style>
+  .combo-label {margin-bottom:.5em; align-items:right; }
+  </style>
+  <!-- Lee's table style currently styling ALL tables on page -->
+  <!-- Riana: added the text-align: center specification when populating the data for readability -->
+  <style>
+  table, tr, th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  tr, th{
+    padding: 5px
+  }
+  </style>
 </head>
+
 <body>
   <!-- adding containers to ensure the page resizes well on different devices -->
   <div class="container-fluid bg bg-2"> <!-- contains portion of page over image -->
@@ -242,48 +178,21 @@ tr, th{
 
   <!-- KG: Chassis Information table and drop down -->
   <div class="collapse container-fluid bg-1" id="chassisInfo">
-    <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4>
+    <!-- <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4> -->
+    <h4 class="combo-label">Per Chassis Information</h4> <!-- Riana: Changed text in this to reflect the actual content... -->
     <div id="checkboxSelectCombo" ></div>
     <!-- submit button for per chasiss detailed information-->
     <input type="button" name="Submit Chassis" value="SUBMIT" onclick="submitButtonPressed()" >
     <div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
     <br> </br>
 
-    <!-- Riana: commented out this code and moved the necessary information to the script below so that the data will be accessible and
+    <!-- Riana: moved dropdown menu code to the script below so that the data will be accessible and
     can then populate the HTML component via the ID assigned to the dropdown menu -->
-
-    <!-- <script type="text/javascript">
-    //Riana: commented out contents of this array to work on auto-population and fixed the spelling of chassis
-    //Riana: to note - do not need objects here - just list the chassis names as strings and comma-separate the different chassis names in the array...
-    //var chassis = [
-    // { Name: "Chassis 1" },
-    // { Name: "Chassis 2" },
-    // { Name: "Chassis 3" },
-    // { Name: "Chassis 4" }
-    //];
-    // $(function () {
-    //     $("#checkboxSelectCombo").igCombo({
-    //         width: "270px",
-    //         dataSource: window.chassisNames, //Riana: fixed the spelling of chassis
-    //         textKey: "Name",
-    //         valueKey: "Name",
-    //         multiSelection: {
-    //             enabled: true,
-    //             showCheckboxes: true
-    //         }
-    //     });
-    // });
-  </script> -->
 
   <!--Riana: fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
   <table id="per_chassis_detailed_information_table">
     <tr id="per_chassis_detailed_information_table_HEADERS">
-      <!-- Riana: commented out all table headers in order to auto-populate them -->
-      <!-- <th>Chassis</th>
-      <th>Utilization</th>
-      <th>Number of CPUs Available</th>
-      <th>Total Number of CPUs</th>
-      <th>Memory Utilization</th> -->
+      <!-- Riana: removed all hard-coded table headers in order to auto-populate them -->
     </tr>
   </table>
 </div> <!-- end chassisInfo div -->
@@ -335,7 +244,7 @@ var chassisNames;
 var prevFileID;
 var currentFileID;
 
-//Define a variable to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
+//Define variables to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
 var init;
 var init2;
 
@@ -352,10 +261,9 @@ var sortingObserved;
 //FOR INFOGRAPHICS
 google.charts.load('current', {'packages':['gauge', 'corechart']});
 
-//BEGIN CODE FOR OVERALL STATUS INFOGRAPHIC
+//BEGIN CODE FOR OVERALL STATUS INFOGRAPHIC (code by HHL)
 var numberOfCPUsConsumed;
 var totalNumberOfCPUs;
-
 var fractionOfCPUsConsumed;
 
 function drawChart() {
@@ -381,8 +289,9 @@ function drawChart() {
 //END CODE FOR OVERALL STATUS INFOGRAPHIC
 
 
-//BEGIN CODE FOR HEALTH STATUS INFOGRAPHIC
+//BEGIN CODE FOR HEALTH STATUS INFOGRAPHIC (code from Alexis)
 
+//Commented out the following because this is loaded above...
 // Load the Visualization API and the corechart package.
 //google.charts.load('current', {'packages':['corechart']});
 
@@ -407,7 +316,7 @@ function drawPiChart() {
 
   // Set chart options
   var pioptions = {
-    //                   'width':420,
+    //'width':420,
     'height':200};
 
     // Instantiate and draw our chart, passing in some options.
@@ -417,30 +326,26 @@ function drawPiChart() {
 
   //END CODE FOR HEALTH STATUS INFOGRAPHIC
 
-  //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
+  //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC (KR via HHL code)
 
   var fractionOfNodesAllocated;
-//  var fractionOfNodesIdle;
+  //  var fractionOfNodesIdle; //if infographic should display idle/total...
 
   function drawAllocatedChart(){
     var allocatedData=google.visualization.arrayToDataTable([
       ['Label','Value'],
       ['Allocation', fractionOfNodesAllocated],
-//      ['Idle', fractionOfNodesIdle],
+      //      ['Idle', fractionOfNodesIdle], //if infographic should display idle/total...
 
     ]);
     var allocatedOptions = {
-      //       width: 420, height: 200,
+      //width: 420, height: 200,
       redFrom: 90, redTo: 100,
       yellowFrom:75, yellowTo: 90,
       minorTicks: 5
     };
     var allocatedChart = new google.visualization.Gauge(document.getElementById('node_utilization_div'));
     allocatedChart.draw(allocatedData, allocatedOptions);
-    //  setInterval(function() {
-    //    allocatedData.setValue(fractionOfCPUsConsumed);
-    //    chart.draw(allocatedData, allocatedOptions);
-    //  }, 13000);
   }
 
   //END CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
@@ -452,12 +357,10 @@ function drawPiChart() {
   {
     //For sorting the data...
     //Initialize/reset to empty array...
-    //ERROR CHECK...
     var idIterator; //for assigning hidden id numbers...
     if(!sorting)
     {
-//      if((headerID === "per_chassis_detailed_information_table_HEADERS" && !sorting) || filterON || filterViaOtherTable)
-      if((headerID === "per_chassis_detailed_information_table_HEADERS")) // filterON || filterViaOtherTable)
+      if((headerID === "per_chassis_detailed_information_table_HEADERS"))
       {
         savedData = [];
         savedHeaders = [];
@@ -465,7 +368,7 @@ function drawPiChart() {
       }
     }
 
-      //Store information about the current filter in the event that the refresh button is clicked...
+    //Store information about the current filter in the event that the refresh button is clicked...
     if(headerID === "per_chassis_detailed_information_table_HEADERS")
     {
       filterDropdownObserved = filterON;
@@ -476,6 +379,7 @@ function drawPiChart() {
       idIterator = 0;
     }
 
+    //ERROR CHECK...
     console.log("FILTERS WHEN DRAW TABLE: ");
     console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
 
@@ -511,16 +415,15 @@ function drawPiChart() {
     //For adding percentage sign to data item in columns with headers containing the word "Utilization"...
     var utilizationHeaderIndex = [];
 
+    //If NOT sorting...
     if(!sorting)
     {
       //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
-      //Initiliaze index to an invalid value...
+      //Initialize index to an invalid value...
       var indexChassisNames = -1;
-    //    var chassisNames = []; //no names collected yet; thus, initialize to an empty array
       chassisNames = []; //no names collected yet; thus, initialize to an empty array
     }
 
-    //(also - create and initialize variable here so the refresh will clear the array before re-populating)
     var rowsToAdd = 0; //keep track of the row index that should be added to the table next (for use when filtering)
 
     //For filtering based on column content (if filterViaOtherTable === true)...
@@ -530,7 +433,8 @@ function drawPiChart() {
     //Populate the table indicated by the input parameters to this function.
     for(var r = 1; r < rowsRead.length-1; r++)
     {
-      if(!sorting) // || (sorting && filterON))
+      //If NOT sorting...
+      if(!sorting)
       {
         //Populate the headers...
         if(r === 1)
@@ -541,7 +445,7 @@ function drawPiChart() {
           var headerRow = rowsRead[r].split(",");
           console.log(headerRow);
 
-          //For sorting...
+          //For sorting later on...
           if(headerID === "per_chassis_detailed_information_table_HEADERS")
           {
             savedHeaders.push(headerRow);
@@ -641,11 +545,13 @@ function drawPiChart() {
                 indexTotalNumberOfCPUs = c;
               }
 
-              //For adding the percent sign...
+              //For adding the percent sign to utilization columns...
               if(headerRow[c].includes("Utilization"))
               {
+                //ERROR CHECK...
                 console.log("add percent to column " + headerRow[c]);
-                utilizationHeaderIndex.push(c);
+
+                utilizationHeaderIndex.push(c); //keep track of the column index to know which columns' data items will need a % sign appended to the end...
               }
 
             }
@@ -689,11 +595,10 @@ function drawPiChart() {
                 //Store the data in the new cell.
                 if(utilizationHeaderIndex.indexOf(c) > -1)
                 {
+                  //ERROR CHECK...
                   console.log("add percent here...");
-                  // var test = thisRow[c];
-                  // test += "%";
-                  // cell.innerHTML = test;
-                  cell.innerHTML = (thisRow[c] + "%");
+
+                  cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of the data item
                 }
                 else
                 {
@@ -818,13 +723,12 @@ function drawPiChart() {
               var cell = newRow.insertCell(c);
 
               //Store the data in the new cell.
-//              cell.innerHTML = thisRow[c];
-
-              //Store the data in the new cell.
               if(utilizationHeaderIndex.indexOf(c) > -1)
               {
+                //ERROR CHECK...
                 console.log("add percent here...");
-                cell.innerHTML = (thisRow[c] + "%");
+
+                cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of the data item
               }
               else
               {
@@ -833,7 +737,9 @@ function drawPiChart() {
 
               if(headerID === "overall_status_table_HEADERS")
               {
+                //ERROR CHECK...
                 console.log("HERE in overall table" + thisRow[c]);
+
                 if(c === indexNumberOfCPUsConsumed)
                 {
                   numberOfCPUsConsumed = thisRow[c];
@@ -886,19 +792,13 @@ function drawPiChart() {
             newHeader.appendChild(newHeaderContent);
             document.getElementById(headerID).appendChild(newHeader);
 
-            //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
-            //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
-            //If the table is to be filtered to display only rows containing a value greater than zero in the selected column, determine the column to be addressed...
-            //  Store its index in a variable.
-            // if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
-            // {
-            //   specifiedColumnIndex = c;
-            // }
             //For adding the percent sign...
             if(headerRow[c].includes("Utilization"))
             {
+              //ERROR CHECK...
               console.log("add percent to column " + headerRow[c]);
-              utilizationHeaderIndex.push(c);
+
+              utilizationHeaderIndex.push(c); //keep track of the Utilization columns so a % sign can be appended to the end of the data items in these columns
             }
           }
         }
@@ -908,57 +808,38 @@ function drawPiChart() {
           // Parse this comma-delimited row...
           var thisRow = rowsRead[r].split(",");
 
-          //Refresh the data from this row AND display the row in the per chassis table IF:
-          //  the rows are to be filtered AND this row was selected AND this is not filtered by column content
-          //  OR
-          //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
-          //  OR
-          //  the rows are NOT to be filtered (ie. all rows should be displayed)
-          // if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
-          // {
-          //   //ERROR CHECK...
-          //   console.log("display this row...");
+          // Add a row to the table.
+          rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
+          var newRow = rowID.insertRow(rowsToAdd);
 
-            // Add a row to the table.
-            rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
-            var newRow = rowID.insertRow(rowsToAdd);
+          // Populate the newly created row...
+          // ***Note that (in a later iteration), the size of the table will need
+          // to potentially dynamically change to accommodate the longest data entry.***
+          for(var c = 0; c < thisRow.length; c++)
+          {
+            // Add a cell to the current row in column c.
+            var cell = newRow.insertCell(c);
 
-            // Populate the newly created row...
-            // ***Note that (in a later iteration), the size of the table will need
-            // to potentially dynamically change to accommodate the longest data entry.***
-            for(var c = 0; c < thisRow.length; c++)
+            //Store the data in the new cell.
+            if(utilizationHeaderIndex.indexOf(c) > -1)
             {
-              // Add a cell to the current row in column c.
-              var cell = newRow.insertCell(c);
+              //ERROR CHECK...
+              console.log("add percent here...");
 
-              //Store the data in the new cell.
-              if(utilizationHeaderIndex.indexOf(c) > -1)
-              {
-                console.log("add percent here...");
-                // var test = thisRow[c];
-                // test += "%";
-                // cell.innerHTML = test;
-                cell.innerHTML = (thisRow[c] + "%");
-              }
-              else
-              {
-                cell.innerHTML = thisRow[c];
-              }
-
-              //Store the data in the new cell.
-//              cell.innerHTML = thisRow[c];
-
-              //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
-              //  if the current column represents one of these categories.
-
+              cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of this data item
             }
-//          }
+            else
+            {
+              cell.innerHTML = thisRow[c];
+            }
+          } //end for(var c = 0; c < thisRow.length; c++)
         }
       } //end else (ie. sorting ===  true)
 
 
     } //end for(... r < rowsRead.length-1 ...)
 
+    //If NOT sorting...
     if(!sorting)
     {
       //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
@@ -1017,54 +898,23 @@ function drawPiChart() {
         fractionOfCPUsConsumed = (numberOfCPUsConsumed / totalNumberOfCPUs) * 100;
         console.log("FRACTION: " + fractionOfCPUsConsumed);
         console.log("DIVISION: " + numberOfCPUsConsumed + " " + totalNumberOfCPUs);
-        drawChart();
+        drawChart(); //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
         //google.charts.setOnLoadCallback(drawChart);
 
         //FOR CLUSTER HEALTH STATUS INFOGRAPHIC
         // Set a callback to run when the Google Visualization API is loaded.
-        drawPiChart();
+        drawPiChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
         //google.charts.setOnLoadCallback(drawPiChart);
 
         //For Node Utilization Status table
         fractionOfNodesAllocated = (numberOfNodesAllocated / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
-        //fractionOfNodesIdle = (numberOfNodesIdle / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
-        drawAllocatedChart();
+        //fractionOfNodesIdle = (numberOfNodesIdle / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100; //use this if need idle/total in the infographic...
+        drawAllocatedChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
         //google.charts.setOnLoadCallback(drawAllocatedChart);
       }
       //else { //do nothing...
       //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
       //}
-
-      // //Populate the dropdown menu dynamically...
-      // //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
-      // //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
-      // $(function () {
-      //   $("#checkboxSelectCombo").igCombo({
-      //     width: "270px",
-      //     dataSource: chassisNames, //Riana: fixed the spelling of chassis
-      //     textKey: "Name",
-      //     valueKey: "Name",
-      //     //REFERENCE: http://www.igniteui.com/help/igcombo-cascading
-      //     selectionChanged: function (evt, ui) { //Riana: added this function to store the current selection in an array that can be handled when click SUBMIT...
-      //       selectedChassisNames = [];
-      //       var itemData;
-      //         for(var itr = 0; itr < chassisNames.length; itr++)
-      //         {
-      //           if (ui.items && ui.items[itr]) {
-      //             itemData = ui.items[itr].data;
-      //             selectedChassisNames.push(
-      //               itemData.Name
-      //             );
-      //         }
-      //     }
-      //   },
-      //     multiSelection: {
-      //       enabled: true,
-      //       showCheckboxes: true,
-      //       itemSeparator: ', ' //Riana: added to get the submitted values in a readable format...
-      //     }
-      //   });
-      // });
 
       //ERROR CHECK...
       if(headerID === "per_chassis_detailed_information_table_HEADERS")
@@ -1073,7 +923,7 @@ function drawPiChart() {
       }
     } //end of second if(!sorting)
 
-    //Initial sorting...
+    //Initial sorting (on page load)...
     if((headerID === "per_chassis_detailed_information_table_HEADERS") && (init2 === 0))
     {
       initialSort(indexChassisNames);
@@ -1092,16 +942,16 @@ function drawPiChart() {
         selectionChanged: function (evt, ui) { //Riana: added this function to store the current selection in an array that can be handled when click SUBMIT...
           selectedChassisNames = [];
           var itemData;
-            for(var itr = 0; itr < chassisNames.length; itr++)
-            {
-              if (ui.items && ui.items[itr]) {
-                itemData = ui.items[itr].data;
-                selectedChassisNames.push(
-                  itemData.Name
-                );
+          for(var itr = 0; itr < chassisNames.length; itr++)
+          {
+            if (ui.items && ui.items[itr]) {
+              itemData = ui.items[itr].data;
+              selectedChassisNames.push(
+                itemData.Name
+              );
             }
-        }
-      },
+          }
+        },
         multiSelection: {
           enabled: true,
           showCheckboxes: true,
@@ -1112,17 +962,18 @@ function drawPiChart() {
   }
 
 
+
+  //Riana: This function is used to sort the per chassis table by the chassis name column (ascending alphabetical order) upon page load...
+  //Note that the parameter is the ID of the column containing the chassis names (to allow for dynamic code)...
   function initialSort(theIndex)
   {
-
+    //Indicate that this initial sort is being completed and should NOT be repeated unless the page is re-loaded...
     init2 = 1;
 
-            //Initially, sort the per chassis table by chassis name (ascending alphabetical order).
-            sortByColumn(theIndex);
-
-
-
+    //Initially, sort the per chassis table by chassis name (ascending alphabetical order).
+    sortByColumn(theIndex);
   }
+
 
 
   //Define a function to access, open, and read a CSV data file.
@@ -1181,7 +1032,7 @@ function drawPiChart() {
       //Update the previous file refresh unique ID for comparison when the next refresh is requested/occurs.
       prevFileID = currentFileID;
 
-      //In a later iterations, store the new file to the database here (for backlog story on storing historical data).
+      //In a later iteration, store the new file to the database here (for backlog story on storing historical data).
     }
 
     //Call the appropriate function to populate the data table associated with this data file.
@@ -1241,8 +1092,8 @@ function drawPiChart() {
 
   //Declare a function that will clear a table's rows and headers.
   //This is needed to prevent the refresh of data from appending to the current tables.
-  function clearTable(table, tableHeaders) {
-
+  function clearTable(table, tableHeaders)
+  {
     //Delete each row from the bottom up until the top, except for row 0 (the header row).
     var numRows = table.getElementsByTagName("tr").length;
     for(i = numRows - 1; i > 0; i--){
@@ -1267,11 +1118,11 @@ function drawPiChart() {
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
-//    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+    //    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
     readAndStoreData("overallDEAC.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
 
     //Populate the Per Chassis Info table...
-//    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+    //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
     readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
@@ -1322,7 +1173,7 @@ function drawPiChart() {
     //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
     //  AND with the most up-to-date information...
     //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
-//    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
+    //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
     readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
   }
 
@@ -1339,7 +1190,7 @@ function drawPiChart() {
     //  AND with the most up-to-date information...
     //  Note that the filterON parameter of the function indicates that an array with the column to filter by is provided...
     //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
-//    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
+    //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
     readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
 
     console.log(rowsToDisplay); //error check
@@ -1360,7 +1211,6 @@ function drawPiChart() {
     console.log(savedData);
 
     //Make a local copy...
-    //    var dataCopy = savedData;
     var dataCopy = [];
     if((filterDropdownObserved) || (filterClickObserved))
     {
