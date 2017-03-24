@@ -337,6 +337,7 @@ var currentFileID;
 
 //Define a variable to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
 var init;
+var init2;
 
 //Access the tables directly associated with data reported in the CSV files.
 var overallStatusTable = document.getElementById("overall_status_table");
@@ -419,11 +420,14 @@ function drawPiChart() {
   //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
 
   var fractionOfNodesAllocated;
+//  var fractionOfNodesIdle;
 
   function drawAllocatedChart(){
     var allocatedData=google.visualization.arrayToDataTable([
       ['Label','Value'],
       ['Allocation', fractionOfNodesAllocated],
+//      ['Idle', fractionOfNodesIdle],
+
     ]);
     var allocatedOptions = {
       //       width: 420, height: 200,
@@ -503,6 +507,9 @@ function drawPiChart() {
     var indexNumberOfCPUsConsumed = -1;
     var indexTotalNumberOfCPUs = -1;
     totalNumberOfCPUs = 0;
+
+    //For adding percentage sign to data item in columns with headers containing the word "Utilization"...
+    var utilizationHeaderIndex = [];
 
     if(!sorting)
     {
@@ -634,6 +641,13 @@ function drawPiChart() {
                 indexTotalNumberOfCPUs = c;
               }
 
+              //For adding the percent sign...
+              if(headerRow[c].includes("Utilization"))
+              {
+                console.log("add percent to column " + headerRow[c]);
+                utilizationHeaderIndex.push(c);
+              }
+
             }
           }
         }
@@ -673,7 +687,18 @@ function drawPiChart() {
                 var cell = newRow.insertCell(c);
 
                 //Store the data in the new cell.
-                cell.innerHTML = thisRow[c];
+                if(utilizationHeaderIndex.indexOf(c) > -1)
+                {
+                  console.log("add percent here...");
+                  // var test = thisRow[c];
+                  // test += "%";
+                  // cell.innerHTML = test;
+                  cell.innerHTML = (thisRow[c] + "%");
+                }
+                else
+                {
+                  cell.innerHTML = thisRow[c];
+                }
 
                 //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
                 //  if the current column represents one of these categories.
@@ -793,7 +818,18 @@ function drawPiChart() {
               var cell = newRow.insertCell(c);
 
               //Store the data in the new cell.
-              cell.innerHTML = thisRow[c];
+//              cell.innerHTML = thisRow[c];
+
+              //Store the data in the new cell.
+              if(utilizationHeaderIndex.indexOf(c) > -1)
+              {
+                console.log("add percent here...");
+                cell.innerHTML = (thisRow[c] + "%");
+              }
+              else
+              {
+                cell.innerHTML = thisRow[c];
+              }
 
               if(headerID === "overall_status_table_HEADERS")
               {
@@ -858,7 +894,12 @@ function drawPiChart() {
             // {
             //   specifiedColumnIndex = c;
             // }
-
+            //For adding the percent sign...
+            if(headerRow[c].includes("Utilization"))
+            {
+              console.log("add percent to column " + headerRow[c]);
+              utilizationHeaderIndex.push(c);
+            }
           }
         }
         else
@@ -891,7 +932,21 @@ function drawPiChart() {
               var cell = newRow.insertCell(c);
 
               //Store the data in the new cell.
-              cell.innerHTML = thisRow[c];
+              if(utilizationHeaderIndex.indexOf(c) > -1)
+              {
+                console.log("add percent here...");
+                // var test = thisRow[c];
+                // test += "%";
+                // cell.innerHTML = test;
+                cell.innerHTML = (thisRow[c] + "%");
+              }
+              else
+              {
+                cell.innerHTML = thisRow[c];
+              }
+
+              //Store the data in the new cell.
+//              cell.innerHTML = thisRow[c];
 
               //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
               //  if the current column represents one of these categories.
@@ -962,15 +1017,19 @@ function drawPiChart() {
         fractionOfCPUsConsumed = (numberOfCPUsConsumed / totalNumberOfCPUs) * 100;
         console.log("FRACTION: " + fractionOfCPUsConsumed);
         console.log("DIVISION: " + numberOfCPUsConsumed + " " + totalNumberOfCPUs);
-        google.charts.setOnLoadCallback(drawChart);
+        drawChart();
+        //google.charts.setOnLoadCallback(drawChart);
 
         //FOR CLUSTER HEALTH STATUS INFOGRAPHIC
         // Set a callback to run when the Google Visualization API is loaded.
-        google.charts.setOnLoadCallback(drawPiChart);
+        drawPiChart();
+        //google.charts.setOnLoadCallback(drawPiChart);
 
         //For Node Utilization Status table
         fractionOfNodesAllocated = (numberOfNodesAllocated / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
-        google.charts.setOnLoadCallback(drawAllocatedChart);
+        //fractionOfNodesIdle = (numberOfNodesIdle / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
+        drawAllocatedChart();
+        //google.charts.setOnLoadCallback(drawAllocatedChart);
       }
       //else { //do nothing...
       //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
@@ -1014,6 +1073,12 @@ function drawPiChart() {
       }
     } //end of second if(!sorting)
 
+    //Initial sorting...
+    if((headerID === "per_chassis_detailed_information_table_HEADERS") && (init2 === 0))
+    {
+      initialSort(indexChassisNames);
+    }
+
     //Populate the dropdown menu dynamically...
     //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
     //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
@@ -1046,6 +1111,18 @@ function drawPiChart() {
     });
   }
 
+
+  function initialSort(theIndex)
+  {
+
+    init2 = 1;
+
+            //Initially, sort the per chassis table by chassis name (ascending alphabetical order).
+            sortByColumn(theIndex);
+
+
+
+  }
 
 
   //Define a function to access, open, and read a CSV data file.
@@ -1190,10 +1267,12 @@ function drawPiChart() {
     clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
 
     //Populate the Overall Cluster Status table...
-    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+//    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+    readAndStoreData("overallDEAC.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
 
     //Populate the Per Chassis Info table...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+//    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+    readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
     //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
     //AND the health status table is populated when the chassis detailed information is complete...
 
@@ -1243,7 +1322,8 @@ function drawPiChart() {
     //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
     //  AND with the most up-to-date information...
     //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
+//    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
+    readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
   }
 
   //Define a function that will filter the per chassis table by contributors to the column clicked on
@@ -1259,7 +1339,8 @@ function drawPiChart() {
     //  AND with the most up-to-date information...
     //  Note that the filterON parameter of the function indicates that an array with the column to filter by is provided...
     //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
-    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
+//    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
+    readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
 
     console.log(rowsToDisplay); //error check
   }
@@ -1274,36 +1355,18 @@ function drawPiChart() {
     //  the appropriate functions and, once the savedData array is re-assembled, call a function to sort (separating sorting)
     //  from this function to avoid a race condition...
 
-    //Make a local copy...
-    //    var dataCopy = savedData;
-
-    //Find the index of the header containing the column to filter to only show contributing rows...
-    var theIndex;
-    if(filterClickObserved)
-    {
-      for(var t = 0; t < savedHeaders.length; t++)
-      {
-        if(savedHeaders[t].includes(filterContent))
-        {
-          theIndex = t;
-          break;
-        }
-      }
-    }
-
     //ERROR CHECK...
     console.log("THE SAVED DATA: ");
     console.log(savedData);
 
-//THE PROBLEM IS THAT I AM NOT DOING THE RIGHT LOGIC FOR INCLUDING ROWS THAT ARE >0 IN THE SELECTED COLUMN...
-//maybe save the filtered rows above and use them???
-
+    //Make a local copy...
+    //    var dataCopy = savedData;
     var dataCopy = [];
     if((filterDropdownObserved) || (filterClickObserved))
     {
       for(var x = 0; x < filteredData.length; x++)
       {
-        dataCopy.push(filteredData[x]); 
+        dataCopy.push(filteredData[x]);
       }
     }
     else {
@@ -1313,83 +1376,6 @@ function drawPiChart() {
       }
     }
 
-
-//     for(var x = 0; x < savedData.length; x++)
-//     {
-//       //ERROR CHECK...
-//       //console.log(savedData[x]);
-// //////////////////////////////////////////////////
-//       // console.log("here");
-//       //Sort/display the row in the per chassis table IF:
-//       //  the rows are to be filtered AND this row was selected AND this is not filtered by column content
-//       //  OR
-//       //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
-//       //  OR
-//       //  the rows are NOT to be filtered (ie. all rows should be displayed)
-//
-//        if((filterDropdownObserved) || (filterClickObserved))
-//       /* {
-//          console.log("here2");
-//       //
-//       //   console.log("CHECK: " + savedData[x][chassisNameID]);
-//       //   console.log("CHECK2: " + storedSelection);
-//       //   console.log("CHECK3: " + storedSelection.includes(savedData[x][chassisNameID]));
-//         if((filterDropdownObserved && filterClickObserved === false && storedSelection.includes(savedData[x][chassisNameID])))// || (filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)) || (filterDropdownObserved === false))
-//         {
-//           console.log("ADDING DATA HERE");
-//       //    if(filterContent.includes(savedData[x][chassisNameID]))
-//         //  {
-//             dataCopy.push(savedData[x]);
-//           //}
-//         }
-// //        else if((filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)))// || (filterDropdownObserved === false))
-//         else if((filterClickObserved && (savedData[x][theIndex] > 0)))// || (filterDropdownObserved === false))
-//         {
-//           console.log("ADDING DATA (OPTION 2) HERE");
-//       //    if(filterContent.includes(savedData[x][chassisNameID]))
-//         //  {
-//             dataCopy.push(savedData[x]);
-//         }
-// //        if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
-//
-//         ////////////////////////////////////////
-//       // console.log("here");
-//       // if((filterDropdownObserved) || (filterClickObserved))
-//       // {
-//       //   console.log("here2");
-//       //
-//       //   console.log("CHECK: " + savedData[x][chassisNameID]);
-//       //   console.log("CHECK2: " + storedSelection);
-//       //   console.log("CHECK3: " + storedSelection.includes(savedData[x][chassisNameID]));
-//       //   if((filterDropdownObserved && storedSelection.includes(savedData[x][chassisNameID])))// && filterClickObserved === false) || (filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)) || (filterDropdownObserved === false))
-//       //   {
-//       //     console.log("ADDING DATA HERE");
-//       // //    if(filterContent.includes(savedData[x][chassisNameID]))
-//       //   //  {
-//       //       dataCopy.push(savedData[x]);
-//       //     //}
-//       //   }
-//       //   else if((filterDropdownObserved && filterClickObserved && (savedData[x][columnNumber] > 0)) || (filterDropdownObserved === false))
-//       //   {
-//       //     console.log("ADDING DATA (OPTION 2) HERE");
-//       // //    if(filterContent.includes(savedData[x][chassisNameID]))
-//       //   //  {
-//       //       dataCopy.push(savedData[x]);
-//       //   }
-//       */
-//
-//
-//
-//
-//       }
-//
-//       else
-//       {
-//         dataCopy.push(savedData[x]);
-//       }
-//
-//       //dataCopy.push(savedData[x]);
-//     }
     //ERROR CHECK...
     //console.log(filterContent);
     console.log("FILTERS WHEN SORT TABLE: ");
@@ -1403,6 +1389,7 @@ function drawPiChart() {
 
     //ERROR CHECK...
     console.log("Type of data in this column (based on first row's entry)...")
+
     //If convert to an int and the result when converted back to a string is the same as the original data, then it is a number.
     //Otherwise, it is a string...
     console.log(String(parseInt(dataCopy[0][columnNumber])).charCodeAt(0) + " "+ String(parseInt(dataCopy[0][columnNumber])).charCodeAt(1));
@@ -1529,10 +1516,10 @@ function drawPiChart() {
       console.log(dataCopy[x][columnNumber]);
     }
 
-    //Compile data with table headers to send to populate table...
+    //Compile data with unique ID and table headers to send to appropriate function to populate table...
 
-    //NOW - data should be sorted...
-    //Re-draw the per chassis table with the sorted data and any filters previously applied...
+    //AT THIS POINT - data should already be sorted...
+    //Thus, re-draw the per chassis table with the sorted data and any filters previously applied...
     var sortedData = [];
     var stringToInclude = "";
     sortedData.push(currentFileID);
@@ -1544,7 +1531,6 @@ function drawPiChart() {
     }
     sortedData.push("\n");
 
-    // var sortedDataString = String(sortedData);
     console.log("FINAL DATA SORTED AND SENT TO DRAW TABLE...");
     console.log(sortedData);
 
@@ -1552,6 +1538,7 @@ function drawPiChart() {
     clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
 
     //Now, re-draw the table with the sorted data...
+    //Indicate via the appropriate parameter that sorting is now being observed...
     populateTableFromCSVFile(sortedData, "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, true);
   }
 
@@ -1560,6 +1547,7 @@ function drawPiChart() {
   {
     //Indicate that the initial data read has not been completed yet.
     init = 0;
+    init2 = 0;
 
     //Initialize the variables for data refresh to reflect that no filter is in place...
     filterDropdownObserved = false;
