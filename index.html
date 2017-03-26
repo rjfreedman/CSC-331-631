@@ -486,6 +486,7 @@ function drawPiChart() {
 
               //CREATE CLICKABLE HEADER...
               newHeader.setAttribute('style', "cursor:pointer");
+              newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order by this column...");
             }
 
             var newHeaderContent = document.createTextNode(headerRow[c]);
@@ -794,6 +795,7 @@ function drawPiChart() {
 
             //CREATE CLICKABLE HEADER...
             newHeader.setAttribute('style', "cursor:pointer");
+            newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order by this column...");
 
             var newHeaderContent = document.createTextNode(headerRow[c]);
             newHeader.appendChild(newHeaderContent);
@@ -1062,6 +1064,7 @@ function drawPiChart() {
     {
       // Add an element to the current row in column c.
       var newHeader = document.createElement("TH");
+      newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table to display only chasses with a value greater than 0 in this column...");
       var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
 
       //For the Cluster Health Status and Node Utilization Status tables:
