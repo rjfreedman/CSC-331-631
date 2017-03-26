@@ -50,6 +50,12 @@
   tr, th{
     padding: 5px
   }
+
+  /* Riana: using this styling to highlight the column header pertaining to the pop-up message when hover over the column header */
+  th[title]:hover {
+    color: gray;
+  }
+
   </style>
 </head>
 
@@ -486,7 +492,9 @@ function drawPiChart() {
 
               //CREATE CLICKABLE HEADER...
               newHeader.setAttribute('style', "cursor:pointer");
-              newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order by this column...");
+
+              //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
+              newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order\nby \"" + (headerRow[c]).trim() + ".\"");
             }
 
             var newHeaderContent = document.createTextNode(headerRow[c]);
@@ -795,7 +803,9 @@ function drawPiChart() {
 
             //CREATE CLICKABLE HEADER...
             newHeader.setAttribute('style', "cursor:pointer");
-            newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order by this column...");
+
+            //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
+            newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order\nby \"" + (headerRow[c]).trim() + ".\"");
 
             var newHeaderContent = document.createTextNode(headerRow[c]);
             newHeader.appendChild(newHeaderContent);
@@ -1064,7 +1074,10 @@ function drawPiChart() {
     {
       // Add an element to the current row in column c.
       var newHeader = document.createElement("TH");
-      newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table to display only chasses with a value greater than 0 in this column...");
+
+      //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
+      newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table (below) to display only\nchasses with \"" + (Object.keys(derivedStatusInfo)[c]).trim() + "\" greater than 0.");
+
       var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
 
       //For the Cluster Health Status and Node Utilization Status tables:
