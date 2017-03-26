@@ -213,7 +213,8 @@
     <p id="lastUpdateDateTimeStatic">Site last updated:</p>
     <p id="lastUpdateDateTime"></p>
     <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
-    <button class="btn btn-outline" onclick="refresh()">Refresh</button><br><br>
+    <!-- Riana: updated the text of the button per 3.24.2017 customer meeting -->
+    <button class="btn btn-outline" onclick="refresh()">Refresh Data</button><br><br>
     <!-- Riana: added this line of information as note regarding refresh -->
     <p><i>*Please Note:<br>Data is updated hourly.</i></p><br>
   </div>
@@ -235,6 +236,8 @@ var savedData;
 var chassisNameID;
 var storedSelection;
 var filteredData;
+var colPrevSortedBy; //Important: -1 is no sorting enforced at present; otherwise, it is the column ID sorted by in the immediately previous sort...
+var descendingOrAscendingOrder; //Important: 1 is descending numerical/ascending alphabetical order and 0 is ascending numerical/descending alphabetical order; -1 is no sorting enforced at present...
 
 //For filtering the per chassis table...
 var selectedChassisNames;
@@ -365,6 +368,10 @@ function drawPiChart() {
         savedData = [];
         savedHeaders = [];
         filteredData = [];
+
+        //RESET:
+        colPrevSortedBy = -1;
+//        descendingOrAscendingOrder = -1;
       }
     }
 
@@ -907,7 +914,8 @@ function drawPiChart() {
         //google.charts.setOnLoadCallback(drawPiChart);
 
         //For Node Utilization Status table
-        fractionOfNodesAllocated = (numberOfNodesAllocated / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
+        //Riana: fixed the formula for this infographic's display per 3.24.2017 customer meeting
+        fractionOfNodesAllocated = ((numberOfNodesMixed + numberOfNodesAllocated) / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
         //fractionOfNodesIdle = (numberOfNodesIdle / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100; //use this if need idle/total in the infographic...
         drawAllocatedChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
         //google.charts.setOnLoadCallback(drawAllocatedChart);
@@ -1206,6 +1214,27 @@ function drawPiChart() {
     //  the appropriate functions and, once the savedData array is re-assembled, call a function to sort (separating sorting)
     //  from this function to avoid a race condition...
 
+    //Determine the direction to sort in...
+    //Set the following variables for toggling the direction of sort on next click IF click on same header in per chassis table while this sort is still visible...
+    if(colPrevSortedBy === columnNumber) //if the per chassis table was sorted in the view at the time the current column header was clicked...
+    {
+      if(descendingOrAscendingOrder === 0) // || descendingOrAscendingOrder === -1)
+      {
+        descendingOrAscendingOrder = 1;
+      }
+      else if(descendingOrAscendingOrder === 1)
+      {
+        descendingOrAscendingOrder = 0;
+      }
+    }
+    else
+    {
+      descendingOrAscendingOrder = 1; //first time click on header, sort in descending order
+    }
+
+    //Now set the following variable for use the next time a column header is clicked for sorting purposes...
+    colPrevSortedBy = columnNumber;
+
     //ERROR CHECK...
     console.log("THE SAVED DATA: ");
     console.log(savedData);
@@ -1261,7 +1290,7 @@ function drawPiChart() {
         //ERROR CHECK...
         console.log("Numerical data detected in this column...");
 
-        if(a[columnNumber] === b[columnNumber]) //tie breaker (alphabetical by chassis name)
+        if(a[columnNumber] === b[columnNumber]) //tie breaker (always ascending alphabetical order by chassis name)
         {
           //SORT IN ASCENDING ALPHABETICAL ORDER...
           if (a[chassisNameID] === b[chassisNameID]) {
@@ -1273,15 +1302,23 @@ function drawPiChart() {
         }
         else
         {
-          //SORT IN DESCENDING ORDER:
-          return b[columnNumber]-a[columnNumber];
+          if(descendingOrAscendingOrder === 1)
+          {
+            //SORT IN DESCENDING ORDER:
+            return b[columnNumber]-a[columnNumber];
+          }
+          else if(descendingOrAscendingOrder === 0)
+          {
+            //SORT IN ASCENDING ORDER:
+            return a[columnNumber]-b[columnNumber];
+          }
         }
       }
       else if((String(parseInt(dataCopy[0][columnNumber])) + "%") === dataCopy[0][columnNumber]) //IF PERCENTAGE DATA...
       {
         //ERROR CHECK...
         console.log("Percentage data detected in this column...");
-        if(a[columnNumber] === b[columnNumber]) //tie breaker (alphabetical by chassis name)
+        if(a[columnNumber] === b[columnNumber]) //tie breaker (always ascending alphabetical order by chassis name)
         {
           //SORT IN ASCENDING ALPHABETICAL ORDER...
           if (a[chassisNameID] === b[chassisNameID]) {
@@ -1293,8 +1330,16 @@ function drawPiChart() {
         }
         else
         {
-          //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
-          return (+b[columnNumber].replace("%", "")) - (+a[columnNumber].replace("%", ""));
+          if(descendingOrAscendingOrder === 1)
+          {
+            //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
+            return (+b[columnNumber].replace("%", "")) - (+a[columnNumber].replace("%", ""));
+          }
+          else if(descendingOrAscendingOrder === 0)
+          {
+            //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
+            return (+a[columnNumber].replace("%", "")) - (+b[columnNumber].replace("%", ""));
+          }
         }
       }
       else //IF STRING DATA IS DETECTED...
@@ -1320,8 +1365,16 @@ function drawPiChart() {
           }
           else
           {
-            //SORT IN DESCENDING ORDER:
-            return (+b[columnNumber].replace("\r", "")) - (+a[columnNumber].replace("\r", ""));
+            if(descendingOrAscendingOrder === 1)
+            {
+              //SORT IN DESCENDING ORDER:
+              return (+b[columnNumber].replace("\r", "")) - (+a[columnNumber].replace("\r", ""));
+            }
+            else if(descendingOrAscendingOrder === 0)
+            {
+              //SORT IN ASCENDING ORDER:
+              return (+a[columnNumber].replace("\r", "")) - (+b[columnNumber].replace("\r", ""));
+            }
           }
         }
         else if((String(parseInt(dataCopy[0][columnNumber])) + "%") === dataCopy[0][columnNumber]) //IF PERCENTAGE DATA...
@@ -1341,8 +1394,16 @@ function drawPiChart() {
           }
           else
           {
-            //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
-            return (+b[columnNumber].replace("\r", "")) - (+a[columnNumber].replace("\r", ""));
+            if(descendingOrAscendingOrder === 1)
+            {
+              //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
+              return (+b[columnNumber].replace("%\r", "")) - (+a[columnNumber].replace("%\r", ""));
+            }
+            else if(descendingOrAscendingOrder === 0)
+            {
+              //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
+              return (+a[columnNumber].replace("%\r", "")) - (+b[columnNumber].replace("%\r", ""));
+            }
           }
         }
         else //IF ACTUALLY STRING DATA
@@ -1351,8 +1412,17 @@ function drawPiChart() {
           if (a[columnNumber] === b[columnNumber]) {
             return 0;
           }
-          else {
-            return (a[columnNumber] < b[columnNumber]) ? -1 : 1;
+          else
+          {
+            if(descendingOrAscendingOrder === 1)
+            {
+              //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
+              return (a[columnNumber] < b[columnNumber]) ? -1 : 1;
+            }
+            else if(descendingOrAscendingOrder === 0)
+            {
+              return (a[columnNumber] > b[columnNumber]) ? -1 : 1;
+            }
           }
         }
       }
@@ -1390,6 +1460,17 @@ function drawPiChart() {
     //Now, re-draw the table with the sorted data...
     //Indicate via the appropriate parameter that sorting is now being observed...
     populateTableFromCSVFile(sortedData, "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, true);
+
+    // //Set the following variables for toggling the direction of sort on next click IF click on same header in per chassis table while this sort is still visible...
+    // colPrevSortedBy = columnNumber;
+    // if(descendingOrAscendingOrder === 0 || descendingOrAscendingOrder === -1)
+    // {
+    //   descendingOrAscendingOrder = 1;
+    // }
+    // else if(descendingOrAscendingOrder === 1)
+    // {
+    //   descendingOrAscendingOrder = 0;
+    // }
   }
 
   //Define the function that is called when the window is loaded...
@@ -1407,6 +1488,10 @@ function drawPiChart() {
 
     //Initialize...
     storedSelection = [];
+
+    //Initialize for sorting...
+    colPrevSortedBy = -1;
+    descendingOrAscendingOrder = -1;
 
     //Call the refresh function...
     refresh();
