@@ -21,17 +21,17 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <!-- KG: needs these bootstrap and style for drop down menu check box functionality -->
-  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" />
+  <!-- <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" /> -->
   <!-- KR: modernizr allows it to run on old systems like IE7 -->
-  <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+  <!-- <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script> -->
   <!-- KR: removing this jquery because I needed 3.1.1 earlier
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
   <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 
   <!-- KG: Ignite UI Required Combined JavaScript Files -->
-  <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
-  <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script>
+  <!-- <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
+  <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script> -->
 
   <!-- HHL and Alexis: Using google drive library for gauge and pie chart graphics-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -229,7 +229,7 @@
   <!-- KG: Chassis Information table and drop down -->
   <div class="collapse container-fluid bg-1" id="chassisInfo">
     <!-- <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4> -->
-    <h4 class="combo-label">Per Chassis Information</h4> <!-- Riana: Changed text in this to reflect the actual content... -->
+    <h4 class="combo-label">Detailed Chassis Information</h4> <!-- Riana: Changed text in this to reflect the actual content... -->
     <!-- Riana: BEGIN DROPDOWN MENU-->
     <!-- RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option -->
     <form action="javascript:submitButtonPressed()"> <!-- Riana: On submit, call the specified javascript function (defined in the script below)... -->
@@ -1027,6 +1027,13 @@ function drawPiChart() {
     }
 
     document.getElementById("theCheckboxes").innerHTML = theHTML;
+
+    //Reset (as necessary)...
+    if((document.getElementById("selectAllButton").value).includes("Deselect All"))
+    {
+      (document.getElementById("selectAllButton").value) = "Select All";
+    }
+
   }
 
 
