@@ -51,10 +51,54 @@
     padding: 5px
   }
 
+  /* Riana: BEGIN CODE ADDED HERE FOR ITERATION 3 */
+
   /* Riana: using this styling to highlight the column header pertaining to the pop-up message when hover over the column header */
   th[title]:hover {
     color: gray;
   }
+
+  /* Riana: For dropdown menu... */
+  /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
+  .multiselect {
+    width: 200px;
+  }
+
+  .selectBox {
+    position: relative;
+  }
+
+  .selectBox select {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  #theCheckboxes {
+    display: none;
+    border: 1px #dadada solid;
+
+    height: 150px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  #theCheckboxes label {
+    display: block;
+  }
+
+  #theCheckboxes label:hover {
+    background-color: #1e90ff;
+  }
+
+  /* Riana: END CODE ADDED HERE FOR ITERATION 3 */
 
   </style>
 </head>
@@ -186,9 +230,24 @@
   <div class="collapse container-fluid bg-1" id="chassisInfo">
     <!-- <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4> -->
     <h4 class="combo-label">Per Chassis Information</h4> <!-- Riana: Changed text in this to reflect the actual content... -->
-    <div id="checkboxSelectCombo" ></div>
+    <!-- Riana: BEGIN DROPDOWN MENU-->
+    <!-- RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option -->
+    <form action="javascript:submitButtonPressed()"> <!-- Riana: On submit, call the specified javascript function (defined in the script below)... -->
+      <div class="multiselect"> <!-- Riana: Using HTML's multiselect for creating a multiple selection dropdown menu... -->
+        <div class="selectBox" onclick="displayDropdown()">
+          <select>
+            <option>Select...</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="theCheckboxes"></div> <!-- Riana: Fill in the dropdown options here... -->
+      </div>
+       <input type="submit" value="Submit">
+       <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></button>
+    </form>
+    <!-- Riana: END DROPDOWN MENU-->
     <!-- submit button for per chasiss detailed information-->
-    <input type="button" name="Submit Chassis" value="SUBMIT" onclick="submitButtonPressed()" >
+    <!-- <input type="button" name="Submit Chassis" value="SUBMIT" onclick="submitButtonPressed()" > -->
     <div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
     <br> </br>
 
@@ -235,6 +294,10 @@
 <!-- start Riana's code -->
 
 <script>
+
+//For dropdown menu...
+/* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
+var dropdownDisplayed;
 
 //For sorting the per chassis table...
 var savedHeaders;
@@ -377,7 +440,6 @@ function drawPiChart() {
 
         //RESET:
         colPrevSortedBy = -1;
-//        descendingOrAscendingOrder = -1;
       }
     }
 
@@ -950,35 +1012,21 @@ function drawPiChart() {
     }
 
     //Populate the dropdown menu dynamically...
-    //Note that I copied and pasted Kanika's JQuery code here so that the chassisNames variable will be accessible...
-    //Since the ID for the dropdown menu created in HTML is accessible, the dropdown menu can be populated here...
-    $(function () {
-      $("#checkboxSelectCombo").igCombo({
-        width: "270px",
-        dataSource: chassisNames, //Riana: fixed the spelling of chassis
-        textKey: "Name",
-        valueKey: "Name",
-        //REFERENCE: http://www.igniteui.com/help/igcombo-cascading
-        selectionChanged: function (evt, ui) { //Riana: added this function to store the current selection in an array that can be handled when click SUBMIT...
-          selectedChassisNames = [];
-          var itemData;
-          for(var itr = 0; itr < chassisNames.length; itr++)
-          {
-            if (ui.items && ui.items[itr]) {
-              itemData = ui.items[itr].data;
-              selectedChassisNames.push(
-                itemData.Name
-              );
-            }
-          }
-        },
-        multiSelection: {
-          enabled: true,
-          showCheckboxes: true,
-          itemSeparator: ', ' //Riana: added to get the submitted values in a readable format...
-        }
-      });
-    });
+
+    //For ease of use to the web application user, display the chasses in the dropdown menu in ascending alphabetical order.
+    chassisNames.sort();
+
+    //Create HTML for dropdown menu dynamically via Javascript...
+
+    var theHTML = "";
+
+    for(var x = 0; x < chassisNames.length; x++)
+    {
+      //Important: The content of the for in the label tag must match the id of the input checkbox to make the text clickable...
+      theHTML += "\<label for=\"" + chassisNames[x] + "\"\>\n<input type=\"checkbox\" id=\"" + chassisNames[x] + "\" value=\"" + chassisNames[x] + "\" \/\>" + chassisNames[x] + "\<\/label\>\n";
+    }
+
+    document.getElementById("theCheckboxes").innerHTML = theHTML;
   }
 
 
@@ -1111,8 +1159,12 @@ function drawPiChart() {
     }
   }
 
+
+
   ////////////////////////////////////////
   ////////////////////////////////////////
+
+
 
   //Declare a function that will clear a table's rows and headers.
   //This is needed to prevent the refresh of data from appending to the current tables.
@@ -1130,6 +1182,8 @@ function drawPiChart() {
       tableHeaders.deleteCell(i);
     }
   }
+
+
 
   //Define a function that will be called to refresh the data.
   //A refresh can occur on page load OR on pressing the refresh button.
@@ -1155,34 +1209,7 @@ function drawPiChart() {
     //filterPerChassisTableByDropdown(["bc01", "bc02", "a1a3"]);
   }
 
-  //Riana: This function is called when the SUBMIT button is clicked to indicate that the per chassis table should be filtered by the selection(s)
-  //  from the dropdown menu...
-  function submitButtonPressed()
-  {
-    //Note: The selected chasses are stored in the array called selectedChassisNames...
 
-    //ERROR CHECK...
-    console.log("Selected chasses: ");
-    console.log(selectedChassisNames);
-
-    //Check that a selection was made...
-    if(typeof selectedChassisNames != 'undefined')
-    {
-      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "";
-
-      //Call the function needed to filter the per chassis table accordingly and pass it the array of chassis names to filter by...
-      filterPerChassisTableByDropdown(selectedChassisNames);
-    }
-    else
-    {
-      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "Please select at least one chassis to display.";
-    }
-
-    //Reset...
-    storedSelection = selectedChassisNames; //for sorting...
-    selectedChassisNames = undefined;
-
-  }
 
   //Define a function that will filter the table containing per chassis information to display only the rows containing the
   //  chassis name(s) specified in the array passed in as a parameter.
@@ -1200,6 +1227,8 @@ function drawPiChart() {
     //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
     readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
   }
+
+
 
   //Define a function that will filter the per chassis table by contributors to the column clicked on
   //  (ie. rows whose value in that column is greater than 0).
@@ -1220,6 +1249,8 @@ function drawPiChart() {
     console.log(rowsToDisplay); //error check
   }
 
+
+
   //Riana: This function is for sorting the PER CHASSIS table by column...
   function sortByColumn(columnNumber)
   {
@@ -1234,7 +1265,7 @@ function drawPiChart() {
     //Set the following variables for toggling the direction of sort on next click IF click on same header in per chassis table while this sort is still visible...
     if(colPrevSortedBy === columnNumber) //if the per chassis table was sorted in the view at the time the current column header was clicked...
     {
-      if(descendingOrAscendingOrder === 0) // || descendingOrAscendingOrder === -1)
+      if(descendingOrAscendingOrder === 0)
       {
         descendingOrAscendingOrder = 1;
       }
@@ -1476,18 +1507,9 @@ function drawPiChart() {
     //Now, re-draw the table with the sorted data...
     //Indicate via the appropriate parameter that sorting is now being observed...
     populateTableFromCSVFile(sortedData, "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, true);
-
-    // //Set the following variables for toggling the direction of sort on next click IF click on same header in per chassis table while this sort is still visible...
-    // colPrevSortedBy = columnNumber;
-    // if(descendingOrAscendingOrder === 0 || descendingOrAscendingOrder === -1)
-    // {
-    //   descendingOrAscendingOrder = 1;
-    // }
-    // else if(descendingOrAscendingOrder === 1)
-    // {
-    //   descendingOrAscendingOrder = 0;
-    // }
   }
+
+
 
   //Define the function that is called when the window is loaded...
   function start()
@@ -1495,6 +1517,9 @@ function drawPiChart() {
     //Indicate that the initial data read has not been completed yet.
     init = 0;
     init2 = 0;
+
+    //Initialize for dropdown menu...
+    dropdownDisplayed = false;
 
     //Initialize the variables for data refresh to reflect that no filter is in place...
     filterDropdownObserved = false;
@@ -1512,6 +1537,105 @@ function drawPiChart() {
     //Call the refresh function...
     refresh();
   }
+
+  //For HTML Dropdown Menu (BEGIN)
+
+
+
+  function displayDropdown() {
+    var theCheckboxes = document.getElementById("theCheckboxes");
+    if (!dropdownDisplayed) {
+      theCheckboxes.style.display = "block";
+      dropdownDisplayed = true;
+    }
+    else
+    {
+      theCheckboxes.style.display = "none";
+      dropdownDisplayed = false;
+    }
+  }
+
+
+
+  //When the SUBMIT Button is pressed, collect the selected results and filter the per chassis table to display only the selected chasses...
+  //...also reset the Select All button (if necessary) and the checkboxes.
+  function submitButtonPressed()
+  {
+    //Collect the selections...
+    var selectedChassisNames = [];
+
+    for(var i = 0; i < chassisNames.length; i++)
+    {
+      if(document.getElementById(chassisNames[i]).checked)
+      {
+        //append the chassis name to the result array
+        selectedChassisNames.push(chassisNames[i]);
+
+        //reset the checkbox...
+        document.getElementById(chassisNames[i]).checked = false;
+      }
+    }
+
+    //Reset (as necessary)...
+    if((document.getElementById("selectAllButton").value).includes("Deselect All"))
+    {
+      (document.getElementById("selectAllButton").value) = "Select All";
+    }
+
+    //ERROR CHECK...
+    console.log("SELECTED CHASSIS NAME(S):");
+    console.log(selectedChassisNames);
+
+    //Note: The selected chasses are stored in the array called selectedChassisNames...
+
+    //Check that a selection was made...
+    if(selectedChassisNames.length > 0)
+    {
+      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "";
+
+      //Call the function needed to filter the per chassis table accordingly and pass it the array of chassis names to filter by...
+      filterPerChassisTableByDropdown(selectedChassisNames);
+    }
+    else
+    {
+      //Indicate that a selection must be made in order to filter the table...
+      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "Please select at least one chassis to display.";
+    }
+
+    //Reset...
+    storedSelection = selectedChassisNames; //for sorting...
+    selectedChassisNames = undefined;
+
+  }
+
+
+
+  //Select all if press button "Select All" and toggle the button's text to "Deselect All"...
+  //Deselect all if press button "Deselect All" and toggle the button's text to "Select All"...
+  function selectDeselectAll()
+  {
+
+    if((document.getElementById("selectAllButton").value).includes("Deselect All"))
+    {
+      for(var i = 0; i < chassisNames.length; i++)
+      {
+        document.getElementById(chassisNames[i]).checked = false;
+      }
+
+      (document.getElementById("selectAllButton").value) = "Select All";
+    }
+    else
+    {
+      for(var i = 0; i < chassisNames.length; i++)
+      {
+        document.getElementById(chassisNames[i]).checked = true;
+      }
+
+      (document.getElementById("selectAllButton").value) = "Deselect All";
+    }
+  }
+
+  //For HTML Dropdown Menu (END)
 
   //On page load, call the start() function...
   window.onload = start;
