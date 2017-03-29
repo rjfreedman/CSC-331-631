@@ -1,47 +1,43 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html>
 <head>
-  <title> DEAC Cluster System Monitor </title>
-  <!-- The icon that appears in the tab -->
-  <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
-  <!-- charset allows bootstrap characters -->
-  <meta charset = "utf-8">
-  <!-- viewport should allow bootstrap to resize for viewing device -->
-  <meta name = "viewport" content = "width = device-width, initial-scale =1">
-  <!-- KR: stylesheet specific to system monitor page -->
-  <link rel="stylesheet" type="text/css" href="SysMonitorStyle.css">
+<!-- Copied From DEAC Cluster Page! -->
+		<title>DEAC Cluster: System Monitor</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
+<!-- end copied from DEAC Cluster Page! -->
 
-  <!-- Getting the bootstrap libraries for CSS from a CDN-->
   <!-- KR: Getting the bootstrap libraries for CSS from a CDN-->
   <!-- KR: add bootstrap for CSS, jquery and JavaScript -->
   <!-- 1) bootstrap for CSS: necessary for containers to provide responsive design -->
   <!-- 2,3) jquery and bootstrap for js, necessary for expansion buttons -->
+
+<!-- TO REMOVE BOOTSTRAP FOR TESTING, COMMENT OUT THE NEXT THREE LINKS! -->
   <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- END BOOTSTRAP LINKS -->
 
-  <!-- KG: needs these bootstrap and style for drop down menu check box functionality -->
-  <!-- <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-  <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css" rel="stylesheet" /> -->
-  <!-- KR: modernizr allows it to run on old systems like IE7 -->
-  <!-- <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script> -->
-  <!-- KR: removing this jquery because I needed 3.1.1 earlier
-  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
-  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-
-  <!-- KG: Ignite UI Required Combined JavaScript Files -->
-  <!-- <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.core.js"></script>
-  <script src="https://cdn-na.infragistics.com/igniteui/2016.2/latest/js/infragistics.lob.js"></script> -->
-
+  <!--KR: KG added this jquery for her drop down. Check if still necessary! - NOT NECESSARY
+  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script> -->
   <!-- HHL and Alexis: Using google drive library for gauge and pie chart graphics-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
   <style>
   .combo-label {margin-bottom:.5em; align-items:right; }
-  </style>
-  <!-- Lee's table style currently styling ALL tables on page -->
-  <!-- Riana: added the text-align: center specification when populating the data for readability -->
-  <style>
+
+  button .style1b{
+	/* find a way to inherit all parts of style1 EXCEPT they typing thing!*/
+  }
+  button .style3b{
+	/* find a way to inherit all parts of style3 EXCEPT padding! */
+  }
+  /* Lee's table style currently styling ALL tables on page -->
+  Riana: added the text-align: center specification when populating the data for readability */
   table, tr, th{
     border: 1px solid black;
     border-collapse: collapse;
@@ -104,38 +100,110 @@
 </head>
 
 <body>
-  <!-- adding containers to ensure the page resizes well on different devices -->
-  <div class="container-fluid bg bg-2"> <!-- contains portion of page over image -->
-    <div class="container-fluid">
-      <div class="row">
-        <!-- KR: This is the top of the page, small container at each side for logo/update info, large box in middle for title -->
-        <div class="col-sm-1">
-          <img src="http://www.deac.wfu.edu/images/favicon.png" class="img-responsive" style="display:inline" alt="logo" width="150" height="150" id="logo">
-        </div>
-        <div class="col-sm-10">
-          <h1 id="pageTitle" align="left" style="font-weight: 900">DEAC Cluster</h1>
-          <h3 align="left" style="font-weight: 700">System Monitor</h3>
-        </div>
-        <div class="col-sm-1">
-        </div>
-      </div> <!-- close row div -->
-    </div>
+		<div id="page-wrapper">
 
+<!-- Header comes from DEAC Cluster website, all changes are commented -->
+<!-- Header ############################################################################################################################### -->
+<div id="header-wrapper" class="wrapper">
+	<div id="header">
+
+	<!-- Logo -->
+	<div id="logo">
+		<br>
+		<!-- KR: Changed to System Monitor -->
+		<h1><a href="#">System Monitor</a></h1>
+		</div>
+
+	<!-- Nav -->
+	<nav id="nav">
+		<ul>
+			<li class="current"><a href="index.html">Home</a></li>
+			<li><a href="education.html">Education Mission</a>
+			<ul>
+				<li><a href="education.html">Overview</a></li>
+				<li><a href="courses.html">Course Listings</a></li>
+			</ul>
+			</li>
+
+			<li><a href="research.html">Research Mission</a>
+			<ul>
+				<li><a href="research.html">Overview</a>
+				<li><a href="grants.html">Grants Awarded</a>
+				<li><a href="ms-ma-phd.html">Thesis & Dissertation</a>
+				<li><a href="publications.html">Publications</a>
+				<li><a href="presentations.html">Presentations</a>
+				<li><a href="citation.html">Citation</a>
+			</ul>
+			</li>
+
+			<li><a href="training.html">User Support</a>
+			<ul>
+				<li><a href="training.html">Overview</a>
+				<li><a href="accounts.html">Requesting an Account</a>
+				<li><a href="software.html">Requesting Software</a>
+				<li><a href="user-account-policy.html">User Account Policy</a>
+			</ul>
+			</li>
+
+			<li><a href="notifications.html">Notifications</a>
+                        <ul>
+                                <li><a href="notifications.html">Notifications</a>
+                                <li><a href="slurm-torque.html">SLURM/Torque List</a>
+                                <li><a href="kernel-update.html">Kernel Update List</a>
+                        </ul>
+                                </li>
+
+			<li><a href="#">About Us</a>
+			<ul>
+				<li><a href="#">Overview</a></li>
+				<li><a href="services.html">Services</a></li>
+				<li><a href="resources.html">Resources</a></li>
+				<li><a href="staff.html">Staff</a></li>
+			</ul>
+			</li>
+
+			<li><a href=https://wiki.deac.wfu.edu/>Cluster Wiki</a></li>
+		</ul>
+		</nav>
+	</div>
+</div><!-- end Header-wrapper div. -->
+
+
+<!-- Main ######################################################################################################################################## -->
+<div class="wrapper style2">
+	<!-- Changed -->
+	<div class="title">Dashboard</div>
+	<!-- Their usual divs to get side panel, ignoring for now!<div id="main" class="container">
+			<div class="row 150%">
+	<div class="4u 12u(mobile)"> -->
+<!-- OUR CONTENT ########################################################################################################################### -->
+  <!-- adding containers to ensure the page resizes well on different devices -->
+<!-- Removed OUR header -->
     <div class="container-fluid">
-      <!-- Riana: I changed all div classes to "col-sm-3" to have a row of 4 items in the initial view... -->
       <div class="row" id="initialView" align="center">
         <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
         <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
         <!-- Add padding at sides, if you do make two gauge columns 3 <div class="col-sm-1"></div>-->
-        <div class="col-sm-4" id="clusterStatusFirstView" align="center">
+        <div class="col-sm-4" id="clusterStatusFirstView">
           <div class="panel panel-default" id="StatusInfographicPanel">
             <div class="panel-heading"><h3>Cluster Status</h3></div>
-            <div class="panel-body">
+            <div class="panel-body" align="center">
               <div id="chart_div" style="width: 100%; height: 200px;"></div>
               <!-- KR: collapsible button to expand statusTable div -->
-              <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#statusTable">
+              <button class="button style3 full-width" data-toggle="collapse" data-target="#statusTable">
                 Expand Cluster Status
               </button>
+    <div class="collapse" id="statusTable">
+	<br>
+      <!-- Status Table by Lee -->
+      <table id="overall_status_table">
+        <!-- <h4 class="combo-label">Overall Cluster Status</h4> -->
+        <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
+        <tr id="overall_status_table_HEADERS">
+          <!-- Column headers will be filled in dynamically according to file... -->
+        </tr>
+      </table>
+    </div> <!-- end statusTable collapse div -->
             </div>
           </div>
         </div><!-- end column div -->
@@ -146,9 +214,20 @@
             <div class="panel-body">
               <div id="piechart_div" style="width: 100%; height: 200px;"></div>
               <!-- KR: collapsible button to expand healthTable div -->
-              <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#healthTable">
+              <button class="button style3" data-toggle="collapse" data-target="#healthTable">
                 Expand Cluster Health
               </button>
+    <div class="collapse" id="healthTable">
+	<br>
+      <!-- Health Status Table by AA -->
+      <table id="health_table">
+        <!-- <h4 class="combo-label">Cluster Health Status</h4> -->
+        <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
+        <tr id= "health_table_HEADERS">
+          <!-- Column headers will be filled in dynamically according to file... -->
+        </tr>
+      </table>
+    </div> <!-- end health Table collapse div -->
             </div>
           </div>
         </div><!-- end column div -->
@@ -160,70 +239,33 @@
             <div class="panel-heading"><h3>Node Utilization</h3></div>
             <div class="panel-body">
               <div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
-              <button class="btn btn-block btn-1" data-toggle="collapse" data-target="#nodeUtilizationTable">
+              <button class="button style3" data-toggle="collapse" data-target="#nodeUtilizationTable">
                 Expand Node Utilization
               </button>
-            </div>
-          </div>
-        </div><!-- end column div -->
-        <!-- End Riana's addition for node utilization status table -->
-        <!--<div class="col-sm-1"></div> -->
-      </div><!-- end row div for infographics -->
-    </div><!-- end container-fluid that contains infographics -->
-    <!--</div> end container with background image -->
-
-    <!-- KR: following divs must have class="Collapse" so that collapse buttons work -->
-    <div class="collapse container-fluid bg-1" id="statusTable">
-      <!-- Status Table by Lee -->
-      <!-- KR: br adds vertical space before the table, play with these to achieve optimal spacing -->
-      <table id="overall_status_table">
-        <h4 class="combo-label">Overall Cluster Status</h4>
-        <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-        <tr id="overall_status_table_HEADERS">
-          <!-- Riana: commented out all table headers in order to auto-populate them -->
-          <!-- <th>Running Jobs</th>
-          <th>Queued Jobs</th>
-          <th>Number of CPUs</th> -->
-        </tr>
-      </table>
-    </div>
-
-    <div class="collapse container-fluid bg-1" id="healthTable">
-      <!-- Health Status Table by AA -->
-      <table id="health_table">
-        <h4 class="combo-label">Cluster Health Status</h4>
-        <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-        <tr id= "health_table_HEADERS">
-          <!-- Riana: commented out all table headers in order to auto-populate them. -->
-          <!-- <th>Number of Nodes Up</th>
-          <th>Number of Nodes Down</th>
-          <th>Number of Nodes Under Maintenance</th> -->
-        </tr>
-      </table>
-    </div>
-
     <!-- Begin Riana's addition of the node utilization status table -->
-    <div class="collapse container-fluid bg-1" id="nodeUtilizationTable">
+    <div class="collapse" id="nodeUtilizationTable">
+	<br>
       <table id="node_utilization_table">
-        <h4 class="combo-label">Node Utilization Status</h4>
+        <!-- <h4 class="combo-label">Node Utilization Status</h4> -->
         <tr id= "node_utilization_table_HEADERS">
           <!-- Column headers will be filled in dynamically according to file... -->
         </tr>
       </table>
     </div>
-
     <!-- End Riana's addition of the node utilization status table -->
-    <div class="container-fluid">
-      <!--<div class="row" id="ChassisButtonContainer">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-10" id="perChassisAccessPoint" align="center"> -->
-      <!-- KR: collapsible button to expand healthTable div -->
-      <button class="btn btn-1 btn-block" data-toggle="collapse" data-target="#chassisInfo" aria-expanded="false" aria-controls="chassisInfo">
+            </div>
+          </div>
+        </div><!-- end column div -->
+        <!-- End Riana's addition for node utilization status table -->
+
+      </div><!-- end row div for infographics -->
+    </div><!-- end container-fluid that contains infographics -->
+
+  <div class="container-fluid">
+      <!-- KR: collapsible button to expand per chassis information Table div -->
+      <button class="button style3" data-toggle="collapse" data-target="#chassisInfo">
         Detailed Information for Each Chassis
       </button>
-      <!-- </div>
-      <div class="col-sm-1"></div>
-    </div> -->
   </div>
 
   <!-- KG: Chassis Information table and drop down -->
@@ -263,7 +305,7 @@
 </div> <!-- end chassisInfo div -->
 
 <!--Riana: added a space below the last table in order to be able to see the data in the last row of the table clearly -->
-<br>
+<!-- <br> -->
 </div><!-- end div with background image -->
 <div class="container-fluid bg-footer" id="dateTimeFooter">
   <div class="row">
@@ -279,13 +321,76 @@
     <p id="lastUpdateDateTime"></p>
     <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
     <!-- Riana: updated the text of the button per 3.24.2017 customer meeting -->
-    <button class="btn btn-outline" onclick="refresh()">Refresh Data</button><br><br>
+    <button class="button style2" onclick="refresh()">Refresh Data</button><br><br>
     <!-- Riana: added this line of information as note regarding refresh -->
     <p><i>*Please Note:<br>Data is updated hourly.</i></p><br>
   </div>
 </div>
 </div>
 </div>
+<!-- end our content -->
+</div><!-- end MAIN content wrapper -->
+<!-- Entire Footer is from DEAC Cluster Page -->
+<!-- Footer ############################################################################################################################## -->
+<div id="footer-wrapper" class="wrapper">
+	<div class="title">HPC@Wake</div>
+		<div id="footer" class="container">
+			<div class="row 50%">
+			<!-- Contact -->
+			<section class="feature-list">
+				<div class="row">
+					<div class="6u 12u(mobile)">
+						<section>
+							<h3 class="icon fa-map-marker">Address</h3>
+							<p> <strong>Wake Forest University</br>
+							Information Systems</br>
+							UCC Building</br>
+							1100 Reynolds Blvd</br>
+							Winston-Salem, NC 27105</strong></p>
+						</section>
+					</div>
+                <div class="6u 12u(mobile)">
+                        <section>
+                                <h3 class="icon fa-twitter"><a href="https://twitter.com/WakeHPC">@WakeHPC</a></h3>
+                        </section>
+                </div>
+
+                <div class="6u 12u(mobile)">
+                        <section>
+                                <h3 class="icon fa-youtube"><a href="https://www.youtube.com/channel/UCmdgQr8V1jfOQCkmvdHTZuw">DEAC Channel</a></h3>
+                        </section>
+                </div>
+                <div class="6u 12u(mobile)">
+                        <section>
+                                <h3 class="icon fa-envelope">Email</h3>
+                                        <p>For DEAC Cluster support:</br>
+                                        <a href="mailto:deac-help@wfu.edu">deac-help@wfu.edu</a></p>
+                        </section>
+                </div>
+				</div>
+			</section>
+			</div>
+		</div>
+	<div id="copyright">
+	<ul>
+		<a href="http://www.wfu.edu"><img src="http://www.deac.wfu.edu/images/wake_logo.png" alt="WFU Logo"></a></br>
+		<li>Copyright &copy; 2002-2017 Wake Forest University</li>
+	</ul>
+	</div>
+	</div>
+</div>
+
+<!-- deac cluster scripts -->
+<!-- Scripts ############################################################################################################################## -->
+
+<script src="http://www.deac.wfu.edu/assets/js/jquery.min.js"></script>
+<script src="http://www.deac.wfu.edu/assets/js/jquery.dropotron.min.js"></script>
+<script src="http://www.deac.wfu.edu/assets/js/skel.min.js"></script>
+<script src="http://www.deac.wfu.edu/assets/js/skel-viewport.min.js"></script>
+<script src="http://www.deac.wfu.edu/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="http://www.deac.wfu.edu/assets/js/main.js"></script>
+
 </body>
 </html>
 
