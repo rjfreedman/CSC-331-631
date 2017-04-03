@@ -1,433 +1,381 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Copied From DEAC Cluster Page! -->
-		<title>DEAC Cluster: System Monitor</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-		<link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
-<!-- end copied from DEAC Cluster Page! -->
-
-  <!-- KR: Getting the bootstrap libraries for CSS from a CDN-->
-  <!-- KR: add bootstrap for CSS, jquery and JavaScript -->
-  <!-- 1) bootstrap for CSS: necessary for containers to provide responsive design -->
-  <!-- 2,3) jquery and bootstrap for js, necessary for expansion buttons -->
-
-<!-- TO REMOVE BOOTSTRAP FOR TESTING, COMMENT OUT THE NEXT THREE LINKS!
-  <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- END BOOTSTRAP LINKS -->
-
-  <!--KR: KG added this jquery for her drop down. Check if still necessary! - NOT NECESSARY
-  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script> -->
+  <!-- Copied From DEAC Cluster Page! -->
+  <title>DEAC Cluster: System Monitor</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+  <link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+  <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
+  <!-- end copied from DEAC Cluster Page! -->
+  
   <!-- HHL and Alexis: Using google drive library for gauge and pie chart graphics-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<!--KG added style for the body, styling for the panels(heading, boundary, radius) -->
+  
+  <!--KG added style for the body, styling for the panels(heading, boundary, radius) -->
   <style>
- /*overflow-x: auto !important;*/
- @media screen and (max-width: 736px) {}
-
- /* Basic */
-
-	 body{
-		 overflow-x: auto !important;
-	 }
-
-  body{
+    /* use this if we want to test for, and behave differently on small screens:
+       @media screen and (max-width: 736px) {} */
+    
+    /* Basic */ 
+    body{
+      /* maintains horizontal scroll bar on small screens - necessary for detailed information table */
+      overflow-x: auto !important;
+    }
+    
+    body{
     color: #333;
-  /*  line-height: 20px !important;
-    font-size: 14px !important;*/
-  }
+      /*  line-height: 20px !important;
+      font-size: 14px !important;*/
+    }
+    
+    .panelDiv{
+      /*width: 30%;
+      margin-right: 20px;
+      margin-left: 20px;*/
+      min-width: 420px;
+      /*float: left;*/
+    }
+    
+    .panel-heading {
+      color: #333;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ccc;
+    }
+    
+    .panel-heading h3 {
+      padding: 15px;
+    }
+    
+    .panel-default{
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    /* .expandablebtn{
+      display: none;
+    
+    }*/
+    /*KG styling ends here*/
 
-  #statusTable{
-    width: auto;
-    margin: 0 auto;
-  }
+    .combo-label {margin-bottom:.5em; align-items:right; }
 
-  .panelDiv{
-    width: 30%;
-    margin-right: 20px;
-		min-width: 420px;
-    /*float: left;*/
-  }
+    /* Table styles specific to this page
+       Note: some table styling controlled by cluster style sheet */
+    table, tr, th{
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    tr, th{
+      padding: 5px
+    }
 
-.panel-heading {
-    color: #333;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #ccc;
-}
+    /* Riana: using this styling to highlight the column header pertaining to the pop-up message when hover over the column header */
+    th[title]:hover {
+      color: gray;
+    }
+  
+    /* Riana: For dropdown menu... */
+    /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
+    .multiselect {
+      width: 200px;
+    }
+  
+    .selectBox {
+      position: relative;
+    }
+  
+    .selectBox select {
+      width: 100%;
+      font-weight: bold;
+    }
+  
+    .overSelect {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
 
-  .panel-heading h3 {
-    padding: 15px;
-}
+    #theCheckboxes {
+      display: none;
+      border: 1px #dadada solid;
 
-  .panel-default{
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+      height: 150px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
 
- /* .expandablebtn{
-    display: none;
+    #theCheckboxes label {
+      display: block;
+    }
 
-  }*/
-
-	/*KG styling ends here*/
-  .combo-label {margin-bottom:.5em; align-items:right; }
-
-  button .style1b{
-	/* find a way to inherit all parts of style1 EXCEPT they typing thing!*/
-  }
-  button .style3b{
-	/* find a way to inherit all parts of style3 EXCEPT padding! */
-  }
-  /* Lee's table style currently styling ALL tables on page -->
-  Riana: added the text-align: center specification when populating the data for readability */
-  table, tr, th{
-    border: 1px solid black;
-    border-collapse: collapse;
-    text-align: center;
-  }
-  tr, th{
-    padding: 5px
-  }
-
-  /* Riana: BEGIN CODE ADDED HERE FOR ITERATION 3 */
-
-  /* Riana: using this styling to highlight the column header pertaining to the pop-up message when hover over the column header */
-  th[title]:hover {
-    color: gray;
-  }
-
-  /* Riana: For dropdown menu... */
-  /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
-  .multiselect {
-    width: 200px;
-  }
-
-  .selectBox {
-    position: relative;
-  }
-
-  .selectBox select {
-    width: 100%;
-    font-weight: bold;
-  }
-
-  .overSelect {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-  }
-
-  #theCheckboxes {
-    display: none;
-    border: 1px #dadada solid;
-
-    height: 150px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-  }
-
-  #theCheckboxes label {
-    display: block;
-  }
-
-  #theCheckboxes label:hover {
-    background-color: #1e90ff;
-  }
-
-  /* Riana: END CODE ADDED HERE FOR ITERATION 3 */
-
+    #theCheckboxes label:hover {
+      background-color: #1e90ff;
+    }
   </style>
 </head>
 
 <body>
-		<div id="page-wrapper">
-
-<!-- Header comes from DEAC Cluster website, all changes are commented -->
-<!-- Header ############################################################################################################################### -->
-<div id="header-wrapper" class="wrapper">
-	<div id="header">
-
+  <div id="page-wrapper">
+    
+    <!-- Header comes from DEAC Cluster website, all changes are commented -->
+    <!-- Header ############################################################################################################################### -->
+    <div id="header-wrapper" class="wrapper">
+      <div id="header">
+	
 	<!-- Logo -->
 	<div id="logo">
-		<br>
-		<!-- KR: Changed to System Monitor -->
-		<h1><a href="#">System Monitor</a></h1>
-		</div>
-
+	  <br>
+	  <!-- KR: Changed to System Monitor -->
+	  <h1>System Monitor</h1>
+	</div>
+	
 	<!-- Nav -->
+	<!-- KR: added a lot of </li> for all elements to be closed -->	
 	<nav id="nav">
-		<ul>
-			<li class="current"><a href="index.html">Home</a></li>
-			<li><a href="education.html">Education Mission</a>
-			<ul>
-				<li><a href="education.html">Overview</a></li>
-				<li><a href="courses.html">Course Listings</a></li>
-			</ul>
-			</li>
-
-			<li><a href="research.html">Research Mission</a>
-			<ul>
-				<li><a href="research.html">Overview</a>
-				<li><a href="grants.html">Grants Awarded</a>
-				<li><a href="ms-ma-phd.html">Thesis & Dissertation</a>
-				<li><a href="publications.html">Publications</a>
-				<li><a href="presentations.html">Presentations</a>
-				<li><a href="citation.html">Citation</a>
-			</ul>
-			</li>
-
-			<li><a href="training.html">User Support</a>
-			<ul>
-				<li><a href="training.html">Overview</a>
-				<li><a href="accounts.html">Requesting an Account</a>
-				<li><a href="software.html">Requesting Software</a>
-				<li><a href="user-account-policy.html">User Account Policy</a>
-			</ul>
-			</li>
-
-			<li><a href="notifications.html">Notifications</a>
-                        <ul>
-                                <li><a href="notifications.html">Notifications</a>
-                                <li><a href="slurm-torque.html">SLURM/Torque List</a>
-                                <li><a href="kernel-update.html">Kernel Update List</a>
-                        </ul>
-                                </li>
-
-			<li><a href="#">About Us</a>
-			<ul>
-				<li><a href="#">Overview</a></li>
-				<li><a href="services.html">Services</a></li>
-				<li><a href="resources.html">Resources</a></li>
-				<li><a href="staff.html">Staff</a></li>
-			</ul>
-			</li>
-
-			<li><a href=https://wiki.deac.wfu.edu/>Cluster Wiki</a></li>
-		</ul>
-		</nav>
-	</div>
-</div><!-- end Header-wrapper div. -->
-
-
-<!-- Main ######################################################################################################################################## -->
-<div class="wrapper style2">
-	<!-- Changed -->
-	<div class="title">Dashboard</div>
-	<!-- Their usual divs to get side panel, ignoring for now!<div id="main" class="container">
-			<div class="row 150%">
-	<div class="4u 12u(mobile)"> -->
-<!-- OUR CONTENT ########################################################################################################################### -->
-  <!-- adding containers to ensure the page resizes well on different devices -->
-<!-- Removed OUR header -->
-    <div class="container-fluid">
-      <div class="row" id="initialView" align="center">
-        <!-- KR: All columns equal, change col-sm-* to change this, all must add to 12 -->
-        <!-- KR: Currently all containers in this row (3) set to align="center" change as appropriate later. -->
-        <!-- Add padding at sides, if you do make two gauge columns 3 <div class="col-sm-1"></div>-->
-        <div class="col-sm-4 panelDiv" id="clusterStatusFirstView">
-          <div class="panel panel-default" id="StatusInfographicPanel">
-            <div class="panel-heading"><h3>Cluster Status</h3></div>
-            <div class="panel-body" align="center">
-              <div id="chart_div" style="width: 100%; height: 200px;"></div>
-              <!-- KR: collapsible button to expand statusTable div -->
-              <button class="button style3 full-width expandablebtn" data-toggle="collapse" data-target="#statusTable">
-                Expand Cluster Status
-              </button>
-    <div class="collapse panelDiv" id="statusTable">
-	<br>
-      <!-- Status Table by Lee -->
-      <table id="overall_status_table">
-        <!-- <h4 class="combo-label">Overall Cluster Status</h4> -->
-        <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-        <tr id="overall_status_table_HEADERS">
-          <!-- Column headers will be filled in dynamically according to file... -->
-        </tr>
-      </table>
-    </div> <!-- end statusTable collapse div -->
-            </div>
-          </div>
-        </div><!-- end column div -->
-
-        <div class="col-sm-4 panelDiv" id="clusterHealthFirstView" align="center">
-          <div class="panel panel-default" id="HealthInfographicPanel">
-            <div class="panel-heading"><h3>Cluster Health</h3></div>
-            <div class="panel-body">
-              <div id="piechart_div" style="width: 100%; height: 200px;"></div>
-              <!-- KR: collapsible button to expand healthTable div -->
-              <button class="button style3 expandablebtn2" data-toggle="collapse" data-target="#healthTable">
-                Expand Cluster Health
-              </button>
-    <div class="collapse" id="healthTable">
-	<br>
-      <!-- Health Status Table by AA -->
-      <table id="health_table">
-        <!-- <h4 class="combo-label">Cluster Health Status</h4> -->
-        <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-        <tr id= "health_table_HEADERS">
-          <!-- Column headers will be filled in dynamically according to file... -->
-        </tr>
-      </table>
-    </div> <!-- end health Table collapse div -->
-            </div>
-          </div>
-        </div><!-- end column div -->
-
-        <!-- Begin Riana's addition for node utilization status table -->
-        <div class="col-sm-4 panelDiv" id="nodeUtilizationStatusFirstView" align="center">
-          <!-- Replace the id in the next line when ready... -->
-          <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
-            <div class="panel-heading"><h3>Node Utilization</h3></div>
-            <div class="panel-body">
-              <div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
-              <button class="button style3 expandablebtn3" data-toggle="collapse" data-target="#nodeUtilizationTable">
-                Expand Node Utilization
-              </button>
-    <!-- Begin Riana's addition of the node utilization status table -->
-    <div class="collapse" id="nodeUtilizationTable">
-	<br>
-      <table id="node_utilization_table">
-        <!-- <h4 class="combo-label">Node Utilization Status</h4> -->
-        <tr id= "node_utilization_table_HEADERS">
-          <!-- Column headers will be filled in dynamically according to file... -->
-        </tr>
-      </table>
-    </div>
-    <!-- End Riana's addition of the node utilization status table -->
-            </div>
-          </div>
-        </div><!-- end column div -->
-        <!-- End Riana's addition for node utilization status table -->
-
-      </div><!-- end row div for infographics -->
-    </div><!-- end container-fluid that contains infographics -->
-
-  <div class="container-fluid">
-      <!-- KR: collapsible button to expand per chassis information Table div -->
-      <button class="button style3  expandablebtn4" data-toggle="collapse" data-target="#chassisInfo">
-        Detailed Information for Each Chassis
-      </button>
-  </div>
-
-  <!-- KG: Chassis Information table and drop down -->
-  <div class="collapse container-fluid bg-1" id="chassisInfo">
-    <!-- <h4 class="combo-label">Single/Multiple Selection of Chasses with Checkboxes</h4> -->
-    <h4 class="combo-label">Detailed Chassis Information</h4> <!-- Riana: Changed text in this to reflect the actual content... -->
-    <!-- Riana: BEGIN DROPDOWN MENU-->
-    <!-- RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option -->
-    <form action="javascript:submitButtonPressed()"> <!-- Riana: On submit, call the specified javascript function (defined in the script below)... -->
-      <div class="multiselect"> <!-- Riana: Using HTML's multiselect for creating a multiple selection dropdown menu... -->
-        <div class="selectBox" onclick="displayDropdown()">
-          <select>
-            <option>Select...</option>
-          </select>
-          <div class="overSelect"></div>
-        </div>
-        <div id="theCheckboxes"></div> <!-- Riana: Fill in the dropdown options here... -->
+	  <ul>
+	    <li class="current"><a href="index.html">Home</a></li>
+	    
+	    <li><a href="education.html">Education Mission</a>
+	      <ul>
+		<li><a href="education.html">Overview</a></li>
+		<li><a href="courses.html">Course Listings</a></li>
+	      </ul>
+	    </li>
+	    
+	    <li><a href="research.html">Research Mission</a>
+	      <ul>
+		<li><a href="research.html">Overview</a></li>
+		<li><a href="grants.html">Grants Awarded</a></li>
+		<li><a href="ms-ma-phd.html">Thesis & Dissertation</a></li>
+		<li><a href="publications.html">Publications</a></li>
+		<li><a href="presentations.html">Presentations</a></li>
+		<li><a href="citation.html">Citation</a></li>
+	      </ul>
+	    </li>
+	    
+	    <li><a href="training.html">User Support</a>
+	      <ul>
+		<li><a href="training.html">Overview</a></li>
+		<li><a href="accounts.html">Requesting an Account</a></li>
+		<li><a href="software.html">Requesting Software</a></li>
+		<li><a href="user-account-policy.html">User Account Policy</a></li>
+	      </ul>
+	    </li>
+	    
+	    <li><a href="notifications.html">Notifications</a>
+              <ul>
+                <li><a href="notifications.html">Notifications</a></li>
+                <li><a href="slurm-torque.html">SLURM/Torque List</a></li>
+                <li><a href="kernel-update.html">Kernel Update List</a></li>
+              </ul>
+            </li>
+	    
+	    <li><a href="#">About Us</a>
+	      <ul>
+		<li><a href="#">Overview</a></li>
+		<li><a href="services.html">Services</a></li>
+		<li><a href="resources.html">Resources</a></li>
+		<li><a href="staff.html">Staff</a></li>
+	      </ul>
+	    </li>
+	    
+	    <li><a href="https://wiki.deac.wfu.edu/">Cluster Wiki</a></li>
+	  </ul>
+        </nav>
       </div>
-       <input type="submit" value="Submit">
-       <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></button>
-    </form>
-    <!-- Riana: END DROPDOWN MENU-->
-    <!-- submit button for per chasiss detailed information-->
-    <!-- <input type="button" name="Submit Chassis" value="SUBMIT" onclick="submitButtonPressed()" > -->
-    <div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
-    <br> </br>
+    </div><!-- end Header-wrapper div. -->
 
-    <!-- Riana: moved dropdown menu code to the script below so that the data will be accessible and
-    can then populate the HTML component via the ID assigned to the dropdown menu -->
+    <!-- Main ######################################################################################################################################## -->
+    <div class="wrapper style2">
+      <!-- Changed -->
+      <div class="title">Dashboard</div>
+      <!-- Their usual divs to get side panel, ignoring for now!<div id="main" class="container">
+	   <div class="row 150%">
+	     <div class="4u 12u(mobile)"> -->
+      <!-- OUR CONTENT ########################################################################################################################### -->
+      <!-- Removed OUR header -->
+	<!--<div class="container" id="initialView" align="center"> -->
+	<div class="row">
+	<!-- KR: trying class="4u 12u(mobile)" to replace the bootstrap columns -->
+	<!-- KR note to Kanika, this is an ideal place to look into how we can replace the functionality -->
+	  <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
+            <div class="panel panel-default" id="StatusInfographicPanel">
+              <div class="panel-heading"><h3>Cluster Status</h3></div>
+              <!--<div class="panel-body">-->
+		<div id="chart_div" style="width: 100%; height: 200px;"></div>
+		<button class="button style3 expandablebtn" data-toggle="collapse" data-target="#statusTable">
+		  Expand Status
+		</button>
+		<div class="collapse" id="statusTable">
+		  <br>
+		  <!-- Status Table by Lee -->
+		  <table id="overall_status_table">
+		    <!-- <h4 class="combo-label">Overall Cluster Status</h4> -->
+		    <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
+		    <tr id="overall_status_table_HEADERS">
+		      <!-- Column headers will be filled in dynamically according to file... -->
+		    </tr>
+		  </table>
+		</div> <!-- end statusTable collapse div -->
+              <!--</div>-->
+            </div><!-- end panel-default -->
+	  </div><!-- end column div -->
+	  
+	  <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
+            <div class="panel panel-default" id="HealthInfographicPanel">
+              <div class="panel-heading"><h3>Cluster Health</h3></div>
+              <!--<div class="panel-body">-->
+		<div id="piechart_div" style="width: 100%; height: 200px;"></div>
+		<!-- KR: collapsible button to expand healthTable div -->
+		<button class="button style3 expandablebtn2">
+<!--  data-toggle="collapse" data-target="#healthTable" -->
+		  Expand Health
+		</button>
+		<div class="collapse" id="healthTable">
+		  <br>
+		  <!-- Health Status Table by AA -->
+		  <table id="health_table">
+		    <!-- <h4 class="combo-label">Cluster Health Status</h4> -->
+		    <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
+		    <tr id= "health_table_HEADERS">
+		      <!-- Column headers will be filled in dynamically according to file... -->
+		    </tr>
+		  </table>
+		</div> <!-- end health Table collapse div -->
+              <!--</div>-->
+            </div>
+	  </div><!-- end column div -->
 
-  <!--Riana: fixed the spelling on chassis in the table id and added an id for the headers so they can be autopopulated from the CSV file -->
-  <table id="per_chassis_detailed_information_table">
-    <tr id="per_chassis_detailed_information_table_HEADERS">
-      <!-- Riana: removed all hard-coded table headers in order to auto-populate them -->
-    </tr>
-  </table>
-</div> <!-- end chassisInfo div -->
-
-<!--Riana: added a space below the last table in order to be able to see the data in the last row of the table clearly -->
-<!-- <br> -->
-</div><!-- end div with background image -->
-<div class="container-fluid bg-footer" id="dateTimeFooter">
-  <div class="row">
-    <div class="col-sm-9"></div>
-    <div class="col-sm-3" id="siteUpdateInformation">
-      <!-- KR: divs for current time and last update time JS fills current, need to add last update time functionality commented out at suggestion of customer
-      <p id="currentDateTime"></p>
-      <script>
-      document.getElementById("currentDateTime").innerHTML=Date()
-    </script> -->
-    <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
-    <p id="lastUpdateDateTimeStatic">Site last updated:</p>
-    <p id="lastUpdateDateTime"></p>
-    <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
-    <!-- Riana: updated the text of the button per 3.24.2017 customer meeting -->
-    <button class="button style2" onclick="refresh()">Refresh Data</button><br><br>
-    <!-- Riana: added this line of information as note regarding refresh -->
-    <p><i>*Please Note:<br>Data is updated hourly.</i></p><br>
-  </div>
-</div>
-</div>
-</div>
-<!-- end our content -->
-</div><!-- end MAIN content wrapper -->
-<!-- Entire Footer is from DEAC Cluster Page -->
-<!-- Footer ############################################################################################################################## -->
-<div id="footer-wrapper" class="wrapper">
-	<div class="title">HPC@Wake</div>
-		<div id="footer" class="container">
-			<div class="row 50%">
-			<!-- Contact -->
-			<section class="feature-list">
-				<div class="row">
-					<div class="6u 12u(mobile)">
-						<section>
-							<h3 class="icon fa-map-marker">Address</h3>
-							<p> <strong>Wake Forest University</br>
-							Information Systems</br>
-							UCC Building</br>
-							1100 Reynolds Blvd</br>
-							Winston-Salem, NC 27105</strong></p>
-						</section>
-					</div>
-                <div class="6u 12u(mobile)">
-                        <section>
-                                <h3 class="icon fa-twitter"><a href="https://twitter.com/WakeHPC">@WakeHPC</a></h3>
-                        </section>
-                </div>
-
-                <div class="6u 12u(mobile)">
-                        <section>
-                                <h3 class="icon fa-youtube"><a href="https://www.youtube.com/channel/UCmdgQr8V1jfOQCkmvdHTZuw">DEAC Channel</a></h3>
-                        </section>
-                </div>
-                <div class="6u 12u(mobile)">
-                        <section>
-                                <h3 class="icon fa-envelope">Email</h3>
-                                        <p>For DEAC Cluster support:</br>
-                                        <a href="mailto:deac-help@wfu.edu">deac-help@wfu.edu</a></p>
-                        </section>
-                </div>
-				</div>
-			</section>
-			</div>
+	  <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
+            <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
+              <div class="panel-heading"><h3>Node Allocation</h3></div>
+              <!--<div class="panel-body">-->
+		<div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
+		<button class="button style3 expandablebtn3">
+<!--  data-toggle="collapse" data-target="#nodeUtilizationTable" -->
+		  Expand Allocation
+		</button>
+		<div class="collapse" id="nodeUtilizationTable">
+		  <br>
+		  <table id="node_utilization_table">
+		    <!-- <h4 class="combo-label">Node Utilization Status</h4> -->
+		    <tr id= "node_utilization_table_HEADERS">
+		      <!-- Column headers will be filled in dynamically according to file... -->
+		    </tr>
+		  </table>
 		</div>
-	<div id="copyright">
-	<ul>
-		<a href="http://www.wfu.edu"><img src="http://www.deac.wfu.edu/images/wake_logo.png" alt="WFU Logo"></a></br>
-		<li>Copyright &copy; 2002-2017 Wake Forest University</li>
-	</ul>
-	</div>
-	</div>
+		<!-- End Riana's addition of the node utilization status table -->
+              <!--</div>-->
+            </div>
+	  </div><!-- end column div -->
+	  <!-- End Riana's addition for node utilization status table -->  
+	</div><!-- end row div for infographics -->
+	<!--</div><!-- end container div -->
+      
+<!--      <div class="container-fluid"> -->
+	<br>	
+	<!-- KR: collapsible button to expand per chassis information Table div -->
+	<button class="button style3  expandablebtn4">
+<!--  data-toggle="collapse" data-target="#chassisInfo" -->
+	  Detailed Information for Each Chassis
+	</button>
+<!--      </div> -->
+  
+      <!-- KG: Chassis Information table and drop down -->
+      <div class="collapse"id="chassisInfo">
+	<!-- <h4 class="combo-label">Detailed Chassis Information</h4> -->
+	<!-- Riana: BEGIN DROPDOWN MENU-->
+	<!-- RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option -->
+	<form action="javascript:submitButtonPressed()"> <!-- Riana: On submit, call the specified javascript function (defined in the script below)... -->
+	  <div class="multiselect"> <!-- Riana: Using HTML's multiselect for creating a multiple selection dropdown menu... -->
+            <div class="selectBox" onclick="displayDropdown()">
+              <select>
+		<option>Select...</option>
+              </select>
+              <div class="overSelect"></div>
+            </div>
+            <div id="theCheckboxes"></div> <!-- Riana: Fill in the dropdown options here... -->
+	  </div>
+	  <input type="submit" value="Submit"></input>
+	  <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></input>
+	</form>
+	<!-- Riana: END DROPDOWN MENU-->
+	<div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
+
+	<!-- Riana: moved dropdown menu code to the script below so that the data will be accessible and
+	     can then populate the HTML component via the ID assigned to the dropdown menu -->
+	<table id="per_chassis_detailed_information_table">
+	  <tr id="per_chassis_detailed_information_table_HEADERS">
+	    <!-- Riana: removed all hard-coded table headers in order to auto-populate them -->
+	  </tr>
+	</table>
+      </div> <!-- end chassisInfo div -->
+
+	  <div id="siteUpdateInformation">
+	    <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
+	    <br>
+	    <p id="lastUpdateDateTimeStatic">Site last updated: <span id="lastUpdateDateTime"></span><br><i>*Please Note: Data is updated hourly.</i></p>
+	    <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
+	    <button class="button style2" onclick="refresh()">Refresh Data</button></span>
+	    <!-- Riana: added this line of information as note regarding refresh -->
+	  </div>
+    </div>
+    <!-- end our content -->
+  </div><!-- end MAIN content wrapper -->
+  <!-- Entire Footer is from DEAC Cluster Page -->
+  <!-- Footer ############################################################################################################################## -->
+  <div id="footer-wrapper" class="wrapper">
+    <div class="title">HPC@Wake</div>
+    <div id="footer" class="container">
+      <div class="row 50%">
+	<!-- Contact -->
+	<section class="feature-list">
+	  <div class="row">
+	    <div class="6u 12u(mobile)">
+	      <section>
+		<h3 class="icon fa-map-marker">Address</h3>
+		<p> <strong>Wake Forest University</br>
+		    Information Systems</br>
+		    UCC Building</br>
+		    1100 Reynolds Blvd</br>
+		    Winston-Salem, NC 27105</strong></p>
+	      </section>
+	    </div>
+            <div class="6u 12u(mobile)">
+              <section>
+                <h3 class="icon fa-twitter"><a href="https://twitter.com/WakeHPC">@WakeHPC</a></h3>
+              </section>
+            </div>
+	    
+            <div class="6u 12u(mobile)">
+              <section>
+                <h3 class="icon fa-youtube"><a href="https://www.youtube.com/channel/UCmdgQr8V1jfOQCkmvdHTZuw">DEAC Channel</a></h3>
+              </section>
+            </div>
+            <div class="6u 12u(mobile)">
+              <section>
+                <h3 class="icon fa-envelope">Email</h3>
+                <p>For DEAC Cluster support:</br>
+                  <a href="mailto:deac-help@wfu.edu">deac-help@wfu.edu</a></p>
+              </section>
+            </div>
+	  </div>
+	</section>
+      </div>
+    </div>
+    <div id="copyright">
+      <ul>
+	<a href="http://www.wfu.edu"><img src="http://www.deac.wfu.edu/images/wake_logo.png" alt="WFU Logo"></a></br>
+	<li>Copyright &copy; 2002-2017 Wake Forest University</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <!-- deac cluster scripts -->
