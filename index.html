@@ -10,53 +10,64 @@
   <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
   <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
   <!-- end copied from DEAC Cluster Page! -->
-  
+
   <!-- HHL and Alexis: Using google drive library for gauge and pie chart graphics-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  
+
   <!--KG added style for the body, styling for the panels(heading, boundary, radius) -->
   <style>
     /* use this if we want to test for, and behave differently on small screens:
        @media screen and (max-width: 736px) {} */
-    
-    /* Basic */ 
+
+    /* Basic */
     body{
       /* maintains horizontal scroll bar on small screens - necessary for detailed information table */
       overflow-x: auto !important;
     }
-    
+
     body{
     color: #333;
       /*  line-height: 20px !important;
       font-size: 14px !important;*/
     }
-    
+
+    /*newly added*/
+
+    .wrapper.style2{
+      width: 90%;
+      margin: 0 auto;
+    }
+
+    .style3{
+      margin-bottom: 20px;
+    }
+/*end*/
     .panelDiv{
       /*width: 30%;
       margin-right: 20px;
       margin-left: 20px;*/
-      min-width: 420px;
+      /*min-width: 420px;*/
       /*float: left;*/
     }
-    
+
     .panel-heading {
       color: #333;
       background-color: #f5f5f5;
       border-bottom: 1px solid #ccc;
     }
-    
+
     .panel-heading h3 {
       padding: 15px;
     }
-    
+
     .panel-default{
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    
+
     /* .expandablebtn{
       display: none;
-    
+
     }*/
     /*KG styling ends here*/
 
@@ -77,22 +88,22 @@
     th[title]:hover {
       color: gray;
     }
-  
+
     /* Riana: For dropdown menu... */
     /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
     .multiselect {
       width: 200px;
     }
-  
+
     .selectBox {
       position: relative;
     }
-  
+
     .selectBox select {
       width: 100%;
       font-weight: bold;
     }
-  
+
     .overSelect {
       position: absolute;
       left: 0;
@@ -117,37 +128,44 @@
     #theCheckboxes label:hover {
       background-color: #1e90ff;
     }
+/* KG added this*/
+    @media screen and (min-width: 720px) and (max-width: 1024px){
+      input[type="button"], input[type="submit"], input[type="reset"], button, .button{
+        letter-spacing: 2px;
+      }
+    }
+    /* end*/
   </style>
 </head>
 
 <body>
   <div id="page-wrapper">
-    
+
     <!-- Header comes from DEAC Cluster website, all changes are commented -->
     <!-- Header ############################################################################################################################### -->
     <div id="header-wrapper" class="wrapper">
       <div id="header">
-	
+
 	<!-- Logo -->
 	<div id="logo">
 	  <br>
 	  <!-- KR: Changed to System Monitor -->
 	  <h1>System Monitor</h1>
 	</div>
-	
+
 	<!-- Nav -->
-	<!-- KR: added a lot of </li> for all elements to be closed -->	
+	<!-- KR: added a lot of </li> for all elements to be closed -->
 	<nav id="nav">
 	  <ul>
 	    <li class="current"><a href="index.html">Home</a></li>
-	    
+
 	    <li><a href="education.html">Education Mission</a>
 	      <ul>
 		<li><a href="education.html">Overview</a></li>
 		<li><a href="courses.html">Course Listings</a></li>
 	      </ul>
 	    </li>
-	    
+
 	    <li><a href="research.html">Research Mission</a>
 	      <ul>
 		<li><a href="research.html">Overview</a></li>
@@ -158,7 +176,7 @@
 		<li><a href="citation.html">Citation</a></li>
 	      </ul>
 	    </li>
-	    
+
 	    <li><a href="training.html">User Support</a>
 	      <ul>
 		<li><a href="training.html">Overview</a></li>
@@ -167,7 +185,7 @@
 		<li><a href="user-account-policy.html">User Account Policy</a></li>
 	      </ul>
 	    </li>
-	    
+
 	    <li><a href="notifications.html">Notifications</a>
               <ul>
                 <li><a href="notifications.html">Notifications</a></li>
@@ -175,7 +193,7 @@
                 <li><a href="kernel-update.html">Kernel Update List</a></li>
               </ul>
             </li>
-	    
+
 	    <li><a href="#">About Us</a>
 	      <ul>
 		<li><a href="#">Overview</a></li>
@@ -184,7 +202,7 @@
 		<li><a href="staff.html">Staff</a></li>
 	      </ul>
 	    </li>
-	    
+
 	    <li><a href="https://wiki.deac.wfu.edu/">Cluster Wiki</a></li>
 	  </ul>
         </nav>
@@ -195,21 +213,17 @@
     <div class="wrapper style2">
       <!-- Changed -->
       <div class="title">Dashboard</div>
-      <!-- Their usual divs to get side panel, ignoring for now!<div id="main" class="container">
-	   <div class="row 150%">
-	     <div class="4u 12u(mobile)"> -->
       <!-- OUR CONTENT ########################################################################################################################### -->
       <!-- Removed OUR header -->
-	<!--<div class="container" id="initialView" align="center"> -->
 	<div class="row">
 	<!-- KR: trying class="4u 12u(mobile)" to replace the bootstrap columns -->
 	<!-- KR note to Kanika, this is an ideal place to look into how we can replace the functionality -->
 	  <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
             <div class="panel panel-default" id="StatusInfographicPanel">
               <div class="panel-heading"><h3>Cluster Status</h3></div>
-              <!--<div class="panel-body">-->
+
 		<div id="chart_div" style="width: 100%; height: 200px;"></div>
-		<button class="button style3 expandablebtn" data-toggle="collapse" data-target="#statusTable">
+		<button class="button style3 expandablebtn" data-toggle="collapse">
 		  Expand Status
 		</button>
 		<div class="collapse" id="statusTable">
@@ -223,18 +237,15 @@
 		    </tr>
 		  </table>
 		</div> <!-- end statusTable collapse div -->
-              <!--</div>-->
             </div><!-- end panel-default -->
 	  </div><!-- end column div -->
-	  
+
 	  <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
             <div class="panel panel-default" id="HealthInfographicPanel">
               <div class="panel-heading"><h3>Cluster Health</h3></div>
-              <!--<div class="panel-body">-->
 		<div id="piechart_div" style="width: 100%; height: 200px;"></div>
 		<!-- KR: collapsible button to expand healthTable div -->
-		<button class="button style3 expandablebtn2">
-<!--  data-toggle="collapse" data-target="#healthTable" -->
+		<button class="button style3 expandablebtn">
 		  Expand Health
 		</button>
 		<div class="collapse" id="healthTable">
@@ -248,17 +259,14 @@
 		    </tr>
 		  </table>
 		</div> <!-- end health Table collapse div -->
-              <!--</div>-->
             </div>
 	  </div><!-- end column div -->
 
 	  <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
             <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
               <div class="panel-heading"><h3>Node Allocation</h3></div>
-              <!--<div class="panel-body">-->
 		<div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
-		<button class="button style3 expandablebtn3">
-<!--  data-toggle="collapse" data-target="#nodeUtilizationTable" -->
+		<button class="button style3 expandablebtn">
 		  Expand Allocation
 		</button>
 		<div class="collapse" id="nodeUtilizationTable">
@@ -271,22 +279,17 @@
 		  </table>
 		</div>
 		<!-- End Riana's addition of the node utilization status table -->
-              <!--</div>-->
             </div>
 	  </div><!-- end column div -->
-	  <!-- End Riana's addition for node utilization status table -->  
+	  <!-- End Riana's addition for node utilization status table -->
 	</div><!-- end row div for infographics -->
-	<!--</div><!-- end container div -->
-      
-<!--      <div class="container-fluid"> -->
-	<br>	
+
+	<br>
 	<!-- KR: collapsible button to expand per chassis information Table div -->
-	<button class="button style3  expandablebtn4">
-<!--  data-toggle="collapse" data-target="#chassisInfo" -->
+	<button class="button style3  expandablebtn">
 	  Detailed Information for Each Chassis
 	</button>
-<!--      </div> -->
-  
+
       <!-- KG: Chassis Information table and drop down -->
       <div class="collapse"id="chassisInfo">
 	<!-- <h4 class="combo-label">Detailed Chassis Information</h4> -->
@@ -352,7 +355,7 @@
                 <h3 class="icon fa-twitter"><a href="https://twitter.com/WakeHPC">@WakeHPC</a></h3>
               </section>
             </div>
-	    
+
             <div class="6u 12u(mobile)">
               <section>
                 <h3 class="icon fa-youtube"><a href="https://www.youtube.com/channel/UCmdgQr8V1jfOQCkmvdHTZuw">DEAC Channel</a></h3>
@@ -394,28 +397,9 @@
     $(".collapse").hide();
 
     $(".expandablebtn").click(function(){
-      // alert("hi");
-      // $(this).toggle("active");
-      $("#statusTable").toggle();
+      $(this).next(".collapse").toggle();
     });
-
-    $(".expandablebtn2").click(function(){
-      // alert("hi");
-      // $(this).toggle("active");
-      $("#healthTable").toggle();
-    });
-    $(".expandablebtn3").click(function(){
-      // alert("hi");
-      // $(this).toggle("active");
-      $("#nodeUtilizationTable").toggle();
-    });
-    $(".expandablebtn4").click(function(){
-      // alert("hi");
-      // $(this).toggle("active");
-      $("#chassisInfo").toggle();
-    });
-
-
+    // $(".expandablebtn").next("collapse");
   </script>
 	<!-- KG scripts end here-->
 </body>
