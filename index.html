@@ -16,125 +16,125 @@
 
   <!--KG added style for the body, styling for the panels(heading, boundary, radius) -->
   <style>
-    /* use this if we want to test for, and behave differently on small screens:
-       @media screen and (max-width: 736px) {} */
+  /* use this if we want to test for, and behave differently on small screens:
+  @media screen and (max-width: 736px) {} */
 
-    /* Basic */
-    body{
-      /* maintains horizontal scroll bar on small screens - necessary for detailed information table */
-      overflow-x: auto !important;
-    }
+  /* Basic */
+  body{
+    /* maintains horizontal scroll bar on small screens - necessary for detailed information table */
+    overflow-x: auto !important;
+  }
 
-    body{
+  body{
     color: #333;
-      /*  line-height: 20px !important;
-      font-size: 14px !important;*/
+    /*  line-height: 20px !important;
+    font-size: 14px !important;*/
+  }
+
+  /*newly added*/
+
+  .wrapper.style2{
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .style3{
+    margin-bottom: 20px;
+  }
+  /*end*/
+  .panelDiv{
+    /*width: 30%;
+    margin-right: 20px;
+    margin-left: 20px;*/
+    /*min-width: 420px;*/
+    /*float: left;*/
+  }
+
+  .panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .panel-heading h3 {
+    padding: 15px;
+  }
+
+  .panel-default{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  /* .expandablebtn{
+  display: none;
+
+  }*/
+  /*KG styling ends here*/
+
+  .combo-label {margin-bottom:.5em; align-items:right; }
+
+  /* Table styles specific to this page
+  Note: some table styling controlled by cluster style sheet */
+  table, tr, th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  tr, th{
+    padding: 5px
+  }
+
+  /* Riana: using this styling to highlight the column header pertaining to the pop-up message when hover over the column header */
+  th[title]:hover {
+    color: gray;
+  }
+
+  /* Riana: For dropdown menu... */
+  /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
+  .multiselect {
+    width: 200px;
+  }
+
+  .selectBox {
+    position: relative;
+  }
+
+  .selectBox select {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  #theCheckboxes {
+    display: none;
+    border: 1px #dadada solid;
+
+    height: 150px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  #theCheckboxes label {
+    display: block;
+  }
+
+  #theCheckboxes label:hover {
+    background-color: #1e90ff;
+  }
+  /* KG added this*/
+  @media screen and (min-width: 720px) and (max-width: 1024px){
+    input[type="button"], input[type="submit"], input[type="reset"], button, .button{
+      letter-spacing: 2px;
     }
-
-    /*newly added*/
-
-    .wrapper.style2{
-      width: 90%;
-      margin: 0 auto;
-    }
-
-    .style3{
-      margin-bottom: 20px;
-    }
-/*end*/
-    .panelDiv{
-      /*width: 30%;
-      margin-right: 20px;
-      margin-left: 20px;*/
-      /*min-width: 420px;*/
-      /*float: left;*/
-    }
-
-    .panel-heading {
-      color: #333;
-      background-color: #f5f5f5;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .panel-heading h3 {
-      padding: 15px;
-    }
-
-    .panel-default{
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    /* .expandablebtn{
-      display: none;
-
-    }*/
-    /*KG styling ends here*/
-
-    .combo-label {margin-bottom:.5em; align-items:right; }
-
-    /* Table styles specific to this page
-       Note: some table styling controlled by cluster style sheet */
-    table, tr, th{
-      border: 1px solid black;
-      border-collapse: collapse;
-      text-align: center;
-    }
-    tr, th{
-      padding: 5px
-    }
-
-    /* Riana: using this styling to highlight the column header pertaining to the pop-up message when hover over the column header */
-    th[title]:hover {
-      color: gray;
-    }
-
-    /* Riana: For dropdown menu... */
-    /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
-    .multiselect {
-      width: 200px;
-    }
-
-    .selectBox {
-      position: relative;
-    }
-
-    .selectBox select {
-      width: 100%;
-      font-weight: bold;
-    }
-
-    .overSelect {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-    }
-
-    #theCheckboxes {
-      display: none;
-      border: 1px #dadada solid;
-
-      height: 150px;
-      overflow-x: hidden;
-      overflow-y: scroll;
-    }
-
-    #theCheckboxes label {
-      display: block;
-    }
-
-    #theCheckboxes label:hover {
-      background-color: #1e90ff;
-    }
-/* KG added this*/
-    @media screen and (min-width: 720px) and (max-width: 1024px){
-      input[type="button"], input[type="submit"], input[type="reset"], button, .button{
-        letter-spacing: 2px;
-      }
-    }
-    /* end*/
+  }
+  /* end*/
   </style>
 </head>
 
@@ -146,47 +146,47 @@
     <div id="header-wrapper" class="wrapper">
       <div id="header">
 
-	<!-- Logo -->
-	<div id="logo">
-	  <br>
-	  <!-- KR: Changed to System Monitor -->
-	  <h1>System Monitor</h1>
-	</div>
+        <!-- Logo -->
+        <div id="logo">
+          <br>
+          <!-- KR: Changed to System Monitor -->
+          <h1>System Monitor</h1>
+        </div>
 
-	<!-- Nav -->
-	<!-- KR: added a lot of </li> for all elements to be closed -->
-	<nav id="nav">
-	  <ul>
-	    <li class="current"><a href="index.html">Home</a></li>
+        <!-- Nav -->
+        <!-- KR: added a lot of </li> for all elements to be closed -->
+        <nav id="nav">
+          <ul>
+            <li class="current"><a href="index.html">Home</a></li>
 
-	    <li><a href="education.html">Education Mission</a>
-	      <ul>
-		<li><a href="education.html">Overview</a></li>
-		<li><a href="courses.html">Course Listings</a></li>
-	      </ul>
-	    </li>
+            <li><a href="education.html">Education Mission</a>
+              <ul>
+                <li><a href="education.html">Overview</a></li>
+                <li><a href="courses.html">Course Listings</a></li>
+              </ul>
+            </li>
 
-	    <li><a href="research.html">Research Mission</a>
-	      <ul>
-		<li><a href="research.html">Overview</a></li>
-		<li><a href="grants.html">Grants Awarded</a></li>
-		<li><a href="ms-ma-phd.html">Thesis & Dissertation</a></li>
-		<li><a href="publications.html">Publications</a></li>
-		<li><a href="presentations.html">Presentations</a></li>
-		<li><a href="citation.html">Citation</a></li>
-	      </ul>
-	    </li>
+            <li><a href="research.html">Research Mission</a>
+              <ul>
+                <li><a href="research.html">Overview</a></li>
+                <li><a href="grants.html">Grants Awarded</a></li>
+                <li><a href="ms-ma-phd.html">Thesis & Dissertation</a></li>
+                <li><a href="publications.html">Publications</a></li>
+                <li><a href="presentations.html">Presentations</a></li>
+                <li><a href="citation.html">Citation</a></li>
+              </ul>
+            </li>
 
-	    <li><a href="training.html">User Support</a>
-	      <ul>
-		<li><a href="training.html">Overview</a></li>
-		<li><a href="accounts.html">Requesting an Account</a></li>
-		<li><a href="software.html">Requesting Software</a></li>
-		<li><a href="user-account-policy.html">User Account Policy</a></li>
-	      </ul>
-	    </li>
+            <li><a href="training.html">User Support</a>
+              <ul>
+                <li><a href="training.html">Overview</a></li>
+                <li><a href="accounts.html">Requesting an Account</a></li>
+                <li><a href="software.html">Requesting Software</a></li>
+                <li><a href="user-account-policy.html">User Account Policy</a></li>
+              </ul>
+            </li>
 
-	    <li><a href="notifications.html">Notifications</a>
+            <li><a href="notifications.html">Notifications</a>
               <ul>
                 <li><a href="notifications.html">Notifications</a></li>
                 <li><a href="slurm-torque.html">SLURM/Torque List</a></li>
@@ -194,17 +194,17 @@
               </ul>
             </li>
 
-	    <li><a href="#">About Us</a>
-	      <ul>
-		<li><a href="#">Overview</a></li>
-		<li><a href="services.html">Services</a></li>
-		<li><a href="resources.html">Resources</a></li>
-		<li><a href="staff.html">Staff</a></li>
-	      </ul>
-	    </li>
+            <li><a href="#">About Us</a>
+              <ul>
+                <li><a href="#">Overview</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="staff.html">Staff</a></li>
+              </ul>
+            </li>
 
-	    <li><a href="https://wiki.deac.wfu.edu/">Cluster Wiki</a></li>
-	  </ul>
+            <li><a href="https://wiki.deac.wfu.edu/">Cluster Wiki</a></li>
+          </ul>
         </nav>
       </div>
     </div><!-- end Header-wrapper div. -->
@@ -215,119 +215,122 @@
       <div class="title">Dashboard</div>
       <!-- OUR CONTENT ########################################################################################################################### -->
       <!-- Removed OUR header -->
-	<div class="row">
-	<!-- KR: trying class="4u 12u(mobile)" to replace the bootstrap columns -->
-	<!-- KR note to Kanika, this is an ideal place to look into how we can replace the functionality -->
-	  <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
-            <div class="panel panel-default" id="StatusInfographicPanel">
-              <div class="panel-heading"><h3>Cluster Status</h3></div>
+      <div class="row">
+        <!-- KR: trying class="4u 12u(mobile)" to replace the bootstrap columns -->
+        <!-- KR note to Kanika, this is an ideal place to look into how we can replace the functionality -->
+        <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
+          <div class="panel panel-default" id="StatusInfographicPanel">
+            <div class="panel-heading"><h3>Cluster Status</h3></div>
 
-		<div id="chart_div" style="width: 100%; height: 200px;"></div>
-		<button class="button style3 expandablebtn" data-toggle="collapse">
-		  Expand Status
-		</button>
-		<div class="collapse" id="statusTable">
-		  <br>
-		  <!-- Status Table by Lee -->
-		  <table id="overall_status_table">
-		    <!-- <h4 class="combo-label">Overall Cluster Status</h4> -->
-		    <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-		    <tr id="overall_status_table_HEADERS">
-		      <!-- Column headers will be filled in dynamically according to file... -->
-		    </tr>
-		  </table>
-		</div> <!-- end statusTable collapse div -->
-            </div><!-- end panel-default -->
-	  </div><!-- end column div -->
+            <div id="chart_div" style="width: 100%; height: 200px;"></div>
+            <button class="button style3 expandablebtn" data-toggle="collapse">
+              <!-- Expand Status --> EXPAND <!-- Riana: changed to correct resizing issues while maintaining consistency/uniformity -->
+            </button>
+            <div class="collapse" id="statusTable">
+              <br>
+              <!-- Status Table by Lee -->
+              <table id="overall_status_table">
+                <!-- <h4 class="combo-label">Overall Cluster Status</h4> -->
+                <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
+                <tr id="overall_status_table_HEADERS">
+                  <!-- Column headers will be filled in dynamically according to file... -->
+                </tr>
+              </table>
+            </div> <!-- end statusTable collapse div -->
+          </div><!-- end panel-default -->
+        </div><!-- end column div -->
 
-	  <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
-            <div class="panel panel-default" id="HealthInfographicPanel">
-              <div class="panel-heading"><h3>Cluster Health</h3></div>
-		<div id="piechart_div" style="width: 100%; height: 200px;"></div>
-		<!-- KR: collapsible button to expand healthTable div -->
-		<button class="button style3 expandablebtn">
-		  Expand Health
-		</button>
-		<div class="collapse" id="healthTable">
-		  <br>
-		  <!-- Health Status Table by AA -->
-		  <table id="health_table">
-		    <!-- <h4 class="combo-label">Cluster Health Status</h4> -->
-		    <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
-		    <tr id= "health_table_HEADERS">
-		      <!-- Column headers will be filled in dynamically according to file... -->
-		    </tr>
-		  </table>
-		</div> <!-- end health Table collapse div -->
+        <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
+          <div class="panel panel-default" id="HealthInfographicPanel">
+            <div class="panel-heading"><h3>Cluster Health</h3></div>
+            <div id="piechart_div" style="width: 100%; height: 200px;"></div>
+            <!-- KR: collapsible button to expand healthTable div -->
+            <button class="button style3 expandablebtn" data-toggle="collapse">  <!-- Riana: added this data-toggle so all of these divs match (in the process of debugging) -->
+              <!-- Expand Health --> EXPAND <!-- Riana: changed to correct resizing issues while maintaining consistency/uniformity -->
+            </button>
+            <div class="collapse" id="healthTable">
+              <br>
+              <!-- Health Status Table by AA -->
+              <table id="health_table">
+                <!-- <h4 class="combo-label">Cluster Health Status</h4> -->
+                <!-- Riana: added an id for the headers so they can be autopopulated from the CSV file -->
+                <tr id= "health_table_HEADERS">
+                  <!-- Column headers will be filled in dynamically according to file... -->
+                </tr>
+              </table>
+            </div> <!-- end health Table collapse div -->
+          </div>
+        </div><!-- end column div -->
+
+        <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
+          <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
+            <div class="panel-heading"><h3>Node Allocation</h3></div>
+            <div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
+            <button class="button style3 expandablebtn" data-toggle="collapse"> <!-- Riana: added this data-toggle so all of these divs match (in the process of debugging) -->
+              <!-- Expand Allocation --> EXPAND <!-- Riana: changed to correct resizing issues while maintaining consistency/uniformity -->
+            </button>
+            <div class="collapse" id="nodeUtilizationTable">
+              <br>
+              <table id="node_utilization_table">
+                <!-- <h4 class="combo-label">Node Utilization Status</h4> -->
+                <tr id= "node_utilization_table_HEADERS">
+                  <!-- Column headers will be filled in dynamically according to file... -->
+                </tr>
+              </table>
             </div>
-	  </div><!-- end column div -->
+            <!-- End Riana's addition of the node utilization status table -->
+          </div>
+        </div><!-- end column div -->
+        <!-- End Riana's addition for node utilization status table -->
+      </div><!-- end row div for infographics -->
 
-	  <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
-            <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
-              <div class="panel-heading"><h3>Node Allocation</h3></div>
-		<div id="node_utilization_div" style="width: 100%; height: 200px;"></div>
-		<button class="button style3 expandablebtn">
-		  Expand Allocation
-		</button>
-		<div class="collapse" id="nodeUtilizationTable">
-		  <br>
-		  <table id="node_utilization_table">
-		    <!-- <h4 class="combo-label">Node Utilization Status</h4> -->
-		    <tr id= "node_utilization_table_HEADERS">
-		      <!-- Column headers will be filled in dynamically according to file... -->
-		    </tr>
-		  </table>
-		</div>
-		<!-- End Riana's addition of the node utilization status table -->
+      <br>
+
+      <!-- KR: collapsible button to expand per chassis information Table div -->
+      <div class="12u 12u(mobile) panelDiv" align="center"> <!-- Riana: added this div to center the detailed chassis information button -->
+        <button class="button style3 expandablebtn" data-toggle="collapse">
+          Detailed Information for Each Chassis
+        </button>
+
+        <!-- KG: Chassis Information table and drop down -->
+        <div class="collapse"id="chassisInfo">
+          <!-- <h4 class="combo-label">Detailed Chassis Information</h4> -->
+          <!-- Riana: BEGIN DROPDOWN MENU-->
+          <!-- RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option -->
+          <form action="javascript:submitButtonPressed()"> <!-- Riana: On submit, call the specified javascript function (defined in the script below)... -->
+            <div class="multiselect"> <!-- Riana: Using HTML's multiselect for creating a multiple selection dropdown menu... -->
+              <div class="selectBox" onclick="displayDropdown()">
+                <select>
+                  <option>Select...</option>
+                </select>
+                <div class="overSelect"></div>
+              </div>
+              <div id="theCheckboxes"></div> <!-- Riana: Fill in the dropdown options here... -->
             </div>
-	  </div><!-- end column div -->
-	  <!-- End Riana's addition for node utilization status table -->
-	</div><!-- end row div for infographics -->
+            <input type="submit" value="Submit"></input>
+            <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></input>
+          </form>
+          <!-- Riana: END DROPDOWN MENU-->
+          <div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
 
-	<br>
-	<!-- KR: collapsible button to expand per chassis information Table div -->
-	<button class="button style3  expandablebtn">
-	  Detailed Information for Each Chassis
-	</button>
+          <!-- Riana: moved dropdown menu code to the script below so that the data will be accessible and
+          can then populate the HTML component via the ID assigned to the dropdown menu -->
+          <table id="per_chassis_detailed_information_table">
+            <tr id="per_chassis_detailed_information_table_HEADERS">
+              <!-- Riana: removed all hard-coded table headers in order to auto-populate them -->
+            </tr>
+          </table>
+        </div> <!-- end chassisInfo div -->
+      </div> <!-- Riana: end div containing toggled button -->
 
-      <!-- KG: Chassis Information table and drop down -->
-      <div class="collapse"id="chassisInfo">
-	<!-- <h4 class="combo-label">Detailed Chassis Information</h4> -->
-	<!-- Riana: BEGIN DROPDOWN MENU-->
-	<!-- RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option -->
-	<form action="javascript:submitButtonPressed()"> <!-- Riana: On submit, call the specified javascript function (defined in the script below)... -->
-	  <div class="multiselect"> <!-- Riana: Using HTML's multiselect for creating a multiple selection dropdown menu... -->
-            <div class="selectBox" onclick="displayDropdown()">
-              <select>
-		<option>Select...</option>
-              </select>
-              <div class="overSelect"></div>
-            </div>
-            <div id="theCheckboxes"></div> <!-- Riana: Fill in the dropdown options here... -->
-	  </div>
-	  <input type="submit" value="Submit"></input>
-	  <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></input>
-	</form>
-	<!-- Riana: END DROPDOWN MENU-->
-	<div id="selectOneOrMoreChassisNames"></div> <!-- Riana: Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
-
-	<!-- Riana: moved dropdown menu code to the script below so that the data will be accessible and
-	     can then populate the HTML component via the ID assigned to the dropdown menu -->
-	<table id="per_chassis_detailed_information_table">
-	  <tr id="per_chassis_detailed_information_table_HEADERS">
-	    <!-- Riana: removed all hard-coded table headers in order to auto-populate them -->
-	  </tr>
-	</table>
-      </div> <!-- end chassisInfo div -->
-
-	  <div id="siteUpdateInformation">
-	    <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
-	    <br>
-	    <p id="lastUpdateDateTimeStatic">Site last updated: <span id="lastUpdateDateTime"></span><br><i>*Please Note: Data is updated hourly.</i></p>
-	    <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
-	    <button class="button style2" onclick="refresh()">Refresh Data</button></span>
-	    <!-- Riana: added this line of information as note regarding refresh -->
-	  </div>
+      <div id="siteUpdateInformation">
+        <!-- Riana: added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
+        <br>
+        <p id="lastUpdateDateTimeStatic">Site last updated: <span id="lastUpdateDateTime"></span><br><i>*Please Note: Data is updated hourly.</i></p>
+        <!-- Riana: added this button for refreshing purposes (per discussion with Dr. Pauca) -->
+        <button class="button style2" onclick="refresh()">Refresh Data</button></span>
+        <!-- Riana: added this line of information as note regarding refresh -->
+      </div>
     </div>
     <!-- end our content -->
   </div><!-- end MAIN content wrapper -->
@@ -337,319 +340,630 @@
     <div class="title">HPC@Wake</div>
     <div id="footer" class="container">
       <div class="row 50%">
-	<!-- Contact -->
-	<section class="feature-list">
-	  <div class="row">
-	    <div class="6u 12u(mobile)">
-	      <section>
-		<h3 class="icon fa-map-marker">Address</h3>
-		<p> <strong>Wake Forest University</br>
-		    Information Systems</br>
-		    UCC Building</br>
-		    1100 Reynolds Blvd</br>
-		    Winston-Salem, NC 27105</strong></p>
-	      </section>
-	    </div>
+        <!-- Contact -->
+        <section class="feature-list">
+          <div class="row">
             <div class="6u 12u(mobile)">
               <section>
-                <h3 class="icon fa-twitter"><a href="https://twitter.com/WakeHPC">@WakeHPC</a></h3>
-              </section>
-            </div>
+                <h3 class="icon fa-map-marker">Address</h3>
+                <p> <strong>Wake Forest University</br>
+                  Information Systems</br>
+                  UCC Building</br>
+                  1100 Reynolds Blvd</br>
+                  Winston-Salem, NC 27105</strong></p>
+                </section>
+              </div>
+              <div class="6u 12u(mobile)">
+                <section>
+                  <h3 class="icon fa-twitter"><a href="https://twitter.com/WakeHPC">@WakeHPC</a></h3>
+                </section>
+              </div>
 
-            <div class="6u 12u(mobile)">
-              <section>
-                <h3 class="icon fa-youtube"><a href="https://www.youtube.com/channel/UCmdgQr8V1jfOQCkmvdHTZuw">DEAC Channel</a></h3>
-              </section>
-            </div>
-            <div class="6u 12u(mobile)">
-              <section>
-                <h3 class="icon fa-envelope">Email</h3>
-                <p>For DEAC Cluster support:</br>
-                  <a href="mailto:deac-help@wfu.edu">deac-help@wfu.edu</a></p>
-              </section>
-            </div>
-	  </div>
-	</section>
+              <div class="6u 12u(mobile)">
+                <section>
+                  <h3 class="icon fa-youtube"><a href="https://www.youtube.com/channel/UCmdgQr8V1jfOQCkmvdHTZuw">DEAC Channel</a></h3>
+                </section>
+              </div>
+              <div class="6u 12u(mobile)">
+                <section>
+                  <h3 class="icon fa-envelope">Email</h3>
+                  <p>For DEAC Cluster support:</br>
+                    <a href="mailto:deac-help@wfu.edu">deac-help@wfu.edu</a></p>
+                  </section>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div id="copyright">
+          <ul>
+            <a href="http://www.wfu.edu"><img src="http://www.deac.wfu.edu/images/wake_logo.png" alt="WFU Logo"></a></br>
+            <li>Copyright &copy; 2002-2017 Wake Forest University</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div id="copyright">
-      <ul>
-	<a href="http://www.wfu.edu"><img src="http://www.deac.wfu.edu/images/wake_logo.png" alt="WFU Logo"></a></br>
-	<li>Copyright &copy; 2002-2017 Wake Forest University</li>
-      </ul>
-    </div>
-  </div>
-</div>
 
-<!-- deac cluster scripts -->
-<!-- Scripts ############################################################################################################################## -->
+    <!-- deac cluster scripts -->
+    <!-- Scripts ############################################################################################################################## -->
 
-<script src="http://www.deac.wfu.edu/assets/js/jquery.min.js"></script>
-<script src="http://www.deac.wfu.edu/assets/js/jquery.dropotron.min.js"></script>
-<script src="http://www.deac.wfu.edu/assets/js/skel.min.js"></script>
-<script src="http://www.deac.wfu.edu/assets/js/skel-viewport.min.js"></script>
-<script src="http://www.deac.wfu.edu/assets/js/util.js"></script>
-<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="http://www.deac.wfu.edu/assets/js/main.js"></script>
+    <script src="http://www.deac.wfu.edu/assets/js/jquery.min.js"></script>
+    <script src="http://www.deac.wfu.edu/assets/js/jquery.dropotron.min.js"></script>
+    <script src="http://www.deac.wfu.edu/assets/js/skel.min.js"></script>
+    <script src="http://www.deac.wfu.edu/assets/js/skel-viewport.min.js"></script>
+    <script src="http://www.deac.wfu.edu/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="http://www.deac.wfu.edu/assets/js/main.js"></script>
 
-<!-- KG added script for the collapseable button-->
-  <script type="text/javascript">
+    <!-- KG added script for the collapseable button-->
+    <script type="text/javascript">
     $(".collapse").hide();
 
     $(".expandablebtn").click(function(){
       $(this).next(".collapse").toggle();
     });
     // $(".expandablebtn").next("collapse");
-  </script>
-	<!-- KG scripts end here-->
-</body>
-</html>
+    </script>
+    <!-- KG scripts end here-->
+  </body>
+  </html>
 
 
 
-<!-- start Riana's code -->
+  <!-- start Riana's code -->
 
-<script>
+  <script>
 
-//For dropdown menu...
-/* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
-var dropdownDisplayed;
+  //For dropdown menu...
+  /* RESOURCE FOR MULTISELECT DROPDOWN MENU IN HTML: http://stackoverflow.com/questions/17714705/how-to-use-checkbox-inside-select-option */
+  var dropdownDisplayed;
 
-//For sorting the per chassis table...
-var savedHeaders;
-var savedData;
-var chassisNameID;
-var storedSelection;
-var filteredData;
-var colPrevSortedBy; //Important: -1 is no sorting enforced at present; otherwise, it is the column ID sorted by in the immediately previous sort...
-var descendingOrAscendingOrder; //Important: 1 is descending numerical/ascending alphabetical order and 0 is ascending numerical/descending alphabetical order; -1 is no sorting enforced at present...
+  //For sorting the per chassis table...
+  var savedHeaders;
+  var savedData;
+  var chassisNameID;
+  var storedSelection;
+  var filteredData;
+  var colPrevSortedBy; //Important: -1 is no sorting enforced at present; otherwise, it is the column ID sorted by in the immediately previous sort...
+  var descendingOrAscendingOrder; //Important: 1 is descending numerical/ascending alphabetical order and 0 is ascending numerical/descending alphabetical order; -1 is no sorting enforced at present...
 
-//For filtering the per chassis table...
-var selectedChassisNames;
-var chassisNames;
+  //For filtering the per chassis table...
+  var selectedChassisNames;
+  var chassisNames;
 
-//Declare variables needed throughout this script...
-var prevFileID;
-var currentFileID;
+  //Declare variables needed throughout this script...
+  var prevFileID;
+  var currentFileID;
 
-//Define variables to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
-var init;
-var init2;
+  //Define variables to be used throughout this script as a means of checking whether the initial data read has been completed (for comparison purposes).
+  var init;
+  var init2;
 
-//Access the tables directly associated with data reported in the CSV files.
-var overallStatusTable = document.getElementById("overall_status_table");
-var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
+  //Access the tables directly associated with data reported in the CSV files.
+  var overallStatusTable = document.getElementById("overall_status_table");
+  var perChassisTable = document.getElementById("per_chassis_detailed_information_table");
 
-//Indicate that a filter is currently in place such that the data should be refreshed with the per chassis table re-drawn only displaying the filtered rows...
-var filterDropdownObserved;
-var filterClickObserved;
-var filterContent;
-var sortingObserved;
+  //Indicate that a filter is currently in place such that the data should be refreshed with the per chassis table re-drawn only displaying the filtered rows...
+  var filterDropdownObserved;
+  var filterClickObserved;
+  var filterContent;
+  var sortingObserved;
 
-//FOR INFOGRAPHICS
-google.charts.load('current', {'packages':['gauge', 'corechart']});
+  //FOR INFOGRAPHICS
+  google.charts.load('current', {'packages':['gauge', 'corechart']});
 
-//BEGIN CODE FOR OVERALL STATUS INFOGRAPHIC (code by HHL)
-var numberOfCPUsConsumed;
-var totalNumberOfCPUs;
-var fractionOfCPUsConsumed;
+  //BEGIN CODE FOR OVERALL STATUS INFOGRAPHIC (code by HHL)
+  var numberOfCPUsConsumed;
+  var totalNumberOfCPUs;
+  var fractionOfCPUsConsumed;
 
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ['Label', 'Value'],
-    ['Overall Status', fractionOfCPUsConsumed],
-  ]);
-  var options = {
-    //      width: 420, height: 200,
-    redFrom: 90, redTo: 100,
-    yellowFrom:75, yellowTo: 90,
-    minorTicks: 5
-  };
-  var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-  chart.draw(data, options);
-  //Riana: I commented out the following function as it is no longer needed and it was throwing an error...
-  // setInterval(function() {
-  //   data.setValue(fractionOfCPUsConsumed);
-  //   chart.draw(data, options);
-  // }, 13000);
-}
-
-//END CODE FOR OVERALL STATUS INFOGRAPHIC
-
-
-//BEGIN CODE FOR HEALTH STATUS INFOGRAPHIC (code from Alexis)
-
-//Commented out the following because this is loaded above...
-// Load the Visualization API and the corechart package.
-//google.charts.load('current', {'packages':['corechart']});
-
-// Callback that creates and populates a data table,
-// instantiates the pie chart, passes in the data and
-// draws it.
-var numberOfNodesUP;
-var numberOfNodesDOWN;
-var numberOfNodesUNDERMAINTENANCE;
-
-function drawPiChart() {
-
-  // Create the data table.
-  var pidata = new google.visualization.DataTable();
-  pidata.addColumn('string', 'Node Status');
-  pidata.addColumn('number', 'Nodes');
-  pidata.addRows([
-    ['Nodes Up', numberOfNodesUP],
-    ['Nodes Down', numberOfNodesDOWN],
-    ['Under Maintenance', numberOfNodesUNDERMAINTENANCE]
-  ]);
-
-  // Set chart options
-  var pioptions = {
-    //'width':420,
-    'height':200};
-
-    // Instantiate and draw our chart, passing in some options.
-    var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
-    pichart.draw(pidata, pioptions);
-  }
-
-  //END CODE FOR HEALTH STATUS INFOGRAPHIC
-
-  //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC (KR via HHL code)
-
-  var fractionOfNodesAllocated;
-  //  var fractionOfNodesIdle; //if infographic should display idle/total...
-
-  function drawAllocatedChart(){
-    var allocatedData=google.visualization.arrayToDataTable([
-      ['Label','Value'],
-      ['Allocation', fractionOfNodesAllocated],
-      //      ['Idle', fractionOfNodesIdle], //if infographic should display idle/total...
-
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Label', 'Value'],
+      ['Overall Status', fractionOfCPUsConsumed],
     ]);
-    var allocatedOptions = {
-      //width: 420, height: 200,
+    var options = {
+      //      width: 420, height: 200,
       redFrom: 90, redTo: 100,
       yellowFrom:75, yellowTo: 90,
       minorTicks: 5
     };
-    var allocatedChart = new google.visualization.Gauge(document.getElementById('node_utilization_div'));
-    allocatedChart.draw(allocatedData, allocatedOptions);
+    var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+    chart.draw(data, options);
+    //Riana: I commented out the following function as it is no longer needed and it was throwing an error...
+    // setInterval(function() {
+    //   data.setValue(fractionOfCPUsConsumed);
+    //   chart.draw(data, options);
+    // }, 13000);
   }
 
-  //END CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
+  //END CODE FOR OVERALL STATUS INFOGRAPHIC
 
 
-  //Place all code for populating a data file from a header in a function
-  //  to avoid duplication of code...
-  function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON, filterViaOtherTable, sorting)
-  {
-    //For sorting the data...
-    //Initialize/reset to empty array...
-    var idIterator; //for assigning hidden id numbers...
-    if(!sorting)
+  //BEGIN CODE FOR HEALTH STATUS INFOGRAPHIC (code from Alexis)
+
+  //Commented out the following because this is loaded above...
+  // Load the Visualization API and the corechart package.
+  //google.charts.load('current', {'packages':['corechart']});
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  var numberOfNodesUP;
+  var numberOfNodesDOWN;
+  var numberOfNodesUNDERMAINTENANCE;
+
+  function drawPiChart() {
+
+    // Create the data table.
+    var pidata = new google.visualization.DataTable();
+    pidata.addColumn('string', 'Node Status');
+    pidata.addColumn('number', 'Nodes');
+    pidata.addRows([
+      ['Nodes Up', numberOfNodesUP],
+      ['Nodes Down', numberOfNodesDOWN],
+      ['Under Maintenance', numberOfNodesUNDERMAINTENANCE]
+    ]);
+
+    // Set chart options
+    var pioptions = {
+      //'width':420,
+      'height':200};
+
+      // Instantiate and draw our chart, passing in some options.
+      var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+      pichart.draw(pidata, pioptions);
+    }
+
+    //END CODE FOR HEALTH STATUS INFOGRAPHIC
+
+    //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC (KR via HHL code)
+
+    var fractionOfNodesAllocated;
+    //  var fractionOfNodesIdle; //if infographic should display idle/total...
+
+    function drawAllocatedChart(){
+      var allocatedData=google.visualization.arrayToDataTable([
+        ['Label','Value'],
+        ['Allocation', fractionOfNodesAllocated],
+        //      ['Idle', fractionOfNodesIdle], //if infographic should display idle/total...
+
+      ]);
+      var allocatedOptions = {
+        //width: 420, height: 200,
+        redFrom: 90, redTo: 100,
+        yellowFrom:75, yellowTo: 90,
+        minorTicks: 5
+      };
+      var allocatedChart = new google.visualization.Gauge(document.getElementById('node_utilization_div'));
+      allocatedChart.draw(allocatedData, allocatedOptions);
+    }
+
+    //END CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
+
+
+    //Place all code for populating a data file from a header in a function
+    //  to avoid duplication of code...
+    function populateTableFromCSVFile(rowsRead, headerID, rowID, rowsToDisplay, filterON, filterViaOtherTable, sorting)
     {
-      if((headerID === "per_chassis_detailed_information_table_HEADERS"))
+      //For sorting the data...
+      //Initialize/reset to empty array...
+      var idIterator; //for assigning hidden id numbers...
+      if(!sorting)
       {
-        savedData = [];
-        savedHeaders = [];
-        filteredData = [];
+        if((headerID === "per_chassis_detailed_information_table_HEADERS"))
+        {
+          savedData = [];
+          savedHeaders = [];
+          filteredData = [];
 
-        //RESET:
-        colPrevSortedBy = -1;
+          //RESET:
+          colPrevSortedBy = -1;
+        }
       }
-    }
 
-    //Store information about the current filter in the event that the refresh button is clicked...
-    if(headerID === "per_chassis_detailed_information_table_HEADERS")
-    {
-      filterDropdownObserved = filterON;
-      filterClickObserved = filterViaOtherTable;
-      filterContent = rowsToDisplay;
-      sortingObserved = sorting;
+      //Store information about the current filter in the event that the refresh button is clicked...
+      if(headerID === "per_chassis_detailed_information_table_HEADERS")
+      {
+        filterDropdownObserved = filterON;
+        filterClickObserved = filterViaOtherTable;
+        filterContent = rowsToDisplay;
+        sortingObserved = sorting;
 
-      idIterator = 0;
-    }
+        idIterator = 0;
+      }
 
-    //ERROR CHECK...
-    console.log("FILTERS WHEN DRAW TABLE: ");
-    console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
+      //ERROR CHECK...
+      console.log("FILTERS WHEN DRAW TABLE: ");
+      console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
 
-    // Iterate through each column in the table and insert the values of the row in
-    // that element...
-    // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
-    // ***Note that it will be important to populate the headers of the table from the file
-    // as well in order to allow for the data file/data population to be dynamic.***
+      // Iterate through each column in the table and insert the values of the row in
+      // that element...
+      // Skip the first row as it is the unique ID associated with the file to check if file was refreshed.
+      // ***Note that it will be important to populate the headers of the table from the file
+      // as well in order to allow for the data file/data population to be dynamic.***
 
-    //The following variables will assist in deriving the Cluster health data from the per chassis info.
-    //Initialize indices to invalid values...
-    var indexNodesUP = -1;
-    var indexNodesDOWN = -1;
-    var indexNodesUNDERMAINTENANCE = -1;
-    numberOfNodesUP = 0;
-    numberOfNodesDOWN = 0;
-    numberOfNodesUNDERMAINTENANCE = 0;
+      //The following variables will assist in deriving the Cluster health data from the per chassis info.
+      //Initialize indices to invalid values...
+      var indexNodesUP = -1;
+      var indexNodesDOWN = -1;
+      var indexNodesUNDERMAINTENANCE = -1;
+      numberOfNodesUP = 0;
+      numberOfNodesDOWN = 0;
+      numberOfNodesUNDERMAINTENANCE = 0;
 
-    //The following variables will assist in deriving the Node Utilization Status data from the per chassis info.
-    //Initialize indices to invalid values...
-    var indexNodesIdle = -1;
-    var indexNodesMixed = -1;
-    var indexNodesAllocated = -1;
-    var numberOfNodesIdle = 0;
-    var numberOfNodesMixed = 0;
-    var numberOfNodesAllocated = 0;
+      //The following variables will assist in deriving the Node Utilization Status data from the per chassis info.
+      //Initialize indices to invalid values...
+      var indexNodesIdle = -1;
+      var indexNodesMixed = -1;
+      var indexNodesAllocated = -1;
+      var numberOfNodesIdle = 0;
+      var numberOfNodesMixed = 0;
+      var numberOfNodesAllocated = 0;
 
-    //The following variables will assist in deriving the information required to fill in the data of the Overall Cluster Status infographic.
-    var indexNumberOfCPUsConsumed = -1;
-    var indexTotalNumberOfCPUs = -1;
-    totalNumberOfCPUs = 0;
+      //The following variables will assist in deriving the information required to fill in the data of the Overall Cluster Status infographic.
+      var indexNumberOfCPUsConsumed = -1;
+      var indexTotalNumberOfCPUs = -1;
+      totalNumberOfCPUs = 0;
 
-    //For adding percentage sign to data item in columns with headers containing the word "Utilization"...
-    var utilizationHeaderIndex = [];
+      //For adding percentage sign to data item in columns with headers containing the word "Utilization"...
+      var utilizationHeaderIndex = [];
 
-    //If NOT sorting...
-    if(!sorting)
-    {
-      //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
-      //Initialize index to an invalid value...
-      var indexChassisNames = -1;
-      chassisNames = []; //no names collected yet; thus, initialize to an empty array
-    }
-
-    var rowsToAdd = 0; //keep track of the row index that should be added to the table next (for use when filtering)
-
-    //For filtering based on column content (if filterViaOtherTable === true)...
-    //Initiliaze index to an invalid value...
-    var specifiedColumnIndex = -1;
-
-    //Populate the table indicated by the input parameters to this function.
-    for(var r = 1; r < rowsRead.length-1; r++)
-    {
       //If NOT sorting...
       if(!sorting)
       {
-        //Populate the headers...
-        if(r === 1)
+        //The following variables will assist in auto-populating the dropdown menu for filtering the per chassis info by chassis name.
+        //Initialize index to an invalid value...
+        var indexChassisNames = -1;
+        chassisNames = []; //no names collected yet; thus, initialize to an empty array
+      }
+
+      var rowsToAdd = 0; //keep track of the row index that should be added to the table next (for use when filtering)
+
+      //For filtering based on column content (if filterViaOtherTable === true)...
+      //Initiliaze index to an invalid value...
+      var specifiedColumnIndex = -1;
+
+      //Populate the table indicated by the input parameters to this function.
+      for(var r = 1; r < rowsRead.length-1; r++)
+      {
+        //If NOT sorting...
+        if(!sorting)
         {
-
-          //Dynamically insert the headers for the table according to the data file...
-          //Parse this comma-delimited row...
-          var headerRow = rowsRead[r].split(",");
-          console.log(headerRow);
-
-          //For sorting later on...
-          if(headerID === "per_chassis_detailed_information_table_HEADERS")
+          //Populate the headers...
+          if(r === 1)
           {
-            savedHeaders.push(headerRow);
-          }
 
-          for(var c = 0; c < headerRow.length; c++)
-          {
-            // Add an element to the current row in column c.
-            var newHeader = document.createElement("th");
+            //Dynamically insert the headers for the table according to the data file...
+            //Parse this comma-delimited row...
+            var headerRow = rowsRead[r].split(",");
+            console.log(headerRow);
 
-            //To enable sorting of the table by clicking column header...
+            //For sorting later on...
             if(headerID === "per_chassis_detailed_information_table_HEADERS")
             {
+              savedHeaders.push(headerRow);
+            }
+
+            for(var c = 0; c < headerRow.length; c++)
+            {
+              // Add an element to the current row in column c.
+              var newHeader = document.createElement("th");
+
+              //To enable sorting of the table by clicking column header...
+              if(headerID === "per_chassis_detailed_information_table_HEADERS")
+              {
+                //ON CLICK (depending on browser used)...
+                if(typeof(onclick) != "function") //FOR: Firefox, Internet Explorer 8, Chrome
+                {
+                  newHeader.setAttribute('onclick', "sortByColumn(this.id)");
+                }
+                else //FOR: Internet Explorer 7
+                {
+                  newHeader.onclick = function()
+                  {
+                    "sortByColumn()";
+                    onclick();
+                  };
+                }
+
+                //HIDDEN ID (to know which column was clicked)...
+                newHeader.setAttribute('id', idIterator);
+                idIterator = idIterator + 1; //increment the hidden id...
+
+                //CREATE CLICKABLE HEADER...
+                newHeader.setAttribute('style', "cursor:pointer");
+
+                //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
+                newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order\nby \"" + (headerRow[c]).trim() + ".\"");
+              }
+
+              var newHeaderContent = document.createTextNode(headerRow[c]);
+              newHeader.appendChild(newHeaderContent);
+              document.getElementById(headerID).appendChild(newHeader);
+
+              //IF this is the Overall Cluster Status information - gather data dynamically...
+              if(headerID === "overall_status_table_HEADERS")
+              {
+                if(headerRow[c].includes("Number of CPUs"))
+                {
+                  indexNumberOfCPUsConsumed = c;
+                }
+              }
+
+              //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
+              //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
+              if(headerID === "per_chassis_detailed_information_table_HEADERS")
+              {
+                //If the table is to be filtered to display only rows containing a value greater than zero in the selected column, determine the column to be addressed...
+                //  Store its index in a variable.
+                if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
+                {
+                  specifiedColumnIndex = c;
+                }
+
+                //If the current header is any of the categories indicated in Cluster Health Status OR in Node Utilization Status OR
+                //  for auto-population of the Chassis Names dropdown menu,
+                //  then mark this column accordingly for data collection when populating the rows of the table...
+
+                if(headerRow[c].includes("Number of Nodes UP"))
+                {
+                  indexNodesUP = c;
+                }
+                else if(headerRow[c].includes("Number of Nodes DOWN"))
+                {
+                  indexNodesDOWN = c;
+                }
+                else if(headerRow[c].includes("Number of Nodes UNDER MAINTENANCE"))
+                {
+                  indexNodesUNDERMAINTENANCE = c;
+                }
+                else if(headerRow[c].includes("Number of Nodes Idle"))
+                {
+                  indexNodesIdle = c;
+                }
+                else if(headerRow[c].includes("Number of Nodes Mixed"))
+                {
+                  indexNodesMixed = c;
+                }
+                else if(headerRow[c].includes("Number of Nodes Allocated"))
+                {
+                  indexNodesAllocated = c;
+                }
+                else if(headerRow[c].includes("Chassis Name"))
+                {
+                  indexChassisNames = c;
+
+                  //For sorting:
+                  chassisNameID = c;
+                }
+                else if(headerRow[c].includes("Total Number of CPUs"))
+                {
+                  indexTotalNumberOfCPUs = c;
+                }
+
+                //For adding the percent sign to utilization columns...
+                if(headerRow[c].includes("Utilization"))
+                {
+                  //ERROR CHECK...
+                  console.log("add percent to column " + headerRow[c]);
+
+                  utilizationHeaderIndex.push(c); //keep track of the column index to know which columns' data items will need a % sign appended to the end...
+                }
+
+              }
+            }
+          }
+
+          else { //Populate the non-header rows of the table...
+
+            // Parse this comma-delimited row...
+            var thisRow = rowsRead[r].split(",");
+
+            //IF dealing with the per chassis table...
+            if(headerID === "per_chassis_detailed_information_table_HEADERS")
+            {
+              //For sorting data...
+              //Store this row's contents as an array in the savedData array...
+              savedData.push(thisRow);
+
+              //Refresh the data from this row AND display the row in the per chassis table IF:
+              //  the rows are to be filtered AND this row was selected AND this is not filtered by column content
+              //  OR
+              //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
+              //  OR
+              //  the rows are NOT to be filtered (ie. all rows should be displayed)
+              if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
+              {
+                filteredData.push(thisRow);
+
+                // Add a row to the table.
+                rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
+                var newRow = rowID.insertRow(rowsToAdd);
+
+                // Populate the newly created row...
+                // ***Note that (in a later iteration), the size of the table will need
+                // to potentially dynamically change to accommodate the longest data entry.***
+                for(var c = 0; c < thisRow.length; c++)
+                {
+                  // Add a cell to the current row in column c.
+                  var cell = newRow.insertCell(c);
+
+                  //Store the data in the new cell.
+                  if(utilizationHeaderIndex.indexOf(c) > -1)
+                  {
+                    //ERROR CHECK...
+                    console.log("add percent here...");
+
+                    cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of the data item
+                  }
+                  else
+                  {
+                    cell.innerHTML = thisRow[c];
+                  }
+
+                  //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
+                  //  if the current column represents one of these categories.
+
+                  if(c === indexNodesUP)
+                  {
+                    numberOfNodesUP += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesDOWN)
+                  {
+                    //console.log("DOWN"); //error check
+                    numberOfNodesDOWN += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesUNDERMAINTENANCE)
+                  {
+                    //console.log("UM"); //error check
+                    numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
+                  }
+
+                  //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
+                  //  if the current column represents one of these categories.
+                  if(c === indexNodesIdle)
+                  {
+                    numberOfNodesIdle += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesMixed)
+                  {
+                    numberOfNodesMixed += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesAllocated)
+                  {
+                    numberOfNodesAllocated += parseInt(thisRow[c]);
+                  }
+
+                  //Add (the numberical equivalent of) the number of CPUs total for the Overall Cluster Status infographic.
+                  if(c === indexTotalNumberOfCPUs)
+                  {
+                    totalNumberOfCPUs += parseInt(thisRow[c]);
+                  }
+
+                  //Assemble the list of chassis names to be used to auto-populate the dropdown menu
+                  //  if the current column represents a chassis name.
+                  if(c === indexChassisNames)
+                  {
+                    chassisNames.push(thisRow[c]);
+                  }
+                }
+              }
+              else //filter is ON and this row was NOT selected - thus, refresh all data but do not display this row in the per chassis info table...
+              {
+                // Populate the newly created row...
+                // ***Note that (in a later iteration), the size of the table will need
+                // to potentially dynamically change to accommodate the longest data entry.***
+                for(var c = 0; c < thisRow.length; c++)
+                {
+                  //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
+                  //  if the current column represents one of these categories.
+
+                  if(c === indexNodesUP)
+                  {
+                    numberOfNodesUP += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesDOWN)
+                  {
+                    //console.log("DOWN"); //error check
+                    numberOfNodesDOWN += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesUNDERMAINTENANCE)
+                  {
+                    //console.log("UM"); //error check
+                    numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
+                  }
+
+                  //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
+                  //  if the current column represents one of these categories.
+                  if(c === indexNodesIdle)
+                  {
+                    numberOfNodesIdle += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesMixed)
+                  {
+                    numberOfNodesMixed += parseInt(thisRow[c]);
+                  }
+                  if(c === indexNodesAllocated)
+                  {
+                    numberOfNodesAllocated += parseInt(thisRow[c]);
+                  }
+
+                  //Add (the numberical equivalent of) the number of CPUs total for the Overall Cluster Status infographic.
+                  if(c === indexTotalNumberOfCPUs)
+                  {
+                    totalNumberOfCPUs += parseInt(thisRow[c]);
+                  }
+
+                  //Assemble the list of chassis names to be used to auto-populate the dropdown menu
+                  //  if the current column represents a chassis name.
+                  if(c === indexChassisNames)
+                  {
+                    chassisNames.push(thisRow[c]);
+                  }
+                } //end for(... c < thisRow.length ...)
+              }
+            } //end if(headerID === "per_chassis_detailed_information_table_HEADERS")
+            else //if dealing with a table OTHER than the per chassis table, do not handle filters...
+            {
+              var newRow = rowID.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
+
+              // Parse this comma-delimited row...
+              var thisRow = rowsRead[r].split(",");
+
+              // Populate the newly created row...
+              // ***Note that (in a later iteration), the size of the table will need
+              // to potentially dynamically change to accommodate the longest data entry.***
+              for(var c = 0; c < thisRow.length; c++)
+              {
+                // Add a cell to the current row in column c.
+                var cell = newRow.insertCell(c);
+
+                //Store the data in the new cell.
+                if(utilizationHeaderIndex.indexOf(c) > -1)
+                {
+                  //ERROR CHECK...
+                  console.log("add percent here...");
+
+                  cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of the data item
+                }
+                else
+                {
+                  cell.innerHTML = thisRow[c];
+                }
+
+                if(headerID === "overall_status_table_HEADERS")
+                {
+                  //ERROR CHECK...
+                  console.log("HERE in overall table" + thisRow[c]);
+
+                  if(c === indexNumberOfCPUsConsumed)
+                  {
+                    numberOfCPUsConsumed = thisRow[c];
+                  }
+                }
+              }
+            } //end else associated with if(headerID === "per_chassis_detailed_information_table_HEADERS")
+          } //end for(... r < rowsRead.length-1 ...)
+        }
+        else //IF sorting === true...
+        {
+          //IF sorting - just need to re-draw the table with the data in the rowsToDisplay parameter (except for the first row, which is the unique ID)...
+          //Populate the headers...
+          if(r === 1)
+          {
+
+            //Dynamically insert the headers for the table according to the data file...
+            //Parse this comma-delimited row...
+            var headerRow = rowsRead[r].split(",");
+            console.log(headerRow);
+
+            for(var c = 0; c < headerRow.length; c++)
+            {
+              // Add an element to the current row in column c.
+              var newHeader = document.createElement("th");
+
+              //To enable sorting of the table by clicking column header...
               //ON CLICK (depending on browser used)...
               if(typeof(onclick) != "function") //FOR: Firefox, Internet Explorer 8, Chrome
               {
@@ -673,240 +987,30 @@ function drawPiChart() {
 
               //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
               newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order\nby \"" + (headerRow[c]).trim() + ".\"");
-            }
 
-            var newHeaderContent = document.createTextNode(headerRow[c]);
-            newHeader.appendChild(newHeaderContent);
-            document.getElementById(headerID).appendChild(newHeader);
+              var newHeaderContent = document.createTextNode(headerRow[c]);
+              newHeader.appendChild(newHeaderContent);
+              document.getElementById(headerID).appendChild(newHeader);
 
-            //IF this is the Overall Cluster Status information - gather data dynamically...
-            if(headerID === "overall_status_table_HEADERS")
-            {
-              if(headerRow[c].includes("Number of CPUs"))
-              {
-                indexNumberOfCPUsConsumed = c;
-              }
-            }
-
-            //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
-            //MUST use [STRING].includes("String to compare against") here since white space will affect the result...
-            if(headerID === "per_chassis_detailed_information_table_HEADERS")
-            {
-              //If the table is to be filtered to display only rows containing a value greater than zero in the selected column, determine the column to be addressed...
-              //  Store its index in a variable.
-              if(filterViaOtherTable && headerRow[c].includes(rowsToDisplay))
-              {
-                specifiedColumnIndex = c;
-              }
-
-              //If the current header is any of the categories indicated in Cluster Health Status OR in Node Utilization Status OR
-              //  for auto-population of the Chassis Names dropdown menu,
-              //  then mark this column accordingly for data collection when populating the rows of the table...
-
-              if(headerRow[c].includes("Number of Nodes UP"))
-              {
-                indexNodesUP = c;
-              }
-              else if(headerRow[c].includes("Number of Nodes DOWN"))
-              {
-                indexNodesDOWN = c;
-              }
-              else if(headerRow[c].includes("Number of Nodes UNDER MAINTENANCE"))
-              {
-                indexNodesUNDERMAINTENANCE = c;
-              }
-              else if(headerRow[c].includes("Number of Nodes Idle"))
-              {
-                indexNodesIdle = c;
-              }
-              else if(headerRow[c].includes("Number of Nodes Mixed"))
-              {
-                indexNodesMixed = c;
-              }
-              else if(headerRow[c].includes("Number of Nodes Allocated"))
-              {
-                indexNodesAllocated = c;
-              }
-              else if(headerRow[c].includes("Chassis Name"))
-              {
-                indexChassisNames = c;
-
-                //For sorting:
-                chassisNameID = c;
-              }
-              else if(headerRow[c].includes("Total Number of CPUs"))
-              {
-                indexTotalNumberOfCPUs = c;
-              }
-
-              //For adding the percent sign to utilization columns...
+              //For adding the percent sign...
               if(headerRow[c].includes("Utilization"))
               {
                 //ERROR CHECK...
                 console.log("add percent to column " + headerRow[c]);
 
-                utilizationHeaderIndex.push(c); //keep track of the column index to know which columns' data items will need a % sign appended to the end...
+                utilizationHeaderIndex.push(c); //keep track of the Utilization columns so a % sign can be appended to the end of the data items in these columns
               }
-
             }
           }
-        }
-
-        else { //Populate the non-header rows of the table...
-
-          // Parse this comma-delimited row...
-          var thisRow = rowsRead[r].split(",");
-
-          //IF dealing with the per chassis table...
-          if(headerID === "per_chassis_detailed_information_table_HEADERS")
-          {
-            //For sorting data...
-            //Store this row's contents as an array in the savedData array...
-            savedData.push(thisRow);
-
-            //Refresh the data from this row AND display the row in the per chassis table IF:
-            //  the rows are to be filtered AND this row was selected AND this is not filtered by column content
-            //  OR
-            //  the rows are to be filtered AND they are to be filtered by their contribution to a selected column AND this row's value in the selected column is > 0
-            //  OR
-            //  the rows are NOT to be filtered (ie. all rows should be displayed)
-            if((filterON && rowsToDisplay.includes(thisRow[indexChassisNames]) && filterViaOtherTable === false) || (filterON && filterViaOtherTable && (thisRow[specifiedColumnIndex] > 0)) || (filterON === false))
-            {
-              filteredData.push(thisRow);
-
-              // Add a row to the table.
-              rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
-              var newRow = rowID.insertRow(rowsToAdd);
-
-              // Populate the newly created row...
-              // ***Note that (in a later iteration), the size of the table will need
-              // to potentially dynamically change to accommodate the longest data entry.***
-              for(var c = 0; c < thisRow.length; c++)
-              {
-                // Add a cell to the current row in column c.
-                var cell = newRow.insertCell(c);
-
-                //Store the data in the new cell.
-                if(utilizationHeaderIndex.indexOf(c) > -1)
-                {
-                  //ERROR CHECK...
-                  console.log("add percent here...");
-
-                  cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of the data item
-                }
-                else
-                {
-                  cell.innerHTML = thisRow[c];
-                }
-
-                //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
-                //  if the current column represents one of these categories.
-
-                if(c === indexNodesUP)
-                {
-                  numberOfNodesUP += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesDOWN)
-                {
-                  //console.log("DOWN"); //error check
-                  numberOfNodesDOWN += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesUNDERMAINTENANCE)
-                {
-                  //console.log("UM"); //error check
-                  numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
-                }
-
-                //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
-                //  if the current column represents one of these categories.
-                if(c === indexNodesIdle)
-                {
-                  numberOfNodesIdle += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesMixed)
-                {
-                  numberOfNodesMixed += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesAllocated)
-                {
-                  numberOfNodesAllocated += parseInt(thisRow[c]);
-                }
-
-                //Add (the numberical equivalent of) the number of CPUs total for the Overall Cluster Status infographic.
-                if(c === indexTotalNumberOfCPUs)
-                {
-                  totalNumberOfCPUs += parseInt(thisRow[c]);
-                }
-
-                //Assemble the list of chassis names to be used to auto-populate the dropdown menu
-                //  if the current column represents a chassis name.
-                if(c === indexChassisNames)
-                {
-                  chassisNames.push(thisRow[c]);
-                }
-              }
-            }
-            else //filter is ON and this row was NOT selected - thus, refresh all data but do not display this row in the per chassis info table...
-            {
-              // Populate the newly created row...
-              // ***Note that (in a later iteration), the size of the table will need
-              // to potentially dynamically change to accommodate the longest data entry.***
-              for(var c = 0; c < thisRow.length; c++)
-              {
-                //Add (the numerical equivalent of) the number of nodes UP, DOWN, or UNDER MAINTENANCE to the running sum
-                //  if the current column represents one of these categories.
-
-                if(c === indexNodesUP)
-                {
-                  numberOfNodesUP += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesDOWN)
-                {
-                  //console.log("DOWN"); //error check
-                  numberOfNodesDOWN += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesUNDERMAINTENANCE)
-                {
-                  //console.log("UM"); //error check
-                  numberOfNodesUNDERMAINTENANCE += parseInt(thisRow[c]);
-                }
-
-                //Add (the numerical equivalent of) the number of nodes idle, mixed, or allocated to the running sum
-                //  if the current column represents one of these categories.
-                if(c === indexNodesIdle)
-                {
-                  numberOfNodesIdle += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesMixed)
-                {
-                  numberOfNodesMixed += parseInt(thisRow[c]);
-                }
-                if(c === indexNodesAllocated)
-                {
-                  numberOfNodesAllocated += parseInt(thisRow[c]);
-                }
-
-                //Add (the numberical equivalent of) the number of CPUs total for the Overall Cluster Status infographic.
-                if(c === indexTotalNumberOfCPUs)
-                {
-                  totalNumberOfCPUs += parseInt(thisRow[c]);
-                }
-
-                //Assemble the list of chassis names to be used to auto-populate the dropdown menu
-                //  if the current column represents a chassis name.
-                if(c === indexChassisNames)
-                {
-                  chassisNames.push(thisRow[c]);
-                }
-              } //end for(... c < thisRow.length ...)
-            }
-          } //end if(headerID === "per_chassis_detailed_information_table_HEADERS")
-          else //if dealing with a table OTHER than the per chassis table, do not handle filters...
-          {
-            var newRow = rowID.insertRow(r-1); //important: must index as r-1 since line 1 of file is line 0 in table, line 2 of file is line 1 of table, etc.
+          else
+          { //Populate the non-header rows of the PER CHASSIS table...
 
             // Parse this comma-delimited row...
             var thisRow = rowsRead[r].split(",");
+
+            // Add a row to the table.
+            rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
+            var newRow = rowID.insertRow(rowsToAdd);
 
             // Populate the newly created row...
             // ***Note that (in a later iteration), the size of the table will need
@@ -922,608 +1026,444 @@ function drawPiChart() {
                 //ERROR CHECK...
                 console.log("add percent here...");
 
-                cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of the data item
+                cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of this data item
               }
               else
               {
                 cell.innerHTML = thisRow[c];
               }
-
-              if(headerID === "overall_status_table_HEADERS")
-              {
-                //ERROR CHECK...
-                console.log("HERE in overall table" + thisRow[c]);
-
-                if(c === indexNumberOfCPUsConsumed)
-                {
-                  numberOfCPUsConsumed = thisRow[c];
-                }
-              }
-            }
-          } //end else associated with if(headerID === "per_chassis_detailed_information_table_HEADERS")
-        } //end for(... r < rowsRead.length-1 ...)
-      }
-      else //IF sorting === true...
-      {
-        //IF sorting - just need to re-draw the table with the data in the rowsToDisplay parameter (except for the first row, which is the unique ID)...
-        //Populate the headers...
-        if(r === 1)
-        {
-
-          //Dynamically insert the headers for the table according to the data file...
-          //Parse this comma-delimited row...
-          var headerRow = rowsRead[r].split(",");
-          console.log(headerRow);
-
-          for(var c = 0; c < headerRow.length; c++)
-          {
-            // Add an element to the current row in column c.
-            var newHeader = document.createElement("th");
-
-            //To enable sorting of the table by clicking column header...
-            //ON CLICK (depending on browser used)...
-            if(typeof(onclick) != "function") //FOR: Firefox, Internet Explorer 8, Chrome
-            {
-              newHeader.setAttribute('onclick', "sortByColumn(this.id)");
-            }
-            else //FOR: Internet Explorer 7
-            {
-              newHeader.onclick = function()
-              {
-                "sortByColumn()";
-                onclick();
-              };
-            }
-
-            //HIDDEN ID (to know which column was clicked)...
-            newHeader.setAttribute('id', idIterator);
-            idIterator = idIterator + 1; //increment the hidden id...
-
-            //CREATE CLICKABLE HEADER...
-            newHeader.setAttribute('style', "cursor:pointer");
-
-            //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
-            newHeader.setAttribute('title', "Click here to sort this table in ascending or descending order\nby \"" + (headerRow[c]).trim() + ".\"");
-
-            var newHeaderContent = document.createTextNode(headerRow[c]);
-            newHeader.appendChild(newHeaderContent);
-            document.getElementById(headerID).appendChild(newHeader);
-
-            //For adding the percent sign...
-            if(headerRow[c].includes("Utilization"))
-            {
-              //ERROR CHECK...
-              console.log("add percent to column " + headerRow[c]);
-
-              utilizationHeaderIndex.push(c); //keep track of the Utilization columns so a % sign can be appended to the end of the data items in these columns
-            }
+            } //end for(var c = 0; c < thisRow.length; c++)
           }
-        }
-        else
-        { //Populate the non-header rows of the PER CHASSIS table...
-
-          // Parse this comma-delimited row...
-          var thisRow = rowsRead[r].split(",");
-
-          // Add a row to the table.
-          rowsToAdd = rowsToAdd + 1; //increment the index that the row should be added to
-          var newRow = rowID.insertRow(rowsToAdd);
-
-          // Populate the newly created row...
-          // ***Note that (in a later iteration), the size of the table will need
-          // to potentially dynamically change to accommodate the longest data entry.***
-          for(var c = 0; c < thisRow.length; c++)
-          {
-            // Add a cell to the current row in column c.
-            var cell = newRow.insertCell(c);
-
-            //Store the data in the new cell.
-            if(utilizationHeaderIndex.indexOf(c) > -1)
-            {
-              //ERROR CHECK...
-              console.log("add percent here...");
-
-              cell.innerHTML = (thisRow[c] + "%"); //if in a Utilization column, append a % sign to the end of this data item
-            }
-            else
-            {
-              cell.innerHTML = thisRow[c];
-            }
-          } //end for(var c = 0; c < thisRow.length; c++)
-        }
-      } //end else (ie. sorting ===  true)
+        } //end else (ie. sorting ===  true)
 
 
-    } //end for(... r < rowsRead.length-1 ...)
+      } //end for(... r < rowsRead.length-1 ...)
 
-    //If NOT sorting...
-    if(!sorting)
-    {
-      //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
-      if(headerID === "per_chassis_detailed_information_table_HEADERS")
+      //If NOT sorting...
+      if(!sorting)
       {
-        //Data collection complete...
+        //IF this is the Per Chassis info - gather data for the Cluster Health Status table dynamically...
+        if(headerID === "per_chassis_detailed_information_table_HEADERS")
+        {
+          //Data collection complete...
 
-        //Check for ERRORs in data collection.
-        if(indexNodesUP === -1) {
-          numberOfNodesUP = "ERROR";
+          //Check for ERRORs in data collection.
+          if(indexNodesUP === -1) {
+            numberOfNodesUP = "ERROR";
+          }
+          if(indexNodesDOWN === -1) {
+            numberOfNodesDOWN = "ERROR";
+          }
+          if(indexNodesUNDERMAINTENANCE === -1) {
+            numberOfNodesUNDERMAINTENANCE = "ERROR";
+          }
+          if(indexNodesIdle === -1) {
+            numberOfNodesIdle = "ERROR";
+          }
+          if(indexNodesMixed === -1) {
+            numberOfNodesMixed = "ERROR";
+          }
+          if(indexNodesAllocated === -1) {
+            numberOfNodesAllocated = "ERROR";
+          }
+          if(indexTotalNumberOfCPUs === -1) {
+            totalNumberOfCPUs = "ERROR";
+          }
+
+          //Do nothing if an empty array of chassis names (as the dropdown menu above will handle this)...
+
+          //Create a JSON object containing the data for the Cluster Health Status table.
+          var jsonDerivedClusterHealth = {
+            "Number of Nodes UP": numberOfNodesUP,
+            "Number of Nodes DOWN": numberOfNodesDOWN,
+            "Number of Nodes UNDER MAINTENANCE": numberOfNodesUNDERMAINTENANCE
+          };
+
+          //Create a JSON object containing the data for the Node Utilization Status table.
+          var jsonDerivedNodeUtilization = {
+            "Number of Nodes Idle": numberOfNodesIdle,
+            "Number of Nodes Mixed": numberOfNodesMixed,
+            "Number of Nodes Allocated": numberOfNodesAllocated
+          };
+
+          //Call the function to populate the Cluster Health Status table.
+          //Call this function here to avoid a race condition since javascript functions are non-blocking...
+          populateDerivedTable(jsonDerivedClusterHealth, "health_table", "health_table_HEADERS");
+
+          //Call the function to populate the Node Utilization Status table.
+          //Call this function here to avoid a race condition since javascript functions are non-blocking...
+          populateDerivedTable(jsonDerivedNodeUtilization, "node_utilization_table", "node_utilization_table_HEADERS");
+
+          //FOR OVERALL CLUSTER STATUS
+          fractionOfCPUsConsumed = (numberOfCPUsConsumed / totalNumberOfCPUs) * 100;
+          console.log("FRACTION: " + fractionOfCPUsConsumed);
+          console.log("DIVISION: " + numberOfCPUsConsumed + " " + totalNumberOfCPUs);
+          drawChart(); //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
+          //google.charts.setOnLoadCallback(drawChart);
+
+          //FOR CLUSTER HEALTH STATUS INFOGRAPHIC
+          // Set a callback to run when the Google Visualization API is loaded.
+          drawPiChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
+          //google.charts.setOnLoadCallback(drawPiChart);
+
+          //For Node Utilization Status table
+          //Riana: fixed the formula for this infographic's display per 3.24.2017 customer meeting
+          fractionOfNodesAllocated = ((numberOfNodesMixed + numberOfNodesAllocated) / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
+          //fractionOfNodesIdle = (numberOfNodesIdle / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100; //use this if need idle/total in the infographic...
+          drawAllocatedChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
+          //google.charts.setOnLoadCallback(drawAllocatedChart);
         }
-        if(indexNodesDOWN === -1) {
-          numberOfNodesDOWN = "ERROR";
+        //else { //do nothing...
+        //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
+        //}
+
+        //ERROR CHECK...
+        if(headerID === "per_chassis_detailed_information_table_HEADERS")
+        {
+          console.log(savedData);
         }
-        if(indexNodesUNDERMAINTENANCE === -1) {
-          numberOfNodesUNDERMAINTENANCE = "ERROR";
-        }
-        if(indexNodesIdle === -1) {
-          numberOfNodesIdle = "ERROR";
-        }
-        if(indexNodesMixed === -1) {
-          numberOfNodesMixed = "ERROR";
-        }
-        if(indexNodesAllocated === -1) {
-          numberOfNodesAllocated = "ERROR";
-        }
-        if(indexTotalNumberOfCPUs === -1) {
-          totalNumberOfCPUs = "ERROR";
-        }
+      } //end of second if(!sorting)
 
-        //Do nothing if an empty array of chassis names (as the dropdown menu above will handle this)...
-
-        //Create a JSON object containing the data for the Cluster Health Status table.
-        var jsonDerivedClusterHealth = {
-          "Number of Nodes UP": numberOfNodesUP,
-          "Number of Nodes DOWN": numberOfNodesDOWN,
-          "Number of Nodes UNDER MAINTENANCE": numberOfNodesUNDERMAINTENANCE
-        };
-
-        //Create a JSON object containing the data for the Node Utilization Status table.
-        var jsonDerivedNodeUtilization = {
-          "Number of Nodes Idle": numberOfNodesIdle,
-          "Number of Nodes Mixed": numberOfNodesMixed,
-          "Number of Nodes Allocated": numberOfNodesAllocated
-        };
-
-        //Call the function to populate the Cluster Health Status table.
-        //Call this function here to avoid a race condition since javascript functions are non-blocking...
-        populateDerivedTable(jsonDerivedClusterHealth, "health_table", "health_table_HEADERS");
-
-        //Call the function to populate the Node Utilization Status table.
-        //Call this function here to avoid a race condition since javascript functions are non-blocking...
-        populateDerivedTable(jsonDerivedNodeUtilization, "node_utilization_table", "node_utilization_table_HEADERS");
-
-        //FOR OVERALL CLUSTER STATUS
-        fractionOfCPUsConsumed = (numberOfCPUsConsumed / totalNumberOfCPUs) * 100;
-        console.log("FRACTION: " + fractionOfCPUsConsumed);
-        console.log("DIVISION: " + numberOfCPUsConsumed + " " + totalNumberOfCPUs);
-        drawChart(); //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
-        //google.charts.setOnLoadCallback(drawChart);
-
-        //FOR CLUSTER HEALTH STATUS INFOGRAPHIC
-        // Set a callback to run when the Google Visualization API is loaded.
-        drawPiChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
-        //google.charts.setOnLoadCallback(drawPiChart);
-
-        //For Node Utilization Status table
-        //Riana: fixed the formula for this infographic's display per 3.24.2017 customer meeting
-        fractionOfNodesAllocated = ((numberOfNodesMixed + numberOfNodesAllocated) / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100;
-        //fractionOfNodesIdle = (numberOfNodesIdle / (numberOfNodesIdle + numberOfNodesMixed + numberOfNodesAllocated)) * 100; //use this if need idle/total in the infographic...
-        drawAllocatedChart();  //Note that only this function needs to be called to draw the infographic here (if use the next line of code instead, there are occasional errors)...
-        //google.charts.setOnLoadCallback(drawAllocatedChart);
+      //Initial sorting (on page load)...
+      if((headerID === "per_chassis_detailed_information_table_HEADERS") && (init2 === 0))
+      {
+        initialSort(indexChassisNames);
       }
-      //else { //do nothing...
-      //  return "NO CLUSTER HEALTH DATA IS DERIVED FROM THIS FILE.";
-      //}
+
+      //Populate the dropdown menu dynamically...
+
+      //For ease of use to the web application user, display the chasses in the dropdown menu in ascending alphabetical order.
+      chassisNames.sort();
+
+      //Create HTML for dropdown menu dynamically via Javascript...
+
+      var theHTML = "";
+
+      for(var x = 0; x < chassisNames.length; x++)
+      {
+        //Important: The content of the for in the label tag must match the id of the input checkbox to make the text clickable...
+        theHTML += "\<label for=\"" + chassisNames[x] + "\"\>\n<input type=\"checkbox\" id=\"" + chassisNames[x] + "\" value=\"" + chassisNames[x] + "\" \/\>" + chassisNames[x] + "\<\/label\>\n";
+      }
+
+      document.getElementById("theCheckboxes").innerHTML = theHTML;
+
+      //Reset (as necessary)...
+      if((document.getElementById("selectAllButton").value).includes("Deselect All"))
+      {
+        (document.getElementById("selectAllButton").value) = "Select All";
+      }
+
+    }
+
+
+
+    //Riana: This function is used to sort the per chassis table by the chassis name column (ascending alphabetical order) upon page load...
+    //Note that the parameter is the ID of the column containing the chassis names (to allow for dynamic code)...
+    function initialSort(theIndex)
+    {
+      //Indicate that this initial sort is being completed and should NOT be repeated unless the page is re-loaded...
+      init2 = 1;
+
+      //Initially, sort the per chassis table by chassis name (ascending alphabetical order).
+      sortByColumn(theIndex);
+    }
+
+
+
+    //Define a function to access, open, and read a CSV data file.
+    //Store the contents extracted from the file in a variable.
+    //Place all of this code in a function to avoid duplication of code.
+    function readAndStoreData(fileName, idTableHeaders, idTableRows, rowsToDisplay, filterON, filterViaOtherTable, sorting)
+    {
+      // Declare a variable to hold the contents of the CSV file in...
+      var csvFile = "";
+
+      //Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
+      var contents = new XMLHttpRequest();
+      contents.open("GET", fileName, false);
+      contents.onreadystatechange = function ()
+      {
+        if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
+        {
+          csvFile = contents.responseText;
+        }
+      }
+      contents.send(null);
+
+      //Parse the data file by rows (newline character-delimited)...
+      //Store each row in an element of rows.
+      var rows = csvFile.split("\n");
+
+      //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
+      //Note that this line is a time stamp that is unique...
+      //Initiliaze the prevFileID to that of the first file upload when the page is loaded...
+      if(init === 0)
+      {
+        prevFileID = rows[0];
+        init = 1; //indicate that initialization is now complete
+        document.getElementById("lastUpdateDateTime").innerHTML = prevFileID;
+      }
+
+      //Store the current unique ID in the appropriate variable for comparison.
+      currentFileID = rows[0];
 
       //ERROR CHECK...
-      if(headerID === "per_chassis_detailed_information_table_HEADERS")
+      console.log(currentFileID);
+
+      if(currentFileID === prevFileID)
       {
-        console.log(savedData);
+        //Error check...
+        console.log("The data file has NOT been refreshed.")
       }
-    } //end of second if(!sorting)
-
-    //Initial sorting (on page load)...
-    if((headerID === "per_chassis_detailed_information_table_HEADERS") && (init2 === 0))
-    {
-      initialSort(indexChassisNames);
-    }
-
-    //Populate the dropdown menu dynamically...
-
-    //For ease of use to the web application user, display the chasses in the dropdown menu in ascending alphabetical order.
-    chassisNames.sort();
-
-    //Create HTML for dropdown menu dynamically via Javascript...
-
-    var theHTML = "";
-
-    for(var x = 0; x < chassisNames.length; x++)
-    {
-      //Important: The content of the for in the label tag must match the id of the input checkbox to make the text clickable...
-      theHTML += "\<label for=\"" + chassisNames[x] + "\"\>\n<input type=\"checkbox\" id=\"" + chassisNames[x] + "\" value=\"" + chassisNames[x] + "\" \/\>" + chassisNames[x] + "\<\/label\>\n";
-    }
-
-    document.getElementById("theCheckboxes").innerHTML = theHTML;
-
-    //Reset (as necessary)...
-    if((document.getElementById("selectAllButton").value).includes("Deselect All"))
-    {
-      (document.getElementById("selectAllButton").value) = "Select All";
-    }
-
-  }
-
-
-
-  //Riana: This function is used to sort the per chassis table by the chassis name column (ascending alphabetical order) upon page load...
-  //Note that the parameter is the ID of the column containing the chassis names (to allow for dynamic code)...
-  function initialSort(theIndex)
-  {
-    //Indicate that this initial sort is being completed and should NOT be repeated unless the page is re-loaded...
-    init2 = 1;
-
-    //Initially, sort the per chassis table by chassis name (ascending alphabetical order).
-    sortByColumn(theIndex);
-  }
-
-
-
-  //Define a function to access, open, and read a CSV data file.
-  //Store the contents extracted from the file in a variable.
-  //Place all of this code in a function to avoid duplication of code.
-  function readAndStoreData(fileName, idTableHeaders, idTableRows, rowsToDisplay, filterON, filterViaOtherTable, sorting)
-  {
-    // Declare a variable to hold the contents of the CSV file in...
-    var csvFile = "";
-
-    //Use XMLHttpRequest to read the contents of the data file and store them in variable csvFile.
-    var contents = new XMLHttpRequest();
-    contents.open("GET", fileName, false);
-    contents.onreadystatechange = function ()
-    {
-      if(contents.readyState === 4 && (contents.status === 200 || contents.status == 0))
+      else
       {
-        csvFile = contents.responseText;
+        //ERROR CHECK...
+        console.log("The data file HAS been refreshed.")
+
+        //Update the data stamp at the top right of the page.
+        document.getElementById("lastUpdateDateTime").innerHTML = currentFileID;
+
+        //Update the previous file refresh unique ID for comparison when the next refresh is requested/occurs.
+        prevFileID = currentFileID;
+
+        //In a later iteration, store the new file to the database here (for backlog story on storing historical data).
       }
-    }
-    contents.send(null);
 
-    //Parse the data file by rows (newline character-delimited)...
-    //Store each row in an element of rows.
-    var rows = csvFile.split("\n");
-
-    //Check if the file was refreshed by seeing if the value of the entire first row of the table is the same as in this file or not...
-    //Note that this line is a time stamp that is unique...
-    //Initiliaze the prevFileID to that of the first file upload when the page is loaded...
-    if(init === 0)
-    {
-      prevFileID = rows[0];
-      init = 1; //indicate that initialization is now complete
-      document.getElementById("lastUpdateDateTime").innerHTML = prevFileID;
+      //Call the appropriate function to populate the data table associated with this data file.
+      //Call this function here to avoid a race condition since javascript functions are non-blocking...
+      populateTableFromCSVFile(rows, idTableHeaders, idTableRows, rowsToDisplay, filterON, filterViaOtherTable, sorting);
     }
 
-    //Store the current unique ID in the appropriate variable for comparison.
-    currentFileID = rows[0];
 
-    //ERROR CHECK...
-    console.log(currentFileID);
 
-    if(currentFileID === prevFileID)
+    //Define a function to populate the Cluster Health Status table with the data derived from the per chassis info.
+    //The data needed to populate this table is stored in a JSON object, passed into this function as an input parameter.
+    function populateDerivedTable(derivedStatusInfo, tableID, tableHeadersID)
     {
-      //Error check...
-      console.log("The data file has NOT been refreshed.")
-    }
-    else
-    {
+      //Access the HTML table to be updated with this data.
+      var theTable = document.getElementById(tableID);
+
+      //Populate the headers.
+      for(var c = 0; c < Object.keys(derivedStatusInfo).length; c++)
+      {
+        // Add an element to the current row in column c.
+        var newHeader = document.createElement("TH");
+
+        //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
+        newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table (below) to display only\nchasses with \"" + (Object.keys(derivedStatusInfo)[c]).trim() + "\" greater than 0.");
+
+        var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
+
+        //For the Cluster Health Status and Node Utilization Status tables:
+        //  when the column header is clicked, filter by the information in these columns (ie. display only if a chassis made a contribution to the selected total)...
+        newHeader.onclick = function(){
+          filterByContributorsToThisColumn(this.innerHTML); //send the column header's text as the specification for the rows to be filtered by
+          console.log("FILTERING BY THIS ROW..."); //error check
+        };
+
+        newHeader.appendChild(newHeaderContent);
+        document.getElementById(tableHeadersID).appendChild(newHeader);
+      }
+
       //ERROR CHECK...
-      console.log("The data file HAS been refreshed.")
+      console.log("WORKING ON A DERIVED TABLE...");
 
-      //Update the data stamp at the top right of the page.
-      document.getElementById("lastUpdateDateTime").innerHTML = currentFileID;
+      //Populate the rows...
 
-      //Update the previous file refresh unique ID for comparison when the next refresh is requested/occurs.
-      prevFileID = currentFileID;
+      //Add a row to the table.
+      //Reminder to self: If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
+      var newRow = theTable.insertRow(1);
 
-      //In a later iteration, store the new file to the database here (for backlog story on storing historical data).
-    }
-
-    //Call the appropriate function to populate the data table associated with this data file.
-    //Call this function here to avoid a race condition since javascript functions are non-blocking...
-    populateTableFromCSVFile(rows, idTableHeaders, idTableRows, rowsToDisplay, filterON, filterViaOtherTable, sorting);
-  }
-
-
-
-  //Define a function to populate the Cluster Health Status table with the data derived from the per chassis info.
-  //The data needed to populate this table is stored in a JSON object, passed into this function as an input parameter.
-  function populateDerivedTable(derivedStatusInfo, tableID, tableHeadersID)
-  {
-    //Access the HTML table to be updated with this data.
-    var theTable = document.getElementById(tableID);
-
-    //Populate the headers.
-    for(var c = 0; c < Object.keys(derivedStatusInfo).length; c++)
-    {
-      // Add an element to the current row in column c.
-      var newHeader = document.createElement("TH");
-
-      //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
-      newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table (below) to display only\nchasses with \"" + (Object.keys(derivedStatusInfo)[c]).trim() + "\" greater than 0.");
-
-      var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
-
-      //For the Cluster Health Status and Node Utilization Status tables:
-      //  when the column header is clicked, filter by the information in these columns (ie. display only if a chassis made a contribution to the selected total)...
-      newHeader.onclick = function(){
-        filterByContributorsToThisColumn(this.innerHTML); //send the column header's text as the specification for the rows to be filtered by
-        console.log("FILTERING BY THIS ROW..."); //error check
-      };
-
-      newHeader.appendChild(newHeaderContent);
-      document.getElementById(tableHeadersID).appendChild(newHeader);
-    }
-
-    //ERROR CHECK...
-    console.log("WORKING ON A DERIVED TABLE...");
-
-    //Populate the rows...
-
-    //Add a row to the table.
-    //Reminder to self: If can add more rows in this table dynamically, then NEED to change insertRow(1) to insertRow(r) or (r-1)...
-    var newRow = theTable.insertRow(1);
-
-    // Populate the newly created row...
-    // ***Note that (in a later iteration), the size of the table will need
-    // to potentially dynamically change to accommodate the longest data entry.***
-    for(var c = 0; c < Object.keys(derivedStatusInfo).length; c++)
-    {
-      // Add a cell to the current row in column c.
-      var cell = newRow.insertCell(c);
-      cell.innerHTML = derivedStatusInfo[Object.keys(derivedStatusInfo)[c]];
-    }
-  }
-
-
-
-  ////////////////////////////////////////
-  ////////////////////////////////////////
-
-
-
-  //Declare a function that will clear a table's rows and headers.
-  //This is needed to prevent the refresh of data from appending to the current tables.
-  function clearTable(table, tableHeaders)
-  {
-    //Delete each row from the bottom up until the top, except for row 0 (the header row).
-    var numRows = table.getElementsByTagName("tr").length;
-    for(i = numRows - 1; i > 0; i--){
-      table.deleteRow(i);
-    }
-
-    //Delete the header row.
-    var numHeaders = tableHeaders.getElementsByTagName("TH").length;
-    for(i = numHeaders - 1; i >= 0; i--){
-      tableHeaders.deleteCell(i);
-    }
-  }
-
-
-
-  //Define a function that will be called to refresh the data.
-  //A refresh can occur on page load OR on pressing the refresh button.
-  function refresh()
-  {
-    //FIRST - clear the tables to be sure the refreshed data is NOT accidentally appended to the existing table...
-    clearTable(overallStatusTable, document.getElementById("overall_status_table_HEADERS"));
-    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
-    clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
-    clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
-
-    //Populate the Overall Cluster Status table...
-    //    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
-    readAndStoreData("overallDEAC.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
-
-    //Populate the Per Chassis Info table...
-    //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
-    readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
-    //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
-    //AND the health status table is populated when the chassis detailed information is complete...
-
-    //FOR TESTING PURPOSES ONLY...
-    //filterPerChassisTableByDropdown(["bc01", "bc02", "a1a3"]);
-  }
-
-
-
-  //Define a function that will filter the table containing per chassis information to display only the rows containing the
-  //  chassis name(s) specified in the array passed in as a parameter.
-  //This function should be called when the SUBMIT button is clicked.
-  function filterPerChassisTableByDropdown(rowsToDisplay)
-  {
-    //FIRST - clear the tables...
-    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
-    clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
-    clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
-
-    //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
-    //  AND with the most up-to-date information...
-    //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
-    //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
-    readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
-  }
-
-
-
-  //Define a function that will filter the per chassis table by contributors to the column clicked on
-  //  (ie. rows whose value in that column is greater than 0).
-  function filterByContributorsToThisColumn(rowsToDisplay)
-  {
-    //FIRST - clear the tables...
-    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
-    clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
-    clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
-
-    //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
-    //  AND with the most up-to-date information...
-    //  Note that the filterON parameter of the function indicates that an array with the column to filter by is provided...
-    //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
-    //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
-    readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
-
-    console.log(rowsToDisplay); //error check
-  }
-
-
-
-  //Riana: This function is for sorting the PER CHASSIS table by column...
-  function sortByColumn(columnNumber)
-  {
-    //Sort the data in savedData...
-    //Sort in a copy, though, to avoid overwriting the current data...
-    //FOR NOW - deal with the data saved, do NOT re-read the data...
-    //IF need to re-read the data so the most up-to-date info appears when sort by a column, then would need to call
-    //  the appropriate functions and, once the savedData array is re-assembled, call a function to sort (separating sorting)
-    //  from this function to avoid a race condition...
-
-    //Determine the direction to sort in...
-    //Set the following variables for toggling the direction of sort on next click IF click on same header in per chassis table while this sort is still visible...
-    if(colPrevSortedBy === columnNumber) //if the per chassis table was sorted in the view at the time the current column header was clicked...
-    {
-      if(descendingOrAscendingOrder === 0)
+      // Populate the newly created row...
+      // ***Note that (in a later iteration), the size of the table will need
+      // to potentially dynamically change to accommodate the longest data entry.***
+      for(var c = 0; c < Object.keys(derivedStatusInfo).length; c++)
       {
-        descendingOrAscendingOrder = 1;
-      }
-      else if(descendingOrAscendingOrder === 1)
-      {
-        descendingOrAscendingOrder = 0;
-      }
-    }
-    else
-    {
-      descendingOrAscendingOrder = 1; //first time click on header, sort in descending order
-    }
-
-    //Now set the following variable for use the next time a column header is clicked for sorting purposes...
-    colPrevSortedBy = columnNumber;
-
-    //ERROR CHECK...
-    console.log("THE SAVED DATA: ");
-    console.log(savedData);
-
-    //Make a local copy...
-    var dataCopy = [];
-    if((filterDropdownObserved) || (filterClickObserved))
-    {
-      for(var x = 0; x < filteredData.length; x++)
-      {
-        dataCopy.push(filteredData[x]);
-      }
-    }
-    else {
-      for(var x = 0; x < savedData.length; x++)
-      {
-        dataCopy.push(savedData[x]);
+        // Add a cell to the current row in column c.
+        var cell = newRow.insertCell(c);
+        cell.innerHTML = derivedStatusInfo[Object.keys(derivedStatusInfo)[c]];
       }
     }
 
-    //ERROR CHECK...
-    //console.log(filterContent);
-    console.log("FILTERS WHEN SORT TABLE: ");
-    console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
 
-    console.log("DATA COPY: ");
-    console.log(dataCopy);
 
-    //ERROR CHECK:
-    console.log("Sort by column with ID = " + columnNumber);
+    ////////////////////////////////////////
+    ////////////////////////////////////////
 
-    //ERROR CHECK...
-    console.log("Type of data in this column (based on first row's entry)...")
 
-    //If convert to an int and the result when converted back to a string is the same as the original data, then it is a number.
-    //Otherwise, it is a string...
-    console.log(String(parseInt(dataCopy[0][columnNumber])).charCodeAt(0) + " "+ String(parseInt(dataCopy[0][columnNumber])).charCodeAt(1));
-    console.log(dataCopy[0][columnNumber].charCodeAt(0) + " " + dataCopy[0][columnNumber].charCodeAt(1));
 
-    //SORT in place...
-    //REFERENCE: http://stackoverflow.com/questions/16096872/how-to-sort-2-dimensional-array-by-column-value
-    dataCopy.sort(sorter);
-    //Important: The following function should be nested in this onClick function to ensure that the column id is in its scope...
-    function sorter(a, b)
+    //Declare a function that will clear a table's rows and headers.
+    //This is needed to prevent the refresh of data from appending to the current tables.
+    function clearTable(table, tableHeaders)
     {
-      //Just putting this here in case I need it later...
-      //ASCENDING ORDER:
-      //return a[columnNumber]-b[columnNumber];
+      //Delete each row from the bottom up until the top, except for row 0 (the header row).
+      var numRows = table.getElementsByTagName("tr").length;
+      for(i = numRows - 1; i > 0; i--){
+        table.deleteRow(i);
+      }
 
-      //Sort according to data type (to be done dynamically)...
-      if(String(parseInt(dataCopy[0][columnNumber])) === dataCopy[0][columnNumber]) //IF NUMERICAL DATA...
+      //Delete the header row.
+      var numHeaders = tableHeaders.getElementsByTagName("TH").length;
+      for(i = numHeaders - 1; i >= 0; i--){
+        tableHeaders.deleteCell(i);
+      }
+    }
+
+
+
+    //Define a function that will be called to refresh the data.
+    //A refresh can occur on page load OR on pressing the refresh button.
+    function refresh()
+    {
+      //FIRST - clear the tables to be sure the refreshed data is NOT accidentally appended to the existing table...
+      clearTable(overallStatusTable, document.getElementById("overall_status_table_HEADERS"));
+      clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+      clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+      clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
+
+      //Populate the Overall Cluster Status table...
+      //    readAndStoreData("overallClusterInfo.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+      readAndStoreData("overallDEAC.csv", "overall_status_table_HEADERS", overallStatusTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+
+      //Populate the Per Chassis Info table...
+      //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+      readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, false);
+      //Cluster Health Status data is derived from the per chassis data and is stored in a JSON object...
+      //AND the health status table is populated when the chassis detailed information is complete...
+
+      //FOR TESTING PURPOSES ONLY...
+      //filterPerChassisTableByDropdown(["bc01", "bc02", "a1a3"]);
+    }
+
+
+
+    //Define a function that will filter the table containing per chassis information to display only the rows containing the
+    //  chassis name(s) specified in the array passed in as a parameter.
+    //This function should be called when the SUBMIT button is clicked.
+    function filterPerChassisTableByDropdown(rowsToDisplay)
+    {
+      //FIRST - clear the tables...
+      clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+      clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+      clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
+
+      //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
+      //  AND with the most up-to-date information...
+      //  Note that the filterON parameter of the function indicates that an array with chassis names to filter by is provided...
+      //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
+      readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, false, false);
+    }
+
+
+
+    //Define a function that will filter the per chassis table by contributors to the column clicked on
+    //  (ie. rows whose value in that column is greater than 0).
+    function filterByContributorsToThisColumn(rowsToDisplay)
+    {
+      //FIRST - clear the tables...
+      clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+      clearTable(document.getElementById("health_table"), document.getElementById("health_table_HEADERS"));
+      clearTable(document.getElementById("node_utilization_table"), document.getElementById("node_utilization_table_HEADERS"));
+
+      //Now populate the table without re-creating the JSON objects for the overall table AND only displaying the selected rows
+      //  AND with the most up-to-date information...
+      //  Note that the filterON parameter of the function indicates that an array with the column to filter by is provided...
+      //  Note that the filterViaOtherTable parameter of the function indicates that a column header in another table was selected to filter the data by...
+      //    readAndStoreData("perChassisInfo.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
+      readAndStoreData("perChassis.csv", "per_chassis_detailed_information_table_HEADERS", perChassisTable, rowsToDisplay, true, true, false);
+
+      console.log(rowsToDisplay); //error check
+    }
+
+
+
+    //Riana: This function is for sorting the PER CHASSIS table by column...
+    function sortByColumn(columnNumber)
+    {
+      //Sort the data in savedData...
+      //Sort in a copy, though, to avoid overwriting the current data...
+      //FOR NOW - deal with the data saved, do NOT re-read the data...
+      //IF need to re-read the data so the most up-to-date info appears when sort by a column, then would need to call
+      //  the appropriate functions and, once the savedData array is re-assembled, call a function to sort (separating sorting)
+      //  from this function to avoid a race condition...
+
+      //Determine the direction to sort in...
+      //Set the following variables for toggling the direction of sort on next click IF click on same header in per chassis table while this sort is still visible...
+      if(colPrevSortedBy === columnNumber) //if the per chassis table was sorted in the view at the time the current column header was clicked...
       {
-        //ERROR CHECK...
-        console.log("Numerical data detected in this column...");
-
-        if(a[columnNumber] === b[columnNumber]) //tie breaker (always ascending alphabetical order by chassis name)
+        if(descendingOrAscendingOrder === 0)
         {
-          //SORT IN ASCENDING ALPHABETICAL ORDER...
-          if (a[chassisNameID] === b[chassisNameID]) {
-            return 0;
-          }
-          else {
-            return (a[chassisNameID] < b[chassisNameID]) ? -1 : 1;
-          }
+          descendingOrAscendingOrder = 1;
         }
-        else
+        else if(descendingOrAscendingOrder === 1)
         {
-          if(descendingOrAscendingOrder === 1)
-          {
-            //SORT IN DESCENDING ORDER:
-            return b[columnNumber]-a[columnNumber];
-          }
-          else if(descendingOrAscendingOrder === 0)
-          {
-            //SORT IN ASCENDING ORDER:
-            return a[columnNumber]-b[columnNumber];
-          }
+          descendingOrAscendingOrder = 0;
         }
       }
-      else if((String(parseInt(dataCopy[0][columnNumber])) + "%") === dataCopy[0][columnNumber]) //IF PERCENTAGE DATA...
+      else
       {
-        //ERROR CHECK...
-        console.log("Percentage data detected in this column...");
-        if(a[columnNumber] === b[columnNumber]) //tie breaker (always ascending alphabetical order by chassis name)
+        descendingOrAscendingOrder = 1; //first time click on header, sort in descending order
+      }
+
+      //Now set the following variable for use the next time a column header is clicked for sorting purposes...
+      colPrevSortedBy = columnNumber;
+
+      //ERROR CHECK...
+      console.log("THE SAVED DATA: ");
+      console.log(savedData);
+
+      //Make a local copy...
+      var dataCopy = [];
+      if((filterDropdownObserved) || (filterClickObserved))
+      {
+        for(var x = 0; x < filteredData.length; x++)
         {
-          //SORT IN ASCENDING ALPHABETICAL ORDER...
-          if (a[chassisNameID] === b[chassisNameID]) {
-            return 0;
-          }
-          else {
-            return (a[chassisNameID] < b[chassisNameID]) ? -1 : 1;
-          }
-        }
-        else
-        {
-          if(descendingOrAscendingOrder === 1)
-          {
-            //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
-            return (+b[columnNumber].replace("%", "")) - (+a[columnNumber].replace("%", ""));
-          }
-          else if(descendingOrAscendingOrder === 0)
-          {
-            //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
-            return (+a[columnNumber].replace("%", "")) - (+b[columnNumber].replace("%", ""));
-          }
+          dataCopy.push(filteredData[x]);
         }
       }
-      else //IF STRING DATA IS DETECTED...
-      {
-        //ERROR CHECK...
-        console.log("String data detected in this column...");
+      else {
+        for(var x = 0; x < savedData.length; x++)
+        {
+          dataCopy.push(savedData[x]);
+        }
+      }
 
-        //Do an extra check if get here that this is not numerical or percentage data with a newline appended to the end...
-        if(String(parseInt(dataCopy[0][columnNumber])) === dataCopy[0][columnNumber].replace("\r", "")) //IF NUMERICAL DATA...
+      //ERROR CHECK...
+      //console.log(filterContent);
+      console.log("FILTERS WHEN SORT TABLE: ");
+      console.log(filterDropdownObserved, filterClickObserved, sortingObserved);
+
+      console.log("DATA COPY: ");
+      console.log(dataCopy);
+
+      //ERROR CHECK:
+      console.log("Sort by column with ID = " + columnNumber);
+
+      //ERROR CHECK...
+      console.log("Type of data in this column (based on first row's entry)...")
+
+      //If convert to an int and the result when converted back to a string is the same as the original data, then it is a number.
+      //Otherwise, it is a string...
+      console.log(String(parseInt(dataCopy[0][columnNumber])).charCodeAt(0) + " "+ String(parseInt(dataCopy[0][columnNumber])).charCodeAt(1));
+      console.log(dataCopy[0][columnNumber].charCodeAt(0) + " " + dataCopy[0][columnNumber].charCodeAt(1));
+
+      //SORT in place...
+      //REFERENCE: http://stackoverflow.com/questions/16096872/how-to-sort-2-dimensional-array-by-column-value
+      dataCopy.sort(sorter);
+      //Important: The following function should be nested in this onClick function to ensure that the column id is in its scope...
+      function sorter(a, b)
+      {
+        //Just putting this here in case I need it later...
+        //ASCENDING ORDER:
+        //return a[columnNumber]-b[columnNumber];
+
+        //Sort according to data type (to be done dynamically)...
+        if(String(parseInt(dataCopy[0][columnNumber])) === dataCopy[0][columnNumber]) //IF NUMERICAL DATA...
         {
           //ERROR CHECK...
-          console.log("Numerical data is actually in this column (\\r interfered)...");
+          console.log("Numerical data detected in this column...");
 
-          if(a[columnNumber] === b[columnNumber]) //tie breaker (alphabetical by chassis name)
+          if(a[columnNumber] === b[columnNumber]) //tie breaker (always ascending alphabetical order by chassis name)
           {
             //SORT IN ASCENDING ALPHABETICAL ORDER...
             if (a[chassisNameID] === b[chassisNameID]) {
@@ -1538,21 +1478,20 @@ function drawPiChart() {
             if(descendingOrAscendingOrder === 1)
             {
               //SORT IN DESCENDING ORDER:
-              return (+b[columnNumber].replace("\r", "")) - (+a[columnNumber].replace("\r", ""));
+              return b[columnNumber]-a[columnNumber];
             }
             else if(descendingOrAscendingOrder === 0)
             {
               //SORT IN ASCENDING ORDER:
-              return (+a[columnNumber].replace("\r", "")) - (+b[columnNumber].replace("\r", ""));
+              return a[columnNumber]-b[columnNumber];
             }
           }
         }
         else if((String(parseInt(dataCopy[0][columnNumber])) + "%") === dataCopy[0][columnNumber]) //IF PERCENTAGE DATA...
         {
           //ERROR CHECK...
-          console.log("Percentage data is actually in this column (\\r interfered)...");
-
-          if(a[columnNumber] === b[columnNumber]) //tie breaker (alphabetical by chassis name)
+          console.log("Percentage data detected in this column...");
+          if(a[columnNumber] === b[columnNumber]) //tie breaker (always ascending alphabetical order by chassis name)
           {
             //SORT IN ASCENDING ALPHABETICAL ORDER...
             if (a[chassisNameID] === b[chassisNameID]) {
@@ -1567,202 +1506,266 @@ function drawPiChart() {
             if(descendingOrAscendingOrder === 1)
             {
               //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
-              return (+b[columnNumber].replace("%\r", "")) - (+a[columnNumber].replace("%\r", ""));
+              return (+b[columnNumber].replace("%", "")) - (+a[columnNumber].replace("%", ""));
             }
             else if(descendingOrAscendingOrder === 0)
             {
               //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
-              return (+a[columnNumber].replace("%\r", "")) - (+b[columnNumber].replace("%\r", ""));
+              return (+a[columnNumber].replace("%", "")) - (+b[columnNumber].replace("%", ""));
             }
           }
         }
-        else //IF ACTUALLY STRING DATA
+        else //IF STRING DATA IS DETECTED...
         {
-          //SORT IN ASCENDING ALPHABETICAL ORDER...
-          if (a[columnNumber] === b[columnNumber]) {
-            return 0;
-          }
-          else
+          //ERROR CHECK...
+          console.log("String data detected in this column...");
+
+          //Do an extra check if get here that this is not numerical or percentage data with a newline appended to the end...
+          if(String(parseInt(dataCopy[0][columnNumber])) === dataCopy[0][columnNumber].replace("\r", "")) //IF NUMERICAL DATA...
           {
-            if(descendingOrAscendingOrder === 1)
+            //ERROR CHECK...
+            console.log("Numerical data is actually in this column (\\r interfered)...");
+
+            if(a[columnNumber] === b[columnNumber]) //tie breaker (alphabetical by chassis name)
             {
-              //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
-              return (a[columnNumber] < b[columnNumber]) ? -1 : 1;
+              //SORT IN ASCENDING ALPHABETICAL ORDER...
+              if (a[chassisNameID] === b[chassisNameID]) {
+                return 0;
+              }
+              else {
+                return (a[chassisNameID] < b[chassisNameID]) ? -1 : 1;
+              }
             }
-            else if(descendingOrAscendingOrder === 0)
+            else
             {
-              return (a[columnNumber] > b[columnNumber]) ? -1 : 1;
+              if(descendingOrAscendingOrder === 1)
+              {
+                //SORT IN DESCENDING ORDER:
+                return (+b[columnNumber].replace("\r", "")) - (+a[columnNumber].replace("\r", ""));
+              }
+              else if(descendingOrAscendingOrder === 0)
+              {
+                //SORT IN ASCENDING ORDER:
+                return (+a[columnNumber].replace("\r", "")) - (+b[columnNumber].replace("\r", ""));
+              }
+            }
+          }
+          else if((String(parseInt(dataCopy[0][columnNumber])) + "%") === dataCopy[0][columnNumber]) //IF PERCENTAGE DATA...
+          {
+            //ERROR CHECK...
+            console.log("Percentage data is actually in this column (\\r interfered)...");
+
+            if(a[columnNumber] === b[columnNumber]) //tie breaker (alphabetical by chassis name)
+            {
+              //SORT IN ASCENDING ALPHABETICAL ORDER...
+              if (a[chassisNameID] === b[chassisNameID]) {
+                return 0;
+              }
+              else {
+                return (a[chassisNameID] < b[chassisNameID]) ? -1 : 1;
+              }
+            }
+            else
+            {
+              if(descendingOrAscendingOrder === 1)
+              {
+                //SORT IN DESCENDING ORDER (IGNORING THE PERCENT SIGN)...
+                return (+b[columnNumber].replace("%\r", "")) - (+a[columnNumber].replace("%\r", ""));
+              }
+              else if(descendingOrAscendingOrder === 0)
+              {
+                //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
+                return (+a[columnNumber].replace("%\r", "")) - (+b[columnNumber].replace("%\r", ""));
+              }
+            }
+          }
+          else //IF ACTUALLY STRING DATA
+          {
+            //SORT IN ASCENDING ALPHABETICAL ORDER...
+            if (a[columnNumber] === b[columnNumber]) {
+              return 0;
+            }
+            else
+            {
+              if(descendingOrAscendingOrder === 1)
+              {
+                //SORT IN ASCENDING ORDER (IGNORING THE PERCENT SIGN)...
+                return (a[columnNumber] < b[columnNumber]) ? -1 : 1;
+              }
+              else if(descendingOrAscendingOrder === 0)
+              {
+                return (a[columnNumber] > b[columnNumber]) ? -1 : 1;
+              }
             }
           }
         }
+
       }
 
+      //ERROR CHECK...
+      console.log("DONE SORTING!");
+      for(var x = 0; x < dataCopy.length; x++)
+      {
+        console.log(dataCopy[x][columnNumber]);
+      }
+
+      //Compile data with unique ID and table headers to send to appropriate function to populate table...
+
+      //AT THIS POINT - data should already be sorted...
+      //Thus, re-draw the per chassis table with the sorted data and any filters previously applied...
+      var sortedData = [];
+      var stringToInclude = "";
+      sortedData.push(currentFileID);
+      sortedData.push(String(savedHeaders));
+      for(var x = 0; x < dataCopy.length; x++)
+      {
+        stringToInclude = String(dataCopy[x]) + "\n";
+        sortedData.push(stringToInclude);
+      }
+      sortedData.push("\n");
+
+      console.log("FINAL DATA SORTED AND SENT TO DRAW TABLE...");
+      console.log(sortedData);
+
+      //Clear table first...
+      clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
+
+      //Now, re-draw the table with the sorted data...
+      //Indicate via the appropriate parameter that sorting is now being observed...
+      populateTableFromCSVFile(sortedData, "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, true);
     }
 
-    //ERROR CHECK...
-    console.log("DONE SORTING!");
-    for(var x = 0; x < dataCopy.length; x++)
+
+
+    //Define the function that is called when the window is loaded...
+    function start()
     {
-      console.log(dataCopy[x][columnNumber]);
-    }
+      //Indicate that the initial data read has not been completed yet.
+      init = 0;
+      init2 = 0;
 
-    //Compile data with unique ID and table headers to send to appropriate function to populate table...
-
-    //AT THIS POINT - data should already be sorted...
-    //Thus, re-draw the per chassis table with the sorted data and any filters previously applied...
-    var sortedData = [];
-    var stringToInclude = "";
-    sortedData.push(currentFileID);
-    sortedData.push(String(savedHeaders));
-    for(var x = 0; x < dataCopy.length; x++)
-    {
-      stringToInclude = String(dataCopy[x]) + "\n";
-      sortedData.push(stringToInclude);
-    }
-    sortedData.push("\n");
-
-    console.log("FINAL DATA SORTED AND SENT TO DRAW TABLE...");
-    console.log(sortedData);
-
-    //Clear table first...
-    clearTable(perChassisTable, document.getElementById("per_chassis_detailed_information_table_HEADERS"));
-
-    //Now, re-draw the table with the sorted data...
-    //Indicate via the appropriate parameter that sorting is now being observed...
-    populateTableFromCSVFile(sortedData, "per_chassis_detailed_information_table_HEADERS", perChassisTable, filterContent, filterDropdownObserved, filterClickObserved, true);
-  }
-
-
-
-  //Define the function that is called when the window is loaded...
-  function start()
-  {
-    //Indicate that the initial data read has not been completed yet.
-    init = 0;
-    init2 = 0;
-
-    //Initialize for dropdown menu...
-    dropdownDisplayed = false;
-
-    //Initialize the variables for data refresh to reflect that no filter is in place...
-    filterDropdownObserved = false;
-    filterClickObserved = false;
-    filterContent = [];
-    sortingObserved = false;
-
-    //Initialize...
-    storedSelection = [];
-
-    //Initialize for sorting...
-    colPrevSortedBy = -1;
-    descendingOrAscendingOrder = -1;
-
-    //Call the refresh function...
-    refresh();
-  }
-
-  //For HTML Dropdown Menu (BEGIN)
-
-
-
-  function displayDropdown() {
-    var theCheckboxes = document.getElementById("theCheckboxes");
-    if (!dropdownDisplayed) {
-      theCheckboxes.style.display = "block";
-      dropdownDisplayed = true;
-    }
-    else
-    {
-      theCheckboxes.style.display = "none";
+      //Initialize for dropdown menu...
       dropdownDisplayed = false;
+
+      //Initialize the variables for data refresh to reflect that no filter is in place...
+      filterDropdownObserved = false;
+      filterClickObserved = false;
+      filterContent = [];
+      sortingObserved = false;
+
+      //Initialize...
+      storedSelection = [];
+
+      //Initialize for sorting...
+      colPrevSortedBy = -1;
+      descendingOrAscendingOrder = -1;
+
+      //Call the refresh function...
+      refresh();
     }
-  }
+
+    //For HTML Dropdown Menu (BEGIN)
 
 
 
-  //When the SUBMIT Button is pressed, collect the selected results and filter the per chassis table to display only the selected chasses...
-  //...also reset the Select All button (if necessary) and the checkboxes.
-  function submitButtonPressed()
-  {
-    //Collect the selections...
-    var selectedChassisNames = [];
-
-    for(var i = 0; i < chassisNames.length; i++)
-    {
-      if(document.getElementById(chassisNames[i]).checked)
+    function displayDropdown() {
+      var theCheckboxes = document.getElementById("theCheckboxes");
+      if (!dropdownDisplayed) {
+        theCheckboxes.style.display = "block";
+        dropdownDisplayed = true;
+      }
+      else
       {
-        //append the chassis name to the result array
-        selectedChassisNames.push(chassisNames[i]);
-
-        //reset the checkbox...
-        document.getElementById(chassisNames[i]).checked = false;
+        theCheckboxes.style.display = "none";
+        dropdownDisplayed = false;
       }
     }
 
-    //Reset (as necessary)...
-    if((document.getElementById("selectAllButton").value).includes("Deselect All"))
+
+
+    //When the SUBMIT Button is pressed, collect the selected results and filter the per chassis table to display only the selected chasses...
+    //...also reset the Select All button (if necessary) and the checkboxes.
+    function submitButtonPressed()
     {
-      (document.getElementById("selectAllButton").value) = "Select All";
-    }
+      //Collect the selections...
+      var selectedChassisNames = [];
 
-    //ERROR CHECK...
-    console.log("SELECTED CHASSIS NAME(S):");
-    console.log(selectedChassisNames);
-
-    //Note: The selected chasses are stored in the array called selectedChassisNames...
-
-    //Check that a selection was made...
-    if(selectedChassisNames.length > 0)
-    {
-      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "";
-
-      //Call the function needed to filter the per chassis table accordingly and pass it the array of chassis names to filter by...
-      filterPerChassisTableByDropdown(selectedChassisNames);
-    }
-    else
-    {
-      //Indicate that a selection must be made in order to filter the table...
-      (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "Please select at least one chassis to display.";
-    }
-
-    //Reset...
-    storedSelection = selectedChassisNames; //for sorting...
-    selectedChassisNames = undefined;
-
-  }
-
-
-
-  //Select all if press button "Select All" and toggle the button's text to "Deselect All"...
-  //Deselect all if press button "Deselect All" and toggle the button's text to "Select All"...
-  function selectDeselectAll()
-  {
-
-    if((document.getElementById("selectAllButton").value).includes("Deselect All"))
-    {
       for(var i = 0; i < chassisNames.length; i++)
       {
-        document.getElementById(chassisNames[i]).checked = false;
+        if(document.getElementById(chassisNames[i]).checked)
+        {
+          //append the chassis name to the result array
+          selectedChassisNames.push(chassisNames[i]);
+
+          //reset the checkbox...
+          document.getElementById(chassisNames[i]).checked = false;
+        }
       }
 
-      (document.getElementById("selectAllButton").value) = "Select All";
-    }
-    else
-    {
-      for(var i = 0; i < chassisNames.length; i++)
+      //Reset (as necessary)...
+      if((document.getElementById("selectAllButton").value).includes("Deselect All"))
       {
-        document.getElementById(chassisNames[i]).checked = true;
+        (document.getElementById("selectAllButton").value) = "Select All";
       }
 
-      (document.getElementById("selectAllButton").value) = "Deselect All";
+      //ERROR CHECK...
+      console.log("SELECTED CHASSIS NAME(S):");
+      console.log(selectedChassisNames);
+
+      //Note: The selected chasses are stored in the array called selectedChassisNames...
+
+      //Check that a selection was made...
+      if(selectedChassisNames.length > 0)
+      {
+        (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "";
+
+        //Call the function needed to filter the per chassis table accordingly and pass it the array of chassis names to filter by...
+        filterPerChassisTableByDropdown(selectedChassisNames);
+      }
+      else
+      {
+        //Indicate that a selection must be made in order to filter the table...
+        (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "Please select at least one chassis to display.";
+      }
+
+      //Reset...
+      storedSelection = selectedChassisNames; //for sorting...
+      selectedChassisNames = undefined;
+
     }
-  }
 
-  //For HTML Dropdown Menu (END)
 
-  //On page load, call the start() function...
-  window.onload = start;
 
-  </script>
+    //Select all if press button "Select All" and toggle the button's text to "Deselect All"...
+    //Deselect all if press button "Deselect All" and toggle the button's text to "Select All"...
+    function selectDeselectAll()
+    {
 
-  <!-- end Riana's code -->
+      if((document.getElementById("selectAllButton").value).includes("Deselect All"))
+      {
+        for(var i = 0; i < chassisNames.length; i++)
+        {
+          document.getElementById(chassisNames[i]).checked = false;
+        }
+
+        (document.getElementById("selectAllButton").value) = "Select All";
+      }
+      else
+      {
+        for(var i = 0; i < chassisNames.length; i++)
+        {
+          document.getElementById(chassisNames[i]).checked = true;
+        }
+
+        (document.getElementById("selectAllButton").value) = "Deselect All";
+      }
+    }
+
+    //For HTML Dropdown Menu (END)
+
+    //On page load, call the start() function...
+    window.onload = start;
+
+    </script>
+
+    <!-- end Riana's code -->
