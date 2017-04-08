@@ -1307,6 +1307,9 @@
         //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
         newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table (below) to display only\nchasses with \"" + (Object.keys(derivedStatusInfo)[c]).trim() + "\" greater than 0.");
 
+        //Create cursor over the column headers so they appear to be clickable (as in per chassis table)...
+        newHeader.setAttribute('style', "cursor:pointer");
+
         var newHeaderContent = document.createTextNode(Object.keys(derivedStatusInfo)[c]);
 
         //For the Cluster Health Status and Node Utilization Status tables:
