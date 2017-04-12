@@ -260,8 +260,8 @@
         <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
           <div class="panel panel-default" id="StatusInfographicPanel">
             <div class="panel-heading"><h3>Cluster Status</h3></div>
-
-            <div id="chart_div" style="width: 200px; height: 200px;"></div>
+		<br>
+            <div id="chart_div" style="width: 200px; height: 218px;"></div>
             <button id="statusButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimize(this.id)">
               <!-- Expand Status --> EXPAND <!-- Riana: changed to correct resizing issues while maintaining consistency/uniformity -->
             </button>
@@ -282,7 +282,10 @@
         <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
           <div class="panel panel-default" id="HealthInfographicPanel">
             <div class="panel-heading"><h3>Cluster Health</h3></div>
-            <div id="piechart_div" style="width: 100%; height: 200px;"></div>
+		<br>
+            <div id="piechart_div" style="width: 100%; height: 100%;">
+		<canvas id = "pichart" ></canvas>
+	    </div>
             <!-- KR: collapsible button to expand healthTable div -->
             <button id="healthButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimize(this.id)">  <!-- Riana: added this data-toggle so all of these divs match (in the process of debugging) -->
               <!-- Expand Health --> EXPAND <!-- Riana: changed to correct resizing issues while maintaining consistency/uniformity -->
@@ -304,7 +307,8 @@
         <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
           <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
             <div class="panel-heading"><h3>Node Allocation</h3></div>
-            <div id="node_utilization_div" style="width: 200px; height: 200px;"></div>
+		<br>
+            <div id="node_utilization_div" style="width: 200px; height: 218px;"></div>
             <button id="nodeButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimize(this.id)"> <!-- Riana: added this data-toggle so all of these divs match (in the process of debugging) -->
               <!-- Expand Allocation --> EXPAND <!-- Riana: changed to correct resizing issues while maintaining consistency/uniformity -->
             </button>
@@ -434,6 +438,9 @@
     <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
     <script src="http://www.deac.wfu.edu/assets/js/main.js"></script>
 
+    <!--AA added script for new pie chart infographic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
     <!-- KG added script for the collapseable button-->
     <script type="text/javascript">
     $(".collapse").hide();
@@ -553,24 +560,27 @@
 
   function drawPiChart() {
 
-    // Create the data table.
-    var pidata = new google.visualization.DataTable();
-    pidata.addColumn('string', 'Node Status');
-    pidata.addColumn('number', 'Nodes');
-    pidata.addRows([
-      ['Nodes Up', numberOfNodesUP],
-      ['Nodes Down', numberOfNodesDOWN],
-      ['Under Maintenance', numberOfNodesUNDERMAINTENANCE]
-    ]);
+    var ctx = document.getElementById("pichart").getContext('2d');
+			var pichart = new Chart(ctx, {
+						type:'pie',
+						data:{
+							labels:["Up","Down", "Maintenance"], 
+							datasets:[{
+								backgroundColor:[ "#009933","#EE0000","#f1c40f"], 
+							data:[numberOfNodesUP,numberOfNodesDOWN,numberOfNodesUNDERMAINTENANCE]
+							}]
+						},
+						options:{
+							legend:{
 
-    // Set chart options
-    var pioptions = {
-      //'width':420,
-      'height':200};
+								labels:{
+									boxWidth: 20
+								}
+							}
 
-      // Instantiate and draw our chart, passing in some options.
-      var pichart = new google.visualization.PieChart(document.getElementById('piechart_div'));
-      pichart.draw(pidata, pioptions);
+						}
+						
+			});
     }
 
     //END CODE FOR HEALTH STATUS INFOGRAPHIC
