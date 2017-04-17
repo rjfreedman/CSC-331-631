@@ -331,7 +331,7 @@
 
       <!-- KR: collapsible button to expand per chassis information Table div -->
       <div class="12u 12u(mobile) panelDiv" align="center"> <!-- Riana: added this div to center the detailed chassis information button -->
-        <button class="button style3 expandablebtn" data-toggle="collapse">
+        <button id="perChassisButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimizePerChassis(this.id)">
           Detailed Information for Each Chassis
         </button>
 
@@ -468,6 +468,20 @@
       }
     }
 
+    //Riana: Added for toggling expand/minimize text of button when clicked FOR PER CHASSIS TABLE...
+    function toggleExpandMinimizePerChassis(myID)
+    {
+      //If text states "EXPAND", then change text to "MINIMIZE" on click...
+      if((document.getElementById(myID).innerHTML).includes("Detailed Information for Each Chassis"))
+      {
+        document.getElementById(myID).innerHTML = "MINIMIZE";
+      }
+      else //If text states "MINIMIZE", then change text to "EXPAND" on click...
+      {
+        document.getElementById(myID).innerHTML = "Detailed Information for Each Chassis";
+      }
+    }
+
     </script>
     <!-- KG scripts end here-->
   </body>
@@ -564,9 +578,9 @@
 			var pichart = new Chart(ctx, {
 						type:'pie',
 						data:{
-							labels:["Up","Down", "Maintenance"], 
+							labels:["Up","Down", "Maintenance"],
 							datasets:[{
-								backgroundColor:[ "#009933","#EE0000","#f1c40f"], 
+								backgroundColor:[ "#009933","#EE0000","#f1c40f"],
 							data:[numberOfNodesUP,numberOfNodesDOWN,numberOfNodesUNDERMAINTENANCE]
 							}]
 						},
@@ -579,7 +593,7 @@
 							}
 
 						}
-						
+
 			});
     }
 
@@ -1330,6 +1344,13 @@
         newHeader.onclick = function(){
           filterByContributorsToThisColumn(this.innerHTML); //send the column header's text as the specification for the rows to be filtered by
           console.log("FILTERING BY THIS ROW..."); //error check
+
+          //Expand the per chassis table div when a column header is clicked on IF it is not already expanded (do NOT toggle from here, though)...
+          if(document.getElementById("chassisInfo").style.display == 'none')
+          {
+            document.getElementById("chassisInfo").style.display = 'block';
+            toggleExpandMinimizePerChassis("perChassisButton");
+          }
         };
 
         newHeader.appendChild(newHeaderContent);
