@@ -11,11 +11,11 @@ var http = httpModule.Server(app);
 // assets
 app.use(express.static('assets'));
 
-//BEGIN code added by Riana
+//BEGIN added code
 //Indicate that individual files can be found in the directory.
 //This is needed for accessing the data files via GET once deployed to Heroku.
 app.use('/', express.static(__dirname));
-//END code added by Riana
+//END added code
 
 function responder(req, res) {
   // Sending a file to the user's browser
