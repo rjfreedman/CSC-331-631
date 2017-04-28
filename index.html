@@ -1142,7 +1142,7 @@
 
     //Populate the dropdown menu dynamically...
 
-    //For ease of use to the web application user, display the chasses in the dropdown menu in ascending alphabetical order.
+    //For ease of use to the web application user, display the chassis in the dropdown menu in ascending alphabetical order.
     chassisNames.sort();
 
     //Create HTML for dropdown menu dynamically via Javascript...
@@ -1255,7 +1255,7 @@
       var newHeader = document.createElement("TH");
 
       //CREATE INSTRUCTIONAL COMMENT DISPLAYED WHEN HOVER OVER THIS COLUMN HEADER...
-      newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table (below) to display only\nchasses with \"" + (Object.keys(derivedStatusInfo)[c]).trim() + "\" greater than 0.");
+      newHeader.setAttribute('title', "Click here to filter the Detailed Chassis Information table (below) to display only\nchassis with \"" + (Object.keys(derivedStatusInfo)[c]).trim() + "\" greater than 0.");
 
       //Create cursor over the column headers so they appear to be clickable (as in per chassis table)...
       newHeader.setAttribute('style', "cursor:pointer");
@@ -1635,7 +1635,7 @@
 
 
 
-  //When the SUBMIT Button is pressed, collect the selected results and filter the per chassis table to display only the selected chasses...
+  //When the SUBMIT Button is pressed, collect the selected results and filter the per chassis table to display only the selected chassis...
   //...also reset the Select All button (if necessary) and the checkboxes.
   function submitButtonPressed()
   {
@@ -1660,7 +1660,7 @@
       (document.getElementById("selectAllButton").value) = "Select All";
     }
 
-    //Note: The selected chasses are stored in the array called selectedChassisNames...
+    //Note: The selected chassis are stored in the array called selectedChassisNames...
 
     //Check that a selection was made...
     if(selectedChassisNames.length > 0)
