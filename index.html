@@ -1,59 +1,72 @@
+<!-- index.html: This document contains the HTML code and associated Javascript code for the DEAC Cluster System Monitor web application. -->
+<!-- This web application encapsulates all of its functionality in one page. -->
+
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Copied From DEAC Cluster Page! -->
+  <!-- BEGIN Copied From DEAC Cluster Page (and altered minimally for this web application) -->
   <title>DEAC Cluster: System Monitor</title>
+
+  <!-- Define character set and viewport. -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-  <link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
-  <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-  <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
-  <!-- end copied from DEAC Cluster Page! -->
 
-  <!-- Added this to enable the display of the fa icons... -->
+
+  <!-- CSS Dependencies -->
+
+  <!-- Uncomment the following two links if using Internet Explorer (IE) with a version prior to IE 8. -->
+  <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+  <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+
+  <link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
+  <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
+  <!-- END Copied From DEAC Cluster Page (and altered minimally for this web application) -->
+
+  <!-- Added to enable the display of the fa icons... -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- Using google drive library for gauge and pie chart graphics-->
+  <!-- Using Google drive library for gauge and pie chart graphics. -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-  <!--Added style for the body, styling for the panels (heading, boundary, radius) -->
+
+  <!-- Added style for the body, styling for the panels (heading, boundary, radius) -->
   <style>
-  /* use this if we want to test for, and behave differently on small screens:
-  @media screen and (max-width: 736px) {} */
 
   /* BEGIN code for buttons */
   /* Button */
 
+  /* Declare the types of inputs and specify the characteristics of these inputs (as necessary). */
   input[type="button"],
   input[type="submit"],
   input[type="reset"],
   button,
   .button {
-    background: #f5f5f5;
-    text-align: center;
-    text-transform: capitalize;
-    font-size: 12px;
-    letter-spacing: 0em;
+    background: #f5f5f5; /* Specify the background color of the buttons. */
+    text-align: center; /* Specify the alignment of the text within the button. */
+    text-transform: capitalize; /* Specify the capitalization of the button text . */
+    font-size: 12px; /* Specify the font size of the button text. */
+    letter-spacing: 0em; /* Specify the letter-spacing of the button text. */
   }
 
+  /* Declare the types of inputs with characteristics ON MOUSE HOVER and specify the characteristics of these inputs (as necessary). */
   input[type="button"]:hover,
   input[type="submit"]:hover,
   input[type="reset"]:hover,
   button:hover,
   .button:hover {
-    background-color: #444;
+    background-color: #444;  /* Specify the background color of the buttons ON MOUSE HOVER. */
   }
-  /* undo button styling to make style 3 buttons consistent with page */
+  /* Undo button styling to make style3 buttons consistent with this page (ie. alter the specifications of this button style from DEAC Cluster website CSS file) . */
   .style3{
-    letter-spacing: 0.25em;
-    font-size: 14px;
-    font-weight: 900;
-    text-transform:uppercase;
-    outline: 0;
-    margin-bottom: 20px;
+    letter-spacing: 0.25em; /* Specify the letter-spacing of the button text. */
+    font-size: 14px; /* Specify the font size of the button text. */
+    font-weight: 900; /* Specify the font weight of the button text. */
+    text-transform:uppercase; /* Specify the capitalization of the button text. */
+    outline: 0; /* Specify the outline of the button. */
+    margin-bottom: 20px; /* Specify the margin of the button. */
   }
-  .fullWidth{
+  .fullWidth{ /* Specify the width of the fullWidth to be 100%. */
     width: 100%;
   }
   /* END code for buttons */
@@ -70,12 +83,15 @@
 
   /*newly added*/
 
+  /* Create a wrapper style to be used for the content of this web page. */
   .wrapper.style2{
     width: 90%;
     margin: 0 auto;
   }
 
-  .panelDiv{
+  /* Define panel divs with specific characteristics to be used to divide the page into segments. */
+
+  .panelDiv {
   }
 
   .panel-heading {
@@ -109,8 +125,8 @@
 
   .combo-label {margin-bottom:.5em; align-items:right; }
 
-  /* Table styles specific to this page
-  Note: some table styling controlled by cluster style sheet */
+  /* Table styles specific to this page...
+  Note: Some table styling controlled by cluster style sheet */
   table, tr, th{
     border: 1px solid black;
     border-collapse: collapse;
@@ -125,20 +141,26 @@
     color: gray;
   }
 
-  /* For dropdown menu... */
+  /* BEGIN For dropdown menu... */
+
+  /* Define the width of the multiselection options... */
   .multiselect {
     width: 200px;
   }
 
+  /* Position the box for multiselection options relative to the context in which they are located... */
   .selectBox {
     position: relative;
   }
 
+  /* Define the width and font options for text in unexpanded text ("Select...") for dropdown menu. */
   .selectBox select {
     width: 100%;
     font-weight: bold;
   }
 
+  /* To create the dropdown menu via only HTML and CSS, position an empty div over the div with the options to allow for expansion of options without making
+      the initial unexpanded text ("Select...") a clickable option... */
   .overSelect {
     position: absolute;
     left: 0;
@@ -147,35 +169,45 @@
     bottom: 0;
   }
 
+  /* Define the checkboxes associated with labels in a small, vertically scrollable box. */
   #theCheckboxes {
     display: none;
     border: 1px #dadada solid;
-
     height: 150px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
 
+  /* Indicate that the options in the dropdown menu should be placed in a block (ie. listed vertically, one option with associated checkbox per row when
+      the options are expanded). */
   #theCheckboxes label {
     display: block;
   }
 
+  /* Indicate that an option in the dropdown menu should be highlighted in the specified color on mouse hover (when the options are expanded). */
   #theCheckboxes label:hover {
     background-color: #1e90ff;
   }
-  @media screen and (min-width: 720px) and (max-width: 1024px){
-    input[type="button"], input[type="submit"], input[type="reset"], button, .button{
+
+  /* Define characteristics of the specified button when the window is of the specified size. */
+  @media screen and (min-width: 720px) and (max-width: 1024px) {
+    input[type="button"], input[type="submit"], input[type="reset"], button, .button {
       letter-spacing: 2px;
     }
   }
-  /* end*/
+
+  /* END For dropdown menu... */
+
   </style>
 </head>
 
 <body>
+
+  <!-- Place the header and main content of this page in the page-wrapper div (for placement on the page)... -->
   <div id="page-wrapper">
 
-    <!-- Header comes from DEAC Cluster website, all changes are commented -->
+    <!-- BEGIN Header from DEAC Cluster website -->
+
     <!-- Header ############################################################################################################################### -->
     <div id="header-wrapper" class="wrapper">
       <div id="header">
@@ -242,13 +274,33 @@
       </div>
     </div><!-- end Header-wrapper div. -->
 
+    <!-- END Header from DEAC Cluster website -->
+
     <!-- Main ######################################################################################################################################## -->
+
+    <!-- DEAC Cluster web page styling used; new content implemented in this div for the System Monitor page. -->
     <div class="wrapper style2">
-      <!-- Changed -->
+
+      <!-- Title beneath headers (in tab denoting the content of the page from the header) is "Dashboard".
+            This title reflects the initial view of the System Monitor, which looks like the dashboard on a car (providing general, easy to read depictions of
+            of the information they represent). -->
       <div class="title">Dashboard</div>
+
       <!-- SYSTEM MONITOR CONTENT ########################################################################################################################### -->
+
+      <!-- Place the three infographics with their associated headers and detailed tables (when expanded) in a single row. -->
       <div class="row">
+
+        <!-- Use the 4u 12u(mobile) panelDiv to indicate the width of each of the three segments.
+              Note that 4u * 3 = 12u and the total of the three divs in this row should equal 12u for equal sizing... -->
         <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
+
+          <!-- Define the panel and panel header to contain Cluster Status information. -->
+          <!-- In this div is:
+                the header,
+                a div to be filled in with the infographic,
+                a button to enable expansion/minimization of the associated table,
+                and the table (to be filled in when the data file is read in the associated Javascript code). -->
           <div class="panel panel-default" id="StatusInfographicPanel">
             <div class="panel-heading"><h3>Cluster Status</h3></div>
             <div style = "height: 25px;"></div>
@@ -270,7 +322,16 @@
           </div><!-- end panel-default -->
         </div><!-- end column div -->
 
+        <!-- Use the 4u 12u(mobile) panelDiv to indicate the width of each of the three segments.
+              Note that 4u * 3 = 12u and the total of the three divs in this row should equal 12u for equal sizing... -->
         <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
+
+          <!-- Define the panel and panel header to contain Health Status information. -->
+          <!-- In this div is:
+                the header,
+                a div to be filled in with the infographic,
+                a button to enable expansion/minimization of the associated table,
+                and the table (to be filled in when the data file is read in the associated Javascript code). -->
           <div class="panel panel-default" id="HealthInfographicPanel">
             <div class="panel-heading"><h3>Cluster Health</h3></div>
             <div style = "height: 25px;"></div>
@@ -294,7 +355,16 @@
           </div>
         </div><!-- end column div -->
 
+        <!-- Use the 4u 12u(mobile) panelDiv to indicate the width of each of the three segments.
+              Note that 4u * 3 = 12u and the total of the three divs in this row should equal 12u for equal sizing... -->
         <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
+
+          <!-- Define the panel and panel header to contain Node Allocation information. -->
+          <!-- In this div is:
+                the header,
+                a div to be filled in with the infographic,
+                a button to enable expansion/minimization of the associated table,
+                and the table (to be filled in when the data file is read in the associated Javascript code). -->
           <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
             <div class="panel-heading"><h3>Node Allocation</h3></div>
             <div style = "height: 25px;"></div>
@@ -316,33 +386,43 @@
         </div><!-- end column div -->
       </div><!-- end row div for infographics -->
 
-      <br>
+      <br> <!-- Add a horizontal space in the physical layout of the page to allow for minor separation between the three segments containing
+                the infographics and their associated content and the single div placed in the "next row" that is associated with Detailed Chassis Information. -->
 
-      <!-- Collapsible button to expand per chassis information Table div -->
+
+      <!-- Use the 12u 12u(mobile) panelDiv to indicate the width of this segment should be equal to the total width of the three segments in the previous div. -->
       <div class="12u 12u(mobile) panelDiv" align="center"> <!-- Added this div to center the detailed chassis information button -->
         <div class="panel-heading2"><h3>Detailed Information for Each Chassis</h3></div>
         <br>
+        <!-- Collapsible button to expand per chassis information Table div -->
         <button id="perChassisButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimizePerChassis(this.id)">
           EXPAND
         </button>
 
         <!-- Chassis Information table and drop down -->
-        <div class="collapse"id="chassisInfo">
+        <div class="collapse" id="chassisInfo">
+
           <!-- BEGIN DROPDOWN MENU-->
+          <!-- In order to obtain the selected options, the dropdown menu is embedded in a form.
+                On click, the SUBMIT button for this form will call the specified function in the Javascript code below to handle the submission... -->
           <form action="javascript:submitButtonPressed()"> <!-- On submit, call the specified javascript function (defined in the script below)... -->
             <div class="multiselect"> <!-- Using HTML's multiselect for creating a multiple selection dropdown menu... -->
               <div class="selectBox" onclick="displayDropdown()">
                 <select>
-                  <option>Select...</option>
+                  <option>Select...</option> <!-- The initial text of the dropdown menu (which is not a clickable option and remains even when the dropdown menu
+                                                  is expanded) is "Select..." -->
                 </select>
-                <div class="overSelect"></div>
+                <div class="overSelect"></div> <!-- Define a div that will be overlayed with the selections to enable the dropdown menu selections to utilize checkboxes. -->
               </div>
               <div id="theCheckboxes"></div> <!-- Fill in the dropdown options here... -->
             </div>
-            <input type="submit" value="Submit"></input>
-            <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></input>
+            <input type="submit" value="Submit"></input> <!-- The SUBMIT button for the form embedding the dropdown menu. -->
+            <input type="button" id="selectAllButton" value="Select All" onclick="selectDeselectAll()"></input> <!-- A button that enables selection of all options (toggled
+                                                                                                                      to deselection of all options on click). -->
           </form>
+
           <!-- END DROPDOWN MENU-->
+
           <div id="selectOneOrMoreChassisNames"></div> <!-- Added this div to put note to user in if press SUBMIT but do not make any selection(s)... -->
 
           <!-- Dropdown menu code is in the script below so that the data will be accessible and
@@ -355,6 +435,8 @@
         </div> <!-- end chassisInfo div -->
       </div> <!-- end div containing toggled button -->
 
+      <!-- The contents of this div will be displayed at the bottom of the page content prior to footer content to indicate the date/time of the last data update.
+            Also in this div is a "Refresh Data" button that will update the data and maintain the current filtering/expansion displayed on the page. -->
       <div id="siteUpdateInformation">
         <!-- Added a line and adjusted the IDs so that the timestamp can dynamically be placed in .innerHTML via javascript -->
         <br>
@@ -364,7 +446,9 @@
       </div>
     </div>
     <!-- end SYSTEM MONITOR content -->
+
   </div><!-- end MAIN content wrapper -->
+
   <!-- Entire Footer is from DEAC Cluster Page -->
   <!-- Footer ############################################################################################################################## -->
   <div id="footer-wrapper" class="wrapper">
@@ -415,24 +499,25 @@
       </div>
     </div>
 
-    <!-- deac cluster scripts -->
+    <!-- DEAC Cluster Scripts (dependencies) -->
     <!-- Scripts ############################################################################################################################## -->
-
     <script src="http://www.deac.wfu.edu/assets/js/jquery.min.js"></script>
     <script src="http://www.deac.wfu.edu/assets/js/jquery.dropotron.min.js"></script>
     <script src="http://www.deac.wfu.edu/assets/js/skel.min.js"></script>
     <script src="http://www.deac.wfu.edu/assets/js/skel-viewport.min.js"></script>
     <script src="http://www.deac.wfu.edu/assets/js/util.js"></script>
-    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
     <script src="http://www.deac.wfu.edu/assets/js/main.js"></script>
 
-    <!--Added script for pie chart infographic -->
+    <!--Added script required for pie chart infographic (using Chart.js). -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
-    <!-- Added script for the collapsible button-->
+    <!-- Added script for collapsible buttons -->
     <script type="text/javascript">
+
+    // Initially, collapsible buttons should hide their associated content.
     $(".collapse").hide();
 
+    // On click, the state of a collapsible button and its associated content should be toggled.
     $(".expandablebtn").click(function(){
       $(this).next(".collapse").toggle();
     });
@@ -509,26 +594,38 @@
   var filterContent;
   var sortingObserved;
 
-  //FOR INFOGRAPHICS
+  //FOR INFOGRAPHICS - load the necessary packages...
   google.charts.load('current', {'packages':['gauge', 'corechart']});
 
   //BEGIN CODE FOR OVERALL STATUS INFOGRAPHIC
+
+  //Define variable(s) that will store information to be displayed in this infographic...
   var numberOfCPUsConsumed;
   var totalNumberOfCPUs;
   var fractionOfCPUsConsumed;
 
+  //The drawChart() function is called any time the data to be displayed in this gauge infographic is calculated when the data is read from the overallDEAC.csv file.
   function drawChart() {
+
+    //Store the data to be represented in the infographic in the variable data...
     var data = google.visualization.arrayToDataTable([
       ['Label', 'Value'],
       ['Overall Status', fractionOfCPUsConsumed],
     ]);
+
+    //Define the color scheme of the gauge...
     var options = {
       redFrom: 90, redTo: 100,
       yellowFrom:75, yellowTo: 90,
       minorTicks: 5
     };
+
+    //Store the div in which the GAUGE infographic should be drawn...
     var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+    //Draw the gauge infographic in the specified div with the specified data and options...
     chart.draw(data, options);
+
   }
 
   //END CODE FOR OVERALL STATUS INFOGRAPHIC
@@ -536,23 +633,29 @@
 
   //BEGIN CODE FOR HEALTH STATUS INFOGRAPHIC
 
-  // Callback that creates and populates a data table,
-  // instantiates the pie chart, passes in the data and
-  // draws it.
+  //Define variable(s) that will store information to be displayed in this infographic...
   var numberOfNodesUP;
   var numberOfNodesDOWN;
   var numberOfNodesUNDERMAINTENANCE;
 
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+
+  //The drawPiChart() function is called any time the data to be displayed in this pie chart infographic is calculated when the data is read from the perChassis.csv file.
   function drawPiChart() {
 
+    //Store the div in which the PIE CHART infographic should be drawn...
     var ctx = document.getElementById("pichart").getContext('2d');
+
+    //Store the pie chart categories and their associated colors (as well as information regarding the animation and legend of the pie chart) in variable pichart.
     var pichart = new Chart(ctx, {
       type:'pie',
       data:{
         labels:["Up","Down", "Maintenance"],
         datasets:[{
           backgroundColor:[ "#009933","#EE0000","#f1c40f"],
-          data:[numberOfNodesUP,numberOfNodesDOWN,numberOfNodesUNDERMAINTENANCE]
+          data:[numberOfNodesUP,numberOfNodesDOWN,numberOfNodesUNDERMAINTENANCE] //This is the data to be displayed in the pie chart.
         }]
       },
       options:{
@@ -560,34 +663,44 @@
         legend:{
           position:"bottom", //Added this to move the legend below the pie chart...
           labels:{
-            boxWidth: 20
+            boxWidth: 20 //This is the width of the color blocks associated with the labels in the legend...
           },
-          onClick: function(event,legendItem){} //Do not filter pie chart per legend...
+          onClick: function(event,legendItem){} //Do not filter pie chart per legend. Define an empty function here to remove this functionality.
         }
-
       }
-
     });
+
   }
 
   //END CODE FOR HEALTH STATUS INFOGRAPHIC
 
   //BEGIN CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
 
+  //Define variable(s) that will store information to be displayed in this infographic...
   var fractionOfNodesAllocated;
 
+  //The drawAllocatedChart() function is called any time the data to be displayed in this gauge infographic is calculated when the data is read from the perChassis.csv file.
   function drawAllocatedChart(){
+
+    //Store the data to be represented in the infographic in the variable data...
     var allocatedData=google.visualization.arrayToDataTable([
       ['Label','Value'],
       ['Allocation', fractionOfNodesAllocated],
     ]);
+
+    //Define the color scheme of the gauge...
     var allocatedOptions = {
       redFrom: 90, redTo: 100,
       yellowFrom:75, yellowTo: 90,
       minorTicks: 5
     };
+
+    //Store the div in which the GAUGE infographic should be drawn...
     var allocatedChart = new google.visualization.Gauge(document.getElementById('node_utilization_div'));
+
+    //Draw the gauge infographic in the specified div with the specified data and options...
     allocatedChart.draw(allocatedData, allocatedOptions);
+
   }
 
   //END CODE FOR NODE UTILIZATION STATUS INFOGRAPHIC
@@ -1620,13 +1733,19 @@
 
   //For HTML Dropdown Menu (BEGIN)
 
+  //When the dropdown menu is clicked, expand or hide it (toggled based on state when clicked)...
   function displayDropdown() {
+
+    //Store the div that holds the dropdown menu...
     var theCheckboxes = document.getElementById("theCheckboxes");
+
+    //If the dropdown menu is NOT currently displayed,
+    //  then display it (by setting the display to "block" (ie. one option per row with associated checkbox) and storing the state).
     if (!dropdownDisplayed) {
       theCheckboxes.style.display = "block";
       dropdownDisplayed = true;
     }
-    else
+    else //If the dropdown menu IS currently displayed, then hide it (by setting the display to "none" and storing the state).
     {
       theCheckboxes.style.display = "none";
       dropdownDisplayed = false;
@@ -1665,6 +1784,7 @@
     //Check that a selection was made...
     if(selectedChassisNames.length > 0)
     {
+      //Do NOT display an error message...
       (document.getElementById("selectOneOrMoreChassisNames")).innerHTML = "";
 
       //Call the function needed to filter the per chassis table accordingly and pass it the array of chassis names to filter by...
