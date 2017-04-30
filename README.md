@@ -30,14 +30,29 @@
 ###     node_modules
 ###    which contains all the required directories and files (as specified in
 ###    in the package.json file).
-### 3.
+### 3. A Cron job should output data files every
 
 ### Dependencies:
 ### Required modules for this application (express and http) are specified in
 ###   the package.json file.
 ### Other dependencies for this application are specified in the CSS code.
-###   These dependencies include:
-###     
+###   These dependencies (categorized by type) are:
+###     stylesheet:
+###       http://www.deac.wfu.edu/assets/css/main.css
+###       https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css
+###     icon:
+###       http://www.deac.wfu.edu/images/favicon.png
+###     script:
+###       https://www.gstatic.com/charts/loader.js
+###       http://www.deac.wfu.edu/assets/js/jquery.min.js
+###       http://www.deac.wfu.edu/assets/js/jquery.dropotron.min.js
+###       http://www.deac.wfu.edu/assets/js/skel.min.js
+###       http://www.deac.wfu.edu/assets/js/skel-viewport.min.js
+###       http://www.deac.wfu.edu/assets/js/util.js
+###       http://www.deac.wfu.edu/assets/js/main.js
+
+### Parsing Data Files:
+### The data files are parsed
 
 ### Hourly Refresh:
 ### For the hourly refresh of the data to work, the Cron job producing the
@@ -47,3 +62,9 @@
 ### the same name.
 ### NOTE: If the file name(s) is altered in the Cron job output, the file name
 ### must be consistent with the file name(s) in the javascript code.
+
+### On Heroku (a cloud platform that supports Node.js apps):
+### The Procfile is required (as it contains the command that should be executed to start the app).
+### On other servers:
+###   The Procfile may not be required. If the data
+###   If the Cron job is
