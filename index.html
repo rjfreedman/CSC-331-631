@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html>
+<!-- comments beginning with RT apply to regression testing -->
 <head>
   <!-- Copied From DEAC Cluster Page! -->
   <title>DEAC Cluster: System Monitor</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+
+  <!-- RT: Following stylesheet controls deac cluster page, ensure changes in stylesheets do not
+       incorrectly change the style of this page 
+    NOTE: Any changes to button styling must be separately added to style file in header of this page
+          style3 buttons should have same style as DEAC cluster buttons, buttons on this page must have
+          different style for the submit and select/deselect ALL buttons -->
   <link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+  <!-- RT: the icon in the tab of the browser -->
   <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
   <!-- end copied from DEAC Cluster Page! -->
 
   <!-- Added this to enable the display of the fa icons... -->
+  <!-- RT: Ensure the icons in the page footer display properly, correct version necessary -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- Using google drive library for gauge and pie chart graphics-->
+  <!-- Using google drive library for gauge and graphic -->
+  <!-- RT: google graphics controls gauge charts double check aesthetics and update as necessary -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
   <!--Added style for the body, styling for the panels (heading, boundary, radius) -->
+  
+<!-- RT: controls style on this page - affects Buttons and panel divs -->
   <style>
   /* use this if we want to test for, and behave differently on small screens:
   @media screen and (max-width: 736px) {} */
 
   /* BEGIN code for buttons */
   /* Button */
-
+  /* RT: alters style of submit, and select / deselect all buttons, must change main style sheet button style
+    to maintain compatibility with script for drop down menu */
   input[type="button"],
   input[type="submit"],
   input[type="reset"],
@@ -51,6 +64,7 @@
     font-weight: 900;
     text-transform:uppercase;
     outline: 0;
+    /* added to put space below bottom of all style3 buttons, NOT consistent with main page style sheet */
     margin-bottom: 20px;
   }
   .fullWidth{
@@ -59,6 +73,8 @@
   /* END code for buttons */
 
   /* Basic */
+  /*RT: check that on resize to small screens a horizontal scroll is available to see contents of 
+        detailed information per chassis table */
   body{
     /* maintains horizontal scroll bar on small screens - necessary for detailed information table */
     overflow-x: auto !important;
@@ -69,7 +85,7 @@
   }
 
   /*newly added*/
-
+  /* RT: Check that panels containing infographics appear as desired and properly contain contents */
   .wrapper.style2{
     width: 90%;
     margin: 0 auto;
@@ -168,7 +184,7 @@
       letter-spacing: 2px;
     }
   }
-  /* end*/
+  /* end drop down menu */
   </style>
 </head>
 
@@ -247,13 +263,20 @@
       <!-- Changed -->
       <div class="title">Dashboard</div>
       <!-- SYSTEM MONITOR CONTENT ########################################################################################################################### -->
+      <!-- RT: This row should contain 3 infographic panels, 4u each (4+4+4 = 12 values must add to 12)
+	   on small screens this becomes 3 rows of full width panels -->
       <div class="row">
         <div class="4u 12u(mobile) panelDiv" id="clusterStatusFirstView" align="center">
           <div class="panel panel-default" id="StatusInfographicPanel">
             <div class="panel-heading"><h3>Cluster Status</h3></div>
+	    <!-- RT: height of next three divs must add to 250px for consistent panel height accross panels -->
             <div style = "height: 25px;"></div>
+	    <!-- RT: if chart does not appear, check gstatic chart loader OR drawChart function in script at base of page 
+	             If data issues check consistency with overall_status_table.  -->
+	    <!-- variable: fractionOfCPUsConsumed -->
             <div id="chart_div" style="width: 200px; height: 200px;"></div>
             <div style = "height: 25px;"></div>
+	    <!-- RT: expandablebtn expands child of current div.  Do not move statusTable div out of StatusInfographicPanel div -->
             <button id="statusButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimize(this.id)">
               EXPAND
             </button>
@@ -262,8 +285,10 @@
               <!-- Status Table -->
               <table id="overall_status_table">
                 <!-- Added an id for the headers so they can be autopopulated from the CSV file -->
+		<!-- Table made by populateTableFromCSVFile() 
+		     variable stored: numberOfCPUsConsumed -->
                 <tr id="overall_status_table_HEADERS">
-                  <!-- Column headers will be filled in dynamically according to file... -->
+                  <!-- Column headers will be filled in dynamically according to file -->
                 </tr>
               </table>
             </div> <!-- end statusTable collapse div -->
@@ -273,17 +298,24 @@
         <div class="4u 12u(mobile) panelDiv" id="clusterHealthFirstView" align="center">
           <div class="panel panel-default" id="HealthInfographicPanel">
             <div class="panel-heading"><h3>Cluster Health</h3></div>
+	    <!-- RT: height of next two divs must add to 250px for consistent panel height accross panels -->
             <div style = "height: 25px;"></div>
+	    <!-- RT: pichart drawn with chartjs.  
+		     Check compatibility with current chart js and drawPiChart() function in script at base of page
+	             If data issues check consistency with overall_status_table.  -->
             <div id="piechart_div" style="width: 100%; height: 225px; max-width: 420px;">
               <canvas id = "pichart" ></canvas>
             </div>
             <!-- Collapsible button to expand healthTable div -->
+	    <!-- RT: expandablebtn expands child of current div.  Do not move healthTable div out of HealthInfographicPanel div -->
             <button id="healthButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimize(this.id)">
               EXPAND
             </button>
             <div class="collapse" id="healthTable">
               <br>
               <!-- Health Status Table -->
+	      <!-- DERIVED table made from: populateDerivedTable()
+		   varibles: numberOfNodesUP,numberOfNodesDOWN,numberOfNodesUNDERMAINTENANCE -->
               <table id="health_table">
                 <!-- Added an id for the headers so they can be autopopulated from the CSV file -->
                 <tr id= "health_table_HEADERS">
@@ -297,14 +329,21 @@
         <div class="4u 12u(mobile) panelDiv" id="nodeUtilizationStatusFirstView" align="center">
           <div class="panel panel-default" id="NodeUtilizationInfographicPanel">
             <div class="panel-heading"><h3>Node Allocation</h3></div>
+	    <!-- RT: height of next three divs must add to 250px for consistent panel height accross panels -->
             <div style = "height: 25px;"></div>
+	    <!-- RT: if chart does not appear, check gstatic chart loader OR drawChart function in script at base of page 
+	             If data issues check consistency with overall_status_table.  -->
+	    <!-- variable: fractionOfNodesAllocated -->
             <div id="node_utilization_div" style="width: 200px; height: 200px;"></div>
             <div style = "height: 25px;"></div>
+	    <!-- RT: expandablebtn expands child of current div.  Do not move nodeUtlizationTable div out of NodeUtilizationInfographicPanel div -->
             <button id="nodeButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimize(this.id)">
               EXPAND
             </button>
             <div class="collapse" id="nodeUtilizationTable">
               <br>
+	      <!-- DERIVED table made from: populateDerivedTable()
+		   variables: numberOfNodesIdle,numberOfNodesMixed,numberOfNodesAllocated -->
               <table id="node_utilization_table">
                 <tr id= "node_utilization_table_HEADERS">
                   <!-- Column headers will be filled in dynamically according to file... -->
@@ -318,10 +357,10 @@
 
       <br>
 
-      <!-- Collapsible button to expand per chassis information Table div -->
       <div class="12u 12u(mobile) panelDiv" align="center"> <!-- Added this div to center the detailed chassis information button -->
         <div class="panel-heading2"><h3>Detailed Information for Each Chassis</h3></div>
         <br>
+	<!-- RT: expandablebtn expands child of current div. Do not move chassisInfo div out of the panelDiv -->
         <button id="perChassisButton" class="button style3 expandablebtn" data-toggle="collapse" onclick="toggleExpandMinimizePerChassis(this.id)">
           EXPAND
         </button>
@@ -472,7 +511,7 @@
 
 
   <!-- START code handling data -->
-
+  <!-- RT: If script is not working (tables or page don't load) START by ensuring ALL divs are closed in the <html></html -->
   <script>
 
   //For dropdown menu...

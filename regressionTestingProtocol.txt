@@ -1,0 +1,55 @@
+Regression Testing: What to check
+
+On Load:
+	Header and Footer should match DEAC Cluster website:
+		Header Nav Panel navigates to correct pages of DEAC Cluster page
+		check consistency of header contents with current DEAC Cluster pages
+		Links and addresses in footer for consistency with DEAC Cluster page
+		FA Icons in footer: if not appearing check FontAwesome style sheet line 24
+	Content:
+		3 panels load with infographics and buttons showing in single row
+		Panel heading (no table) for detailed information by chassis with expansion button underneath
+		Buttons styled by stylesheet on system monitor page, ensure consistency with main page
+		All buttons say “Expand”
+		Refresh Data, and data age information at bottom of page
+
+On Clicking Expansion Buttons:
+	Table should expand within the panel that contains it
+	Buttons should change to say “Minimize”
+
+Tables:
+	Overall Status Table has no functionality
+	Health Table & Node Utilization Table:
+		2nd and 3rd headers are clickable for filtering Detailed Information by Chassis Table
+		on hover should see tooltip with filtering instructions
+		arrow should change to hand for clicking
+		on click should filter detailed information so only chassis with non-zero entries in that variable appear. 
+		IF detailed information by chassis table is expanded, filter appropriately
+		ELSE: expand detailed information by chassis table and filter it, change detailed information by chassis expansion button to say “Minimize”
+	Detailed Information By Chassis Table
+		Drop down menu:
+			Select chassis from drowpdown and click “Submit”
+			table should filter to only show those chassis on clicking “Submit”
+			Click “Select All” all chassis selected (still need to Submit) - button changes to “Deselect All”
+			Click “Deselect All” all chassis deselected (only available if you have previously used “Select All”
+			If no chassis selected on Submit – no change made to table
+				error message appears above table asking you to select at least on chassis
+				error message disappears after you have successfully submitted at least on chassis
+		Initially show ALL chassis sorted by name
+		All headers are clickable for sorting Table by contents of the column
+			on hover should see tooltip with sorting instructions
+			arrow should change to hand for clicking
+			on click:
+				currently selected chassis should be sorted in descending order by value in column
+				on Second click – currently selected chassis should be sorted in ascending order by value in column
+
+Data:
+	All data is read by script and variables are computed, check computations by hand for data sheet
+	If data does not appear 
+		.csv files: overallDEAC.csv, perChassis.csv must be in same directory as index.html
+		check consistency of .csv contents and how they are read:
+			Column headers match MATCH headings on tables to be parsed by script
+		check date and time stamps on .csv files
+
+Refresh Button:
+	If timestamp on the data has changed, refresh will redraw page with new data and current page view
