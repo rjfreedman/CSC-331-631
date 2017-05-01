@@ -1,3 +1,5 @@
+//server.js: This document contains the server-side Javascript code for the DEAC Cluster System Monitor web application.
+
 // loading necessary modules
 var express = require('express');
 var httpModule = require('http');
@@ -29,7 +31,7 @@ function responder(req, res) {
 // Get request to / is given to responder function
 app.get('/', responder);
 
-//This function is called when listening on designated port...
+//This function is called when listening on the designated port...
 function portListener() {
     console.log('Listening on localhost ' + port);
 };

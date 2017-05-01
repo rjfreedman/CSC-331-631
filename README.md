@@ -25,10 +25,10 @@
 ###----------------------------------------------------------------------------
 ###----------------------------------------------------------------------------
 
-### The following is an abbreviated manual to assist developers in running
-###   this web application and understanding requirements of the application.
+### The following is a manual to assist developers in running this web
+###   application and understanding requirements of the application.
 ###   Note that all code (both client- and server-side) is extensively
-###   commented.
+###   commented, as well.
 
 ###----------------------------------------------------------------------------
 ###----------------------------------------------------------------------------
@@ -43,7 +43,7 @@
 ###    The result of this command should be a new directory titled
 ###       node_modules
 ###    which contains all the required directories and files (as specified in
-###    in the package.json file).
+###    the package.json file).
 ### 4. A Cron job should output data files every hour to the specified
 ###    directory. If these files are not accessible in the same directory as
 ###    the index.html and server.js files, the data paths will need to be
@@ -93,12 +93,14 @@
 ###       http://www.deac.wfu.edu/assets/js/skel-viewport.min.js
 ###       http://www.deac.wfu.edu/assets/js/util.js
 ###       http://www.deac.wfu.edu/assets/js/main.js
+###       https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js
 ### In the event that a dependency fails, please verify that the above links
 ###   are currently active on the web.
 
 ###----------------------------------------------------------------------------
 
 ### PARSING DATA FILES:
+###
 ### FILES:
 ### The data files are comma-separated values (CSV) files output by the Cron
 ###   job querying the Cluster.
@@ -107,6 +109,7 @@
 ###   updated).
 ### The second row of each of these files contains the column headers.
 ### The remaining row(s) of the files contain(s) the data.
+###
 ### PARSING:
 ### To access each data file, a XMLHttpRequest is made to open the file via a
 ###   GET operation on the file name. To be successful, the file(s) to be opened
@@ -145,7 +148,7 @@
 ### Each Cron job output should overwrite the previously existing file with
 ### the same name.
 ### NOTE: If the file name(s) is altered in the Cron job output, the file name
-### must be consistent with the file name(s) in the javascript code.
+### must be consistent with the file name(s) in the Javascript code.
 
 ###----------------------------------------------------------------------------
 

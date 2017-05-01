@@ -4,7 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <!-- BEGIN Copied From DEAC Cluster Page (and altered minimally for this web application) -->
+
+  <!-- Title to be displayed in web browser tab. -->
   <title>DEAC Cluster: System Monitor</title>
 
   <!-- Define character set and viewport. -->
@@ -14,13 +17,14 @@
 
   <!-- CSS Dependencies -->
 
-  <!-- Uncomment the following two links if using Internet Explorer (IE) with a version prior to IE 8. -->
+  <!-- Uncomment the following two links if using Internet Explorer (IE) with a version number IE 8 or prior to IE 8. -->
   <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
   <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
   <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 
   <link rel="stylesheet" href="http://www.deac.wfu.edu/assets/css/main.css" />
   <link rel="icon" href="http://www.deac.wfu.edu/images/favicon.png">
+
   <!-- END Copied From DEAC Cluster Page (and altered minimally for this web application) -->
 
   <!-- Added to enable the display of the fa icons... -->
@@ -69,6 +73,7 @@
   .fullWidth{ /* Specify the width of the fullWidth to be 100%. */
     width: 100%;
   }
+
   /* END code for buttons */
 
   /* Basic */
@@ -148,7 +153,7 @@
     width: 200px;
   }
 
-  /* Position the box for multiselection options relative to the context in which they are located... */
+  /* Position the box for multiselection options relative to the context in which it is located... */
   .selectBox {
     position: relative;
   }
@@ -283,7 +288,7 @@
 
       <!-- Title beneath headers (in tab denoting the content of the page from the header) is "Dashboard".
             This title reflects the initial view of the System Monitor, which looks like the dashboard on a car (providing general, easy to read depictions of
-            of the information they represent). -->
+            the information represented). -->
       <div class="title">Dashboard</div>
 
       <!-- SYSTEM MONITOR CONTENT ########################################################################################################################### -->
@@ -390,7 +395,7 @@
                 the infographics and their associated content and the single div placed in the "next row" that is associated with Detailed Chassis Information. -->
 
 
-      <!-- Use the 12u 12u(mobile) panelDiv to indicate the width of this segment should be equal to the total width of the three segments in the previous div. -->
+      <!-- Use the 12u 12u(mobile) panelDiv to indicate the width of this segment should be equal to the total width of the three segments in the previous "row". -->
       <div class="12u 12u(mobile) panelDiv" align="center"> <!-- Added this div to center the detailed chassis information button -->
         <div class="panel-heading2"><h3>Detailed Information for Each Chassis</h3></div>
         <br>
@@ -403,6 +408,7 @@
         <div class="collapse" id="chassisInfo">
 
           <!-- BEGIN DROPDOWN MENU-->
+
           <!-- In order to obtain the selected options, the dropdown menu is embedded in a form.
                 On click, the SUBMIT button for this form will call the specified function in the Javascript code below to handle the submission... -->
           <form action="javascript:submitButtonPressed()"> <!-- On submit, call the specified javascript function (defined in the script below)... -->
@@ -445,6 +451,7 @@
         <button class="button style2" onclick="refresh()">Refresh Data</button></span>
       </div>
     </div>
+    
     <!-- end SYSTEM MONITOR content -->
 
   </div><!-- end MAIN content wrapper -->
